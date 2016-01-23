@@ -5,9 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var sass = require('node-sass-middleware');
-var Datastore = require('nedb')
-
-var db = new Datastore({ filename: path.join(__dirname, 'hugo.datafile'), autoload: true });
 
 var routes = require('./routes/index');
 
