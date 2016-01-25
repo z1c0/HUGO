@@ -9,7 +9,9 @@ function walkModules(currentDirPath) {
     var filePath = path.join(currentDirPath, name);
     if (fs.statSync(filePath).isDirectory()) {
       var module = require(path.join(filePath, path.basename(filePath)));
-      module.init(router);
+      if (module.isEnabled) {
+        module.init(router);
+      }
     }
   });
   return router;

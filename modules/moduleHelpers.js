@@ -1,15 +1,24 @@
 var path = require('path');
 
-function initRoutes(router, dirName)
+function getViewPath(name)
 {
-  router.get('/' + dirName + '/', function(req, res, next) {
-    res.render('../modules/' + dirName + '/' + dirName, {});
+  return '../modules/' + name + '/' + name;
+}
+
+function initRoutes(router, moduleName)
+{
+  router.get('/' + moduleName + '/', function(req, res, next) {
+    res.render(getViewPath(moduleName), {});
   });
 }
+
 
 
 module.exports = {
   initRoutes: function(router, dirName) {
     initRoutes(router, path.basename(dirName));
+  },
+  getViewPath: function(name) {
+    return getViewPath(name);
   }
 };
