@@ -14,7 +14,7 @@ function findModules() {
       modules.push(m);
     }
   });
-  console.log(modules);
+  //console.log(modules);
   return modules;
 }
 var modules = findModules();
