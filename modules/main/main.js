@@ -1,9 +1,7 @@
-var helpers = require('../moduleHelpers');
-
-function initRoutes(router)
-{
-  router.get('/', function(req, res, next) {
-    res.render(helpers.getViewPath('main'), { title : "H.U.G.O."});
+function initRoutes(helper)
+{  
+  helper.router.get('/', function(req, res, next) {
+    res.render(helper.view(), { title : "H.U.G.O."});
   });
 }
 
@@ -11,6 +9,6 @@ function initRoutes(router)
 module.exports = {
   isEnabled: true,
   init: function(router) {
-    initRoutes(router);
+    initRoutes(require('../routingHelper')(router, __dirname));
   }
 };
