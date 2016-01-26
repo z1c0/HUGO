@@ -1,2 +1,9 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+
+<p>Modules</p>
+<ul>
+{{#each modules.list}}
+  <li><a href="/{{this.name}}">{{this.name}}</a>{{#unless isEnabled}}<i> (disabled)<i>{{/unless}}</li>
+{{/each}}
+</ul>

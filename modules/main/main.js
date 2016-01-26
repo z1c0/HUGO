@@ -1,8 +1,10 @@
 function initRoutes(helper)
-{  
-  helper.router.get('/', function(req, res, next) {
-    res.render(helper.view(), { title : "H.U.G.O."});
-  });
+{
+  var f = function(req, res, next) {
+    res.render(helper.view(), helper.data());
+  }
+  helper.get('/', f);  
+  helper.router.get('/', f);
 }
 
 

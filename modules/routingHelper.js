@@ -1,4 +1,5 @@
-var path = require('path');
+var path = require('path'),
+    hugo = require('../hugo');
 
 function getViewPath(name)
 {
@@ -21,5 +22,8 @@ module.exports = function RoutingHelper(router, dirName) {
     get : function(path, f) {
       router.get(this.url() + path, f);
     },
+    data : function() {
+      return hugo;
+    }
   };  
 };
