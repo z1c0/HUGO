@@ -1,6 +1,6 @@
 {
   "name": "HUGO",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -13,7 +13,6 @@
     "debug": "~2.2.0",
     "express": "^4.13.4",
     "hbs": "~3.1.0",
-    "mongoose": "^4.3.7",
     "morgan": "~1.6.1",
     "nedb": "^1.7.1",
     "node-sass": "^3.4.2",

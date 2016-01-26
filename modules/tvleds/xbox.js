@@ -2,12 +2,36 @@ var cron = require('cron'),
     http = require('http'),
     xmldoc = require('xmldoc'),
     moment = require('moment'),
-    SsdpClient = require('node-ssdp').Client, 
-    ssdpClient = new SsdpClient({
-      //logLevel: 'TRACE',
-      unicastHost: getIPAddress()
-    });
+    SsdpClient = require('node-ssdp').Client; 
     
+var xboxLastSeen = moment([1980, 3, 10]);
+var xboxOn = false;
+var currentHue = Math.random();
+var targetHue = Math.random();
+var ssdpDone = false;
+var currentColor = { r : 0, g : 0, b : 0 };
+var targetColor = { r : 0, g : 0, b : 0 };
+var location = "";
+var deviceType = "";
+var checkInterval = 10;
+
+
+
+function initStartCron()
+{  
+  var ssdpClient = new SsdpClient({
+    //logLevel: 'TRACE',
+    unicastHost: getIPAddress()
+  });
+  // run every x seconds
+  var cronJob = cron.job("*/" + checkInterval + " * * * * *", function() {
+    ssdpDone = false;
+    ssdpClient.search('ssdp:all');
+  });
+  ssdpClient.on('response', onSsdpResponse);
+  cronJob.start();
+}
+
 function getIPAddress() {
   var interfaces = require('os').networkInterfaces();
   for (var dev in interfaces) {  
@@ -21,25 +45,7 @@ function getIPAddress() {
     }
   }
   return "0.0.0.0";
-}    
-
-var xboxLastSeen = moment([1980, 3, 10]);
-var xboxOn = false;
-var currentHue = Math.random();
-var targetHue = Math.random();
-var ssdpDone = false;
-var currentColor = { r : 0, g : 0, b : 0 };
-var targetColor = { r : 0, g : 0, b : 0 };
-var location = "";
-var deviceType = "";
-var checkInterval = 10;
-
-// run every x seconds
-var cronJob = cron.job("*/" + checkInterval + " * * * * *", function() {
-  ssdpDone = false;
-  ssdpClient.search('ssdp:all');
-});
-
+}  
 
 function hsvToRgb(h, s, v) {
     var r, g, b;
@@ -110,9 +116,7 @@ function updateLeds(animate) {
       on("error", function () { console.log("FAILED Arduino GET: "+ query); });
 }
 
-
-
-ssdpClient.on('response', function (headers, statusCode, rinfo) {
+function onSsdpResponse(headers, statusCode, rinfo) {
   //console.log(headers);
   var url = headers.LOCATION;
   if (url && url.indexOf("http") != -1) 
@@ -164,7 +168,8 @@ ssdpClient.on('response', function (headers, statusCode, rinfo) {
     updateLeds(false);
     xboxOn = false;
   }
-});
+}
+
 
 module.exports = {
   isOn: function() {
@@ -186,6 +191,6 @@ module.exports = {
     return targetColor;
   },
   init: function () {
-    cronJob.start();
+    initStartCron();
   }
 };
