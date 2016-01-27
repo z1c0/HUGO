@@ -190,7 +190,7 @@ module.exports = {
   getTargetColor: function() {
     return targetColor;
   },
-  init: function () {
+  init: function() {
     initStartCron();
   }
 };
