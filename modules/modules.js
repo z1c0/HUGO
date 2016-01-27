@@ -20,7 +20,13 @@ function findModules() {
 var modules = findModules();
 
 function createRoutes() {
+  var hugo = require('../hugo');
   var router = express.Router();
+  // main
+  router.get('/', function(req, res, next) {
+    res.render('main', hugo);
+  });
+  // modules
   modules.forEach(function(m) {
     if (m.isEnabled) {
       m.init(router);

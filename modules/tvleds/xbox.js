@@ -143,9 +143,9 @@ function onSsdpResponse(headers, statusCode, rinfo) {
                         xboxLastSeen = moment();
                         location = headers.LOCATION;
                         if (!ssdpDone) {
-                        ssdpDone = true;
-                        updateLeds(true);
-                        xboxOn = true;
+                          ssdpDone = true;
+                          updateLeds(true);
+                          xboxOn = true;
                         }
                     }
                   }
