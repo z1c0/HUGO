@@ -172,8 +172,8 @@ function onSsdpResponse(headers, statusCode, rinfo) {
 
 
 module.exports = {
-  isOn: function() {
-    return xboxOn;
+  getStatus: function() {
+    return xboxOn ? "ON" : "OFF";
   },
   getLastSeen: function() {
     return moment(xboxLastSeen).fromNow();
