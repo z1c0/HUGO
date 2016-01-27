@@ -2,6 +2,7 @@ input[type=range] {
   display: block; }
 
 #container {
+  width: 600px;
   overflow: hidden; }
 
 .section {
@@ -12,8 +13,9 @@ input[type=range] {
   padding: 0.5em; }
 
 .tile {
-  width: 16em;
-  height: 16em;
+  width: 30%;
+  height: 0;
+  padding-bottom: 30%;
   margin: 0.5em;
   float: left;
   border-color: #0a0a0a;

@@ -3,6 +3,7 @@ input[type=range] {
 }
 
 #container {
+   width: 600px;
    overflow: hidden;
 }
 
@@ -15,8 +16,9 @@ input[type=range] {
 }
 
 .tile {
-  width: 16em;
-  height: 16em;
+  width: 30%;
+  height: 0;
+  padding-bottom: 30%;
   margin: 0.5em;
   float: left;
   border-color: rgb(10,10,10);
