@@ -1,0 +1,7 @@
+{
+  "ignore": [
+    "db/store/*",
+    ".git",
+    "node_modules/**/node_modules"
+  ]
+}

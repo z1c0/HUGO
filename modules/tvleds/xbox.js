@@ -14,7 +14,7 @@ var targetColor = { r : 0, g : 0, b : 0 };
 var location = "";
 var deviceType = "";
 var checkInterval = 10;
-
+var database;
 
 
 function initStartCron()
@@ -82,6 +82,17 @@ function hsvToRgb(h, s, v) {
     return [r, g, b];
 }
 
+function setXBoxStatus(onOff) {
+  if (xboxOn != onOff) {
+    xboxOn = onOff;
+    var doc = {
+      at : new Date(),
+      XBoxOn: onOff
+    };
+    database.insert(doc);
+  }
+}
+
 function updateLeds(animate) {
   currentColor.r = 0;
   currentColor.g = 0;
@@ -145,7 +156,7 @@ function onSsdpResponse(headers, statusCode, rinfo) {
                         if (!ssdpDone) {
                           ssdpDone = true;
                           updateLeds(true);
-                          xboxOn = true;
+                          setXBoxStatus(true);
                         }
                     }
                   }
@@ -166,7 +177,7 @@ function onSsdpResponse(headers, statusCode, rinfo) {
   var secondsNotSeen = moment().diff(xboxLastSeen) / 1000;
   if (secondsNotSeen >= (checkInterval * 2.5) && xboxOn) {
     updateLeds(false);
-    xboxOn = false;
+    setXBoxStatus(false);
   }
 }
 
@@ -191,17 +202,7 @@ module.exports = {
     return targetColor;
   },
   init: function(db) {
-    /*
-    var doc = { hello: 'world'
-                  , n: 5
-                  , today: new Date()
-                  , nedbIsAwesome: true
-                  , notthere: null
-                  , notToBeSaved: undefined  // Will not be saved
-                  , fruits: [ 'apple', 'orange', 'pear' ]
-                  , infos: { name: 'nedb' }
-                  };
-    
+    database = db;
     initStartCron();
   }
 };
