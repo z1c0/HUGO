@@ -24,7 +24,7 @@ function createRoutes() {
   var router = express.Router();
   // main
   router.get('/', function(req, res, next) {
-    res.render('main', hugo);
+    res.render('main', { hugo : hugo });
   });
   // modules
   modules.forEach(function(m) {

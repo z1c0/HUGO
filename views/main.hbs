@@ -1,6 +1,6 @@
 <p>Modules</p>
 <ul>
-{{#each modules.list}}
+{{#each hugo.modules.list}}
   <li><a href="/{{this.name}}">{{this.name}}</a>{{#unless isEnabled}}<i> (disabled)<i>{{/unless}}</li>
 {{/each}}
 </ul>

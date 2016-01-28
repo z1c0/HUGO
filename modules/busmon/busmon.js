@@ -12,7 +12,7 @@ function initRoutes(helper)
   });
   
   helper.get('/json', function(req, res, next) {
-    busData.fetch(function(o) { res.send(o); });
+    busData.fetch(function(o) { res.json(o); });
   });
 }
 
