@@ -1,0 +1,14 @@
+@mixin make-round($radius)
+{
+  width: $radius;
+  height: $radius;
+  overflow: hidden;
+  border-radius: 50%;
+  img {
+    width: $radius;    
+  }
+}
+
+.round {
+   @include make-round(100px);
+ } 
