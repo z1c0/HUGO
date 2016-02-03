@@ -1,4 +1,19 @@
-function getMoviesOV(callback) {
+function updateDb(db, movies) {
+  movies.forEach(function(m) {
+    db.find({ title: m.title }, function (err, docs) {
+      if (docs.length == 0) {
+        // not found -> insert into db
+        var doc = {
+          title : m.title,
+          at : new Date(),
+        };
+        db.insert(doc);
+      }
+    });
+  }, this);
+}
+
+function getMoviesOV(db, callback) {
   var soap = require('soap');
   var url = 'http://linz.megaplex.at/webservice/serviceext.asmx?wsdl';
   soap.createClient(url, function(err, client) {
@@ -21,18 +36,20 @@ function getMoviesOV(callback) {
           };
         }
       }, this);
+      // Create array from map.
       var movies = [];
       for (var key in movieMap) {
         movies.push(movieMap[key]);
       }
       //console.log(movies);
+      updateDb(db, movies);
       callback(movies);
     });
   });
 }
 
 module.exports = {
-  getOVs: function(callback) {
-    getMoviesOV(callback);
+  getOVs: function(db, callback) {
+    getMoviesOV(db, callback);
   }
 };

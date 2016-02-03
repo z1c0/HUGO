@@ -2,9 +2,9 @@ var schedule = require('./schedule');
 
 function initRoutes(helper) {
   helper.get('/', function(req, res, next) {
-    schedule.getOVs(function(o) {
-      console.log(o);
-      var data = helper.data();
+    var data = helper.data();
+    schedule.getOVs(data.db, function(o) {
+      //console.log(o);
       data.movies = o;
       res.render(helper.view(), data);
     });    
