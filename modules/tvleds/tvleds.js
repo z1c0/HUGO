@@ -1,8 +1,9 @@
 var xbox = require('./xbox');
 
-function initRoutes(helper)
-{  
-  xbox.init(helper.data().db);
+function initRoutes(helper) {  
+  if (helper.data().hugo.isProduction()) {
+    xbox.init(helper.data().db);
+  }
   
   helper.get('/');    
   

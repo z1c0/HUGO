@@ -2,8 +2,8 @@ var path = require('path'),
     hugo = require('../hugo'),
     db = require('../db/db');
 
-function getViewPath(name)
-{
+
+function getViewPath(name) {
   return '../modules/' + name + '/' + name;
 }
 

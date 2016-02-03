@@ -7,5 +7,11 @@ module.exports = {
   modules: allModules,
   uptime: function() {
     return  moment.duration(moment() - start).humanize();
+  },
+  hostname: function() {
+    return require('os').hostname();
+  },
+  isProduction: function() {
+    return this.hostname() == 'hugopi';
   }
 };
