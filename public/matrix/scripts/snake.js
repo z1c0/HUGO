@@ -1,4 +1,5 @@
 function snake() {
+  var VOID = 0;
   var SNAKE_UP = 10;
   var SNAKE_DOWN = 11;
   var SNAKE_LEFT = 12;
@@ -6,35 +7,67 @@ function snake() {
   var FOOD = 20;
   var WALL = 30;
   
+  function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+  
+  function shuffle(o) {
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+  }    
+  
   return {
-    head : [],
     tail : [],
+    head : [],
     food : [],
+    grow : 0,
     
-    getRandomEmptyPos : function() {
-      var x = Math.floor(Math.random() * this.world.length);
-      var y = Math.floor(Math.random() * this.world.length);
+    getRandomPos : function() {
+      var x = getRandom(0, this.world.length);
+      var y = getRandom(0, this.world.length);
       if (this.world[x][y] == 0) {
         return [x, y];
       }
       else {
-        return this.getRandomEmptyPos();
+        return this.getRandomPos();
       }
+    },
+    
+    getInterval : function() {
+      return 100;
     },
     
     init : function(world) {
       this.world = world;
+      this.reset();
+    },
+    
+    reset : function() {
       // walls;
       for (var i = 0; i < this.world.length; i++) {
-        this.world[i][0] = WALL;
-        this.world[i][this.world.length - 1] = WALL;
-        this.world[0][i] = WALL;
-        this.world[this.world.length - 1][i] = WALL;
+        for (var j = 0; j < this.world.length; j++) {
+          var cell = VOID;
+          if (i == 0 || j == 0 || i == this.world.length - 1 || j == this.world.length - 1) {
+            cell = WALL;
+          }
+          this.world[i][j] = cell;
+        }
       }
-      
-      this.head = this.getRandomEmptyPos();
-      this.food = this.getRandomEmptyPos();
-      this.world[this.head[0]][this.head[1]] = SNAKE_UP;
+      // snake
+      var x = getRandom(5, this.world.length - 10);
+      var y = getRandom(2, this.world.length - 2);
+      this.tail[0] = x; 
+      this.tail[1] = y;
+      this.world[x][y] = SNAKE_RIGHT;
+      x++;
+      this.world[x][y] = SNAKE_RIGHT;
+      x++;
+      this.world[x][y] = SNAKE_RIGHT;
+      this.head[0] = x;
+      this.head[1] = y;
+      this.grow = 3;
+      // food
+      this.food = this.getRandomPos();
       this.world[this.food[0]][this.food[1]] = FOOD;
     },
     
@@ -47,32 +80,89 @@ function snake() {
           return "green";
         
         case FOOD:
-          return "yellow";
+          return "orange";
 
         case WALL:
-          return "blue";
+          return "darkblue";
       }
       return "white";
     },
     
+    checkMove : function(cell, dir) {
+      var tmp = cell.slice();
+      this.setCellValue(tmp, dir);
+      var v = this.getCellValue(this.moveCell(tmp));
+      return (v == VOID || v == FOOD);
+    },
+    
     simulate : function() {
       // check
-      
-      // turn
+      var dir = this.getCellValue(this.head);
+      if (!this.checkMove(this.head, dir)) {
+        var o = [];
+        if (dir == SNAKE_UP || dir == SNAKE_DOWN) {
+          o = shuffle([SNAKE_LEFT, SNAKE_RIGHT]);
+        } 
+        else {
+          o = shuffle([SNAKE_UP, SNAKE_DOWN]);
+        }
+        if (!this.checkMove(this.head, o[0])) {
+          this.checkMove(this.head, o[1]);
+        }
+      }
       
       // move
       this.move();
     },
     
-    move : function() {
-      var dir = this.world[this.head[0]][this.head[1]];
-      this.world[this.head[0]][this.head[1]] = 0;
+    getCellValue : function(cell) {
+      return this.world[cell[0]][cell[1]];
+    },
+    
+    setCellValue : function(cell, value) {
+      this.world[cell[0]][cell[1]] = value;
+    },
+    
+    moveCell : function(cell) {
+      var dir = this.getCellValue(cell);
       switch (dir) {
         case SNAKE_UP:
-          this.head[1]--;
+          cell[1]--;
+          break;
+        case SNAKE_DOWN:
+          cell[1]++;
+          break;
+        case SNAKE_LEFT:
+          cell[0]--;
+          break;
+        case SNAKE_RIGHT:
+          cell[0]++;
           break;
       }
-      this.world[this.head[0]][this.head[1]] = dir;
+      return cell;
+    },
+    
+    move : function() {
+      if (this.grow > 0) {
+        //this.grow--;
+        var vOld = this.getCellValue(this.head);
+        var newHead = this.moveCell(this.head);
+        var v = this.getCellValue(newHead);
+        if (v == VOID) {
+          this.head = newHead;
+          this.setCellValue(this.head, vOld);
+        }
+        else {
+          this.reset();
+        }
+      }
+      else {
+        var cell = this.world[this.head[0]][this.head[1]];
+        while (cell >= SNAKE_UP && cell <= SNAKE_RIGHT) {
+          this.world[this.head[0]][this.head[1]] = 0;
+          this.world[this.head[0]][this.head[1]] = cell;
+        }
+      }
     }
   };
 }

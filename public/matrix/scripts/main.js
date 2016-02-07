@@ -33,6 +33,6 @@ $(function() {
   setInterval(function() {
     game.simulate();
     render();
-  }, 200);
+  }, game.getInterval());
   
 });
