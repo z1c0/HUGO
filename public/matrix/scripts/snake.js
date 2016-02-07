@@ -34,7 +34,7 @@ function snake() {
     },
     
     getInterval : function() {
-      return 100;
+      return 250;
     },
     
     init : function(world) {
@@ -65,13 +65,13 @@ function snake() {
       this.world[x][y] = SNAKE_RIGHT;
       this.head[0] = x;
       this.head[1] = y;
-      this.grow = 3;
       // food
       this.food = this.getRandomPos();
       this.world[this.food[0]][this.food[1]] = FOOD;
     },
     
-    mapColor : function(value) {
+    mapColor : function(x, y) {
+      var value = this.world[x][y];
       switch (value) {
         case SNAKE_UP:
         case SNAKE_DOWN:
@@ -96,8 +96,24 @@ function snake() {
     },
     
     simulate : function() {
-      // check
       var dir = this.getCellValue(this.head);
+      // steer to food
+      var dx = this.food[0] - this.head[0];
+      var dy = this.food[1] - this.head[1];
+      if (dx != 0) {
+        if (dir == SNAKE_UP || dir == SNAKE_DOWN) {
+          dir = (dx < 0) ? SNAKE_LEFT : SNAKE_RIGHT;
+        } 
+      }
+      if (dy != 0) {
+        if (dir == SNAKE_LEFT || dir == SNAKE_RIGHT) {
+          dir = (dy < 0) ? SNAKE_UP : SNAKE_DOWN;
+        }
+      }
+      this.setCellValue(this.head, dir);
+      
+      // check
+      dir = this.getCellValue(this.head);
       if (!this.checkMove(this.head, dir)) {
         var o = [];
         if (dir == SNAKE_UP || dir == SNAKE_DOWN) {
@@ -143,25 +159,34 @@ function snake() {
     },
     
     move : function() {
-      if (this.grow > 0) {
-        //this.grow--;
-        var vOld = this.getCellValue(this.head);
-        var newHead = this.moveCell(this.head);
-        var v = this.getCellValue(newHead);
-        if (v == VOID) {
-          this.head = newHead;
-          this.setCellValue(this.head, vOld);
-        }
-        else {
-          this.reset();
-        }
+      debugger;
+      if (this.grow == 0) {
+        // move tail
+        var oldTail = this.tail.slice();
+        this.moveCell(this.tail);
+        this.setCellValue(oldTail, VOID);
       }
       else {
-        var cell = this.world[this.head[0]][this.head[1]];
-        while (cell >= SNAKE_UP && cell <= SNAKE_RIGHT) {
-          this.world[this.head[0]][this.head[1]] = 0;
-          this.world[this.head[0]][this.head[1]] = cell;
-        }
+        this.grow--;
+      }
+      // move head
+      var vOld = this.getCellValue(this.head);
+      var newHead = this.moveCell(this.head);
+      var v = this.getCellValue(newHead);
+      switch(v) {
+        case FOOD:
+          this.food = this.getRandomPos();
+          this.setCellValue(this.food, FOOD);
+          this.grow = 3;
+          // fall through
+        
+        case VOID:
+          this.head = newHead;
+          this.setCellValue(this.head, vOld);
+          break;
+          
+        default:
+          this.reset();
       }
     }
   };

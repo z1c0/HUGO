@@ -20,7 +20,7 @@ $(function() {
     var step = canvas.width / DIM;
     for (var y = 0; y < DIM; y++){ 
       for (var x = 0; x < DIM; x++) {
-        ctx.fillStyle = game.mapColor(world[x][y]);
+        ctx.fillStyle = game.mapColor(x, y);
         ctx.strokeRect(x * step, y * step, step, step);
         ctx.fillRect(x * step, y * step, step, step);
       }    
