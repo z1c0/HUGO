@@ -159,7 +159,6 @@ function snake() {
     },
     
     move : function() {
-      debugger;
       if (this.grow == 0) {
         // move tail
         var oldTail = this.tail.slice();
@@ -171,8 +170,8 @@ function snake() {
       }
       // move head
       var vOld = this.getCellValue(this.head);
-      var newHead = this.moveCell(this.head);
-      var v = this.getCellValue(newHead);
+      this.moveCell(this.head);
+      var v = this.getCellValue(this.head);
       switch(v) {
         case FOOD:
           this.food = this.getRandomPos();
@@ -181,7 +180,6 @@ function snake() {
           // fall through
         
         case VOID:
-          this.head = newHead;
           this.setCellValue(this.head, vOld);
           break;
           
