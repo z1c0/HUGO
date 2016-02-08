@@ -1,4 +1,10 @@
-var moment = require('moment');
+var cron = require('cron'),
+    soap = require('soap'),
+    moment = require('moment');
+
+
+var movies = [];
+
 
 function updateDb(db, movies) {
   movies.forEach(function(m) {
@@ -15,44 +21,56 @@ function updateDb(db, movies) {
   }, this);
 }
 
-function getMoviesOV(db, callback) {
-  var soap = require('soap');
+function checkMovies(db) {
+  movies = [];
   var url = 'http://linz.megaplex.at/webservice/serviceext.asmx?wsdl';
   soap.createClient(url, function(err, client) {
-    var from = moment().format('YYYY-MM-DD');
-    var to = moment().add(2, 'w').format('YYYY-MM-DD');
-    console.log(from);
-    console.log(to);    
-    var args = { FromDate : from, ToDate: to, SQLFilter : '', SQLSort : '' };
-    client.GetSchedule(args, function(err, result) {
-      var movieMap = [];
-      var details = result.GetScheduleResult.ScheduleDetails;
-      details.forEach(function(d) {
-        //console.log(d);
-        var title = d.FilmTitle;
-        if (title.startsWith('OV')) {
-          movieMap[title] = {
-            title : title,
-            nation : d.FilmNation,
-            image : 'http://www.megaplex.at/content/' + d.FilmImg.split('/')[1],
-            start : d.FilmStart
-          };
+    if (!err) {
+      var from = moment().format('YYYY-MM-DD');
+      var to = moment().add(2, 'w').format('YYYY-MM-DD');
+      var args = { FromDate : from, ToDate: to, SQLFilter : '', SQLSort : '' };
+      client.GetSchedule(args, function(err, result) {
+        try {
+          var movieMap = [];
+          var details = result.GetScheduleResult.ScheduleDetails;
+          details.forEach(function(d) {
+            //console.log(d);
+            var title = d.FilmTitle;
+            if (title.startsWith('OV')) {
+              movieMap[title] = {
+                title : title,
+                nation : d.FilmNation,
+                image : 'http://www.megaplex.at/content/' + d.FilmImg.split('/')[1],
+                start : d.FilmStart
+              };
+            }
+          }, this);
+          // Create array from map.
+          for (var key in movieMap) {
+            movies.push(movieMap[key]);
+          }
+          //console.log(movies);
+          updateDb(db, movies);
         }
-      }, this);
-      // Create array from map.
-      var movies = [];
-      for (var key in movieMap) {
-        movies.push(movieMap[key]);
-      }
-      //console.log(movies);
-      updateDb(db, movies);
-      callback(movies);
-    });
+        catch (e) {
+          console.log(e);
+        }
+      });
+    }
   });
 }
 
 module.exports = {
-  getOVs: function(db, callback) {
-    getMoviesOV(db, callback);
+  init : function(db) {
+    // run every hour 
+    // */20 * * * * *",
+    var cronJob = cron.job("0 0 */1 * * *", function() {
+      checkMovies(db);
+    });
+    cronJob.start();
+    checkMovies(db);
+  },
+  getMovies : function() {
+    return movies;
   }
 };
