@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 function updateDb(db, movies) {
   movies.forEach(function(m) {
     db.find({ title: m.title }, function (err, docs) {
@@ -17,10 +19,11 @@ function getMoviesOV(db, callback) {
   var soap = require('soap');
   var url = 'http://linz.megaplex.at/webservice/serviceext.asmx?wsdl';
   soap.createClient(url, function(err, client) {
-    var dateTo = new Date();
-    dateTo.setFullYear(dateTo.getFullYear() + 1);
-    console.log(dateTo);
-    var args = { FromDate : "2016-02-01", ToDate: "2017-02-01", SQLFilter : '', SQLSort : '' };
+    var from = moment().format('YYYY-MM-DD');
+    var to = moment().add(2, 'w').format('YYYY-MM-DD');
+    console.log(from);
+    console.log(to);    
+    var args = { FromDate : from, ToDate: to, SQLFilter : '', SQLSort : '' };
     client.GetSchedule(args, function(err, result) {
       var movieMap = [];
       var details = result.GetScheduleResult.ScheduleDetails;
