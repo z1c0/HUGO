@@ -27,7 +27,8 @@ $(function() {
     }
   }
   
-  var game = snake();
+  //var game = snake();
+  var game = tictactoe();
   
   game.init(world);
   setInterval(function() {
