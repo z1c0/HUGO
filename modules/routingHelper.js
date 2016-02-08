@@ -1,6 +1,7 @@
 var path = require('path'),
     hugo = require('../hugo'),
-    db = require('../db/db');
+    db = require('../db/db'),
+    settings = require('../settings');
 
 
 function getViewPath(name) {
@@ -25,6 +26,7 @@ module.exports = function RoutingHelper(router, dirName) {
     data : function() {
       return {
         db : db.get(_name),
+        config : settings,
         hugo : hugo,
         title : hugo.title,
       };

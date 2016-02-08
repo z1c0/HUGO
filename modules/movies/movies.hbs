@@ -6,7 +6,6 @@
 
 <ul>
 {{#each movies}}
-  <li><div class="round"><img src="{{this.image}}"></li>
-  <!-- <li><a href="/{{this.title}}">{{this.title}}</a></li> -->
+  <li><div class="round"><a href="/{{this.title}}"><img src="{{this.image}}"></a></div></li>
 {{/each}}
 </ul>

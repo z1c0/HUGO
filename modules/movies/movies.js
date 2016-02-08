@@ -3,7 +3,7 @@ var schedule = require('./schedule');
 function initRoutes(helper) {
   var data = helper.data();
   
-  schedule.init(data.db);
+  schedule.init(data);
   
   helper.get('/', function(data) {
     data.movies = schedule.getMovies();

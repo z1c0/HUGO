@@ -1,29 +1,37 @@
 var cron = require('cron'),
     soap = require('soap'),
-    moment = require('moment');
+    moment = require('moment'),
+    request = require('request');
 
 
 var movies = [];
 
-
-function updateDb(db, movies) {
+function updateDb(data, movies) {
   movies.forEach(function(m) {
-    db.find({ title: m.title }, function (err, docs) {
+    data.db.find({ title: m.title }, function (err, docs) {   
       if (docs.length == 0) {
         // not found -> insert into db
         var doc = {
           title : m.title,
           at : new Date(),
         };
-        db.insert(doc);
+        data.db.insert(doc);
+        
+        request({
+          url: data.config.getIftttUrl('new_movie'),
+          method: 'POST',
+          json: {
+            value1 : m.title,
+          }
+        });
       }
     });
   }, this);
 }
 
-function checkMovies(db) {
+function checkMovies(data) {
   movies = [];
-  var url = 'http://linz.megaplex.at/webservice/serviceext.asmx?wsdl';
+  var url = data.config.megaplexWsdlUrl;
   soap.createClient(url, function(err, client) {
     if (!err) {
       var from = moment().format('YYYY-MM-DD');
@@ -40,7 +48,7 @@ function checkMovies(db) {
               movieMap[title] = {
                 title : title,
                 nation : d.FilmNation,
-                image : 'http://www.megaplex.at/content/' + d.FilmImg.split('/')[1],
+                image : data.config.megaplexContentUrl + d.FilmImg.split('/')[1],
                 start : d.FilmStart
               };
             }
@@ -50,7 +58,7 @@ function checkMovies(db) {
             movies.push(movieMap[key]);
           }
           //console.log(movies);
-          updateDb(db, movies);
+          updateDb(data, movies);
         }
         catch (e) {
           console.log(e);
@@ -61,14 +69,14 @@ function checkMovies(db) {
 }
 
 module.exports = {
-  init : function(db) {
+  init : function(data) {
     // run every hour 
     // */20 * * * * *",
     var cronJob = cron.job("0 0 */1 * * *", function() {
-      checkMovies(db);
+      checkMovies(data);
     });
     cronJob.start();
-    checkMovies(db);
+    checkMovies(data);
   },
   getMovies : function() {
     return movies;

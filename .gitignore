@@ -34,3 +34,4 @@ node_modules
 
 db/store/*.json
 *.css
+secrets.js

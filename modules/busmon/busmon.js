@@ -1,7 +1,6 @@
 var busData = require('./busData');
 
-function initRoutes(helper)
-{  
+function initRoutes(helper) {  
   helper.get('/', function(req, res, next) {
     busData.fetch(function(o) {
       //console.log(o);
