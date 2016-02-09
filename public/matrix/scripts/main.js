@@ -27,10 +27,12 @@ $(function() {
     }
   }
   
-  //var game = snake();
-  var game = tictactoe();
+  var game = snake();
+  //var game = tictactoe();
   
   game.init(world);
+  render();
+  
   setInterval(function() {
     game.simulate();
     render();

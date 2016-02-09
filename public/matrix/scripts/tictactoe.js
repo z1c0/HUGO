@@ -3,18 +3,23 @@ function tictactoe() {
   var GRID = 1;
   var CIRCLE = 2;
   var CROSS = 3;
-    
+   
   return {
+    playerOne : false,
+    
     getInterval : function() {
-      return 1000;
+      return 2000;
     },
     
     init : function(world) {
       this.world = world;
+      this.game = game(world);
       this.reset();
     },
     
     reset : function() {
+      this.playOne = this.game.getRandom(0, 100) > 50;
+       
       for (var i = 0; i < this.world.length; i++) {
         for (var j = 0; j < this.world.length; j++) {
           var col = VOID;
@@ -28,10 +33,22 @@ function tictactoe() {
       }
     },
     
+    getNextPos : function() {
+      return {
+        x : 0,
+        y : 0,
+      };
+    },
+    
     simulate : function() {
-      this.drawCircle(0, 0);
-      this.drawCircle(1, 1);
-      this.drawCircle(2, 2);
+      var pos = this.getNextPos();
+      if (this.playerOne) {
+        this.drawCircle(pos.x, pos.y);
+      }
+      else {
+        this.drawCross(pos.x, pos.y);
+      }
+      this.playerOne = !this.playerOne;
     },
     
     drawCircle : function(col, row) {
@@ -43,6 +60,19 @@ function tictactoe() {
           var x = offsetX + j + col * width;
           var y = offsetY + i + row * width;
           this.world[x][y] = CIRCLE;
+        }
+      }
+    },
+    
+    drawCross : function(col, row) {
+      var width = 10;
+      var offsetX = col + 1;
+      var offsetY = row + 1;
+      for (var i = 0; i < width - 2; i++) {
+        for (var j = 0; j < width - 2; j++) {
+          var x = offsetX + j + col * width;
+          var y = offsetY + i + row * width;
+          this.world[x][y] = CROSS;
         }
       }
     },

@@ -5,11 +5,7 @@ function snake() {
   var SNAKE_LEFT = 12;
   var SNAKE_RIGHT = 13;
   var FOOD = 20;
-  var WALL = 30;
-  
-  function getRandom(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
+  var WALL = 30;  
   
   function shuffle(o) {
     for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
@@ -20,18 +16,7 @@ function snake() {
     tail : [],
     head : [],
     food : [],
-    grow : 0,
-    
-    getRandomPos : function() {
-      var x = getRandom(0, this.world.length);
-      var y = getRandom(0, this.world.length);
-      if (this.world[x][y] == 0) {
-        return [x, y];
-      }
-      else {
-        return this.getRandomPos();
-      }
-    },
+    grow : 0,    
     
     getInterval : function() {
       return 250;
@@ -39,6 +24,7 @@ function snake() {
     
     init : function(world) {
       this.world = world;
+      this.game = game(world);
       this.reset();
     },
     
@@ -54,8 +40,8 @@ function snake() {
         }
       }
       // snake
-      var x = getRandom(5, this.world.length - 10);
-      var y = getRandom(2, this.world.length - 2);
+      var x = this.game.getRandom(5, this.world.length - 10);
+      var y = this.game.getRandom(2, this.world.length - 2);
       this.tail[0] = x; 
       this.tail[1] = y;
       this.world[x][y] = SNAKE_RIGHT;
@@ -66,7 +52,7 @@ function snake() {
       this.head[0] = x;
       this.head[1] = y;
       // food
-      this.food = this.getRandomPos();
+      this.food = this.game.getRandomPos();
       this.world[this.food[0]][this.food[1]] = FOOD;
     },
     
