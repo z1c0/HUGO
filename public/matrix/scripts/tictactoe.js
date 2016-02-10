@@ -12,6 +12,7 @@ function tictactoe() {
     },
     
     init : function(game) {
+      this.roundsToPlay = 3;
       this.game = game;
       this.world = game.world;
       this.field = game.createMatrix(3);
@@ -64,13 +65,18 @@ function tictactoe() {
       }
       if (voids == 0) {
         this.reset();
+        this.roundsToPlay--;
       }
       
       var pos = this.getNextPos();
       var what = this.playerOne ? CIRCLE : CROSS;
       this.draw(pos.x, pos.y, what);
-      this.field[pos.x][pos.y] = what; 
-      this.playerOne = !this.playerOne;      
+      this.field[pos.x][pos.y] = what;
+      this.playerOne = !this.playerOne;
+    },
+    
+    isOver : function() {
+      return this.roundsToPlay == 0;
     },
     
     draw : function(col, row, what) {

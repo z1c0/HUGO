@@ -23,9 +23,14 @@ function snake() {
     },
     
     init : function(game) {
+      this.lives = 3;
       this.game = game;
       this.world = game.world;
       this.reset();
+    },
+    
+    isOver : function() {
+      return lives == 0;
     },
     
     reset : function() {
@@ -170,6 +175,7 @@ function snake() {
           break;
           
         default:
+          this.lives--;
           this.reset();
       }
     }

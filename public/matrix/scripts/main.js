@@ -3,7 +3,7 @@ $(function() {
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");  
   
-  function render() {
+  function render(game) {
     var step = canvas.width / DIM;
     for (var y = 0; y < DIM; y++){ 
       for (var x = 0; x < DIM; x++) {
@@ -14,14 +14,30 @@ $(function() {
     }
   }
   
-  //var game = snake();
-  var game = tictactoe();
-  game.init(initGame(DIM));
-  render();
+  function startGame() {
+    var r = Math.random(),
+        game;
+    
+    if (r > 0.5) {
+      game = snake();
+    }
+    else {
+      game = tictactoe();
+    }
+    
+    game.init(initGame(DIM));
+    render(game);
+    
+    var timer = setInterval(function() {
+      game.simulate();
+      render(game);
+      
+      if (game.isOver()) {
+        clearInterval(timer);
+        startGame();
+      }
+    }, game.getInterval());
+  }
   
-  setInterval(function() {
-    game.simulate();
-    render();
-  }, game.getInterval());
-  
+  startGame();
 });
