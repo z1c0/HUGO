@@ -1,20 +1,7 @@
 $(function() {
   var DIM = 32;
   var canvas = document.getElementById("myCanvas");
-  var ctx = canvas.getContext("2d");
-  
-  function initWorld() {
-    var arr = [];
-    for(var x = 0; x < DIM; x++) {
-      arr[x] = [];    
-      for(var y = 0; y < DIM; y++){ 
-        arr[x][y] = 0;
-      }    
-    }
-    return arr;
-  }
-  
-  var world = initWorld();
+  var ctx = canvas.getContext("2d");  
   
   function render() {
     var step = canvas.width / DIM;
@@ -27,10 +14,9 @@ $(function() {
     }
   }
   
-  var game = snake();
-  //var game = tictactoe();
-  
-  game.init(world);
+  //var game = snake();
+  var game = tictactoe();
+  game.init(initGame(DIM));
   render();
   
   setInterval(function() {

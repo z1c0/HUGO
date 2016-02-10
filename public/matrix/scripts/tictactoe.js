@@ -8,17 +8,24 @@ function tictactoe() {
     playerOne : false,
     
     getInterval : function() {
-      return 2000;
+      return 500;
     },
     
-    init : function(world) {
-      this.world = world;
-      this.game = game(world);
+    init : function(game) {
+      this.game = game;
+      this.world = game.world;
+      this.field = game.createMatrix(3);
       this.reset();
     },
     
     reset : function() {
       this.playOne = this.game.getRandom(0, 100) > 50;
+      
+      for (var i = 0; i < this.field.length; i++) {
+        for (var j = 0; j < this.field.length; j++) {
+          this.field[i][j] = VOID;
+        }
+      }
        
       for (var i = 0; i < this.world.length; i++) {
         for (var j = 0; j < this.world.length; j++) {
@@ -34,45 +41,62 @@ function tictactoe() {
     },
     
     getNextPos : function() {
-      return {
-        x : 0,
-        y : 0,
-      };
-    },
-    
-    simulate : function() {
-      var pos = this.getNextPos();
-      if (this.playerOne) {
-        this.drawCircle(pos.x, pos.y);
-      }
-      else {
-        this.drawCross(pos.x, pos.y);
-      }
-      this.playerOne = !this.playerOne;
-    },
-    
-    drawCircle : function(col, row) {
-      var width = 10;
-      var offsetX = col + 1;
-      var offsetY = row + 1;
-      for (var i = 0; i < width - 2; i++) {
-        for (var j = 0; j < width - 2; j++) {
-          var x = offsetX + j + col * width;
-          var y = offsetY + i + row * width;
-          this.world[x][y] = CIRCLE;
+      while (true) {
+        var x = this.game.getRandom(0, 3);
+        var y = this.game.getRandom(0, 3);
+        if (this.field[x][y] == 0) {
+          return {
+            x : x,
+            y : y,
+          };
         }
       }
     },
     
-    drawCross : function(col, row) {
-      var width = 10;
-      var offsetX = col + 1;
-      var offsetY = row + 1;
-      for (var i = 0; i < width - 2; i++) {
-        for (var j = 0; j < width - 2; j++) {
-          var x = offsetX + j + col * width;
-          var y = offsetY + i + row * width;
-          this.world[x][y] = CROSS;
+    simulate : function() {
+      var voids = 0;
+      for (var i = 0; i < this.field.length; i++) {
+        for (var j = 0; j < this.field.length; j++) {
+          if (this.field[i][j] == VOID) {
+            voids++;
+          }
+        }
+      }
+      if (voids == 0) {
+        this.reset();
+      }
+      
+      var pos = this.getNextPos();
+      var what = this.playerOne ? CIRCLE : CROSS;
+      this.draw(pos.x, pos.y, what);
+      this.field[pos.x][pos.y] = what; 
+      this.playerOne = !this.playerOne;      
+    },
+    
+    draw : function(col, row, what) {
+      var offX = col * 11 + 1;
+      var offY = row * 11 + 1;
+      if (what == CIRCLE) {
+        this.world[offX + 3][offY + 0] = CIRCLE;
+        this.world[offX + 2][offY + 1] = CIRCLE;
+        this.world[offX + 1][offY + 1] = CIRCLE;
+        this.world[offX + 1][offY + 2] = CIRCLE;
+        this.world[offX + 0][offY + 3] = CIRCLE;
+      }
+      else {
+        this.world[offX + 0][offY + 0] = CROSS;
+        this.world[offX + 1][offY + 1] = CROSS;
+        this.world[offX + 2][offY + 2] = CROSS;
+        this.world[offX + 3][offY + 3] = CROSS;
+      }
+      for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 4; j++) {
+          var x = offX + j;
+          var y = offY + i;
+          var v = this.world[x][y];
+          this.world[x][offY + 7 - i] = v;
+          this.world[offX + 7 - j][y] = v;
+          this.world[offX + 7 - j][offY + 7 - i] = v;
         }
       }
     },

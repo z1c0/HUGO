@@ -22,9 +22,9 @@ function snake() {
       return 250;
     },
     
-    init : function(world) {
-      this.world = world;
-      this.game = game(world);
+    init : function(game) {
+      this.game = game;
+      this.world = game.world;
       this.reset();
     },
     
