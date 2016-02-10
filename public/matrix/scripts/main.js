@@ -18,7 +18,7 @@ $(function() {
     var r = Math.random(),
         game;
     
-    if (r > 0.5) {
+    if (r > 0.9) {
       game = snake();
     }
     else {

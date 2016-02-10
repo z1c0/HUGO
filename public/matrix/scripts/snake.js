@@ -30,7 +30,7 @@ function snake() {
     },
     
     isOver : function() {
-      return lives == 0;
+      return this.lives == 0;
     },
     
     reset : function() {
@@ -165,7 +165,7 @@ function snake() {
       var v = this.getCellValue(this.head);
       switch(v) {
         case FOOD:
-          this.food = this.getRandomPos();
+          this.food = this.game.getRandomPos();
           this.setCellValue(this.food, FOOD);
           this.grow = 3;
           // fall through
