@@ -5,6 +5,10 @@ function tictactoe() {
   var CIRCLE_WIN = 12;
   var CROSS = 3;
   var CROSS_WIN = 13;
+  
+  var STATE_PLAYING = 1;
+  var STATE_WINNER = 2;
+  var STATE_OVER = 3;
    
   return {
     playerOne : false,
@@ -22,7 +26,7 @@ function tictactoe() {
     },
     
     reset : function() {
-      this.showWinner = 0;
+      this.state = STATE_PLAYING;
       this.playOne = this.game.getRandom(0, 100) > 50;
       
       for (var i = 0; i < this.field.length; i++) {
@@ -69,10 +73,12 @@ function tictactoe() {
           x++;
         }
       }
-      if (mark && (x == 3 || o == 3)) {
-        this.showWinner = 5;
-        for (var i = 0; i < 3; i++) {
-          this.draw(cells[i][0], cells[i][1], this.field[cells[i][0]][cells[i][1]] + 10); 
+      if (this.state != STATE_WINNER) {
+        if (mark && (x == 3 || o == 3)) {
+          this.state = STATE_WINNER;
+          for (var i = 0; i < 3; i++) {
+            this.draw(cells[i][0], cells[i][1], this.field[cells[i][0]][cells[i][1]] + 10); 
+          }
         }
       }
       return {
@@ -82,38 +88,39 @@ function tictactoe() {
     },
     
     checkIfOver : function() {
-      if (this.showWinner == 0) {
-        this.checkLine([[0, 0], [1, 1], [2, 2]], true);
-        this.checkLine([[2, 0], [1, 1], [0, 2]], true);
-        for (var i = 0; i < 3; i++) {
-          this.checkLine([[i, 0], [i, 1], [i, 2]], true);
-          this.checkLine([[0, i], [1, i], [2, i]], true);
-        }
-        if (this.showWinner > 0) {
-          return true;
-        }
+      this.checkLine([[0, 0], [1, 1], [2, 2]], true);
+      this.checkLine([[2, 0], [1, 1], [0, 2]], true);
+      for (var i = 0; i < 3; i++) {
+        this.checkLine([[i, 0], [i, 1], [i, 2]], true);
+        this.checkLine([[0, i], [1, i], [2, i]], true);
       }
       
-      var voids = 0;
-      for (var i = 0; i < this.field.length; i++) {
-        for (var j = 0; j < this.field.length; j++) {
-          if (this.field[i][j] == VOID) {
-            voids++;
+      if (this.state == STATE_PLAYING) {
+        var voids = 0;
+        for (var i = 0; i < this.field.length; i++) {
+          for (var j = 0; j < this.field.length; j++) {
+            if (this.field[i][j] == VOID) {
+              voids++;
+            }
           }
         }
+        if (voids == 0) {
+          this.state = STATE_OVER;
+        }
       }
-      return voids == 0;
     },
     
     simulate : function() {
-      if (this.checkIfOver()) {
-        if (this.showWinner > 0) {
-          this.showWinner--;
-        }
-        if (this.showWinner == 0) {
-          this.reset();
-          this.roundsToPlay--;
-        }
+      if (this.state == STATE_PLAYING) {
+        this.checkIfOver();
+      }
+      
+      if (this.state == STATE_OVER) {
+        this.reset();
+        this.roundsToPlay--;
+      }
+      else if (this.state == STATE_WINNER) {
+        this.state = STATE_OVER;
       }
       else {
         var pos = this.getNextPos();
@@ -162,14 +169,14 @@ function tictactoe() {
           return 'white';
           
          case CIRCLE:
-           return 'blue';
+           return 'cyan';
            
          case CROSS:
-           return 'lightgreen';
+           return 'purple';
            
          case CIRCLE_WIN:
          case CROSS_WIN:
-           return 'yellow';
+           return 'gold';
            
         default:
           return 'darkgray';
