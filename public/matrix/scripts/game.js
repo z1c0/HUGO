@@ -22,6 +22,15 @@ function initGame(dimemsion) {
       return Math.floor(Math.random() * (max - min)) + min;
     },
     
+    getRandomBool : function() {
+      return Math.random() > 0.5;
+    },
+    
+    shuffle : function(o) {
+      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+      return o;
+    },    
+    
     getRandomPos : function() {
       var x = this.getRandom(0, this.world.length);
       var y = this.getRandom(0, this.world.length);

@@ -27,7 +27,8 @@ function tictactoe() {
     
     reset : function() {
       this.state = STATE_PLAYING;
-      this.playOne = this.game.getRandom(0, 100) > 50;
+      this.playSmart = this.game.getRandomBool();
+      this.playOne = this.game.getRandomBool();
       
       for (var i = 0; i < this.field.length; i++) {
         for (var j = 0; j < this.field.length; j++) {
@@ -48,17 +49,56 @@ function tictactoe() {
       }
     },
     
-    getNextPos : function() {
-      while (true) {
-        var x = this.game.getRandom(0, 3);
-        var y = this.game.getRandom(0, 3);
-        if (this.field[x][y] == 0) {
-          return {
-            x : x,
-            y : y,
-          };
+    getNextPos : function(what) {
+      // create array of empty fields
+      var pos = 0;
+      var candidates = [];
+      for (var y = 0; y < 3; y++) {
+        for (var x = 0; x < 3; x++) {
+          if (this.field[x][y] == VOID) {
+            candidates.push({
+              x : x,
+              y : y
+            });
+          }
         }
       }
+      candidates = this.game.shuffle(candidates);
+      
+      if (this.playSmart) {
+        // evaluate fields
+        var highScore = -1;
+        for (var i = 0; i < candidates.length; i++) {
+          var c = candidates[i];
+          var score = 0;
+          score += this.evaluateLine(what, [[0, c.y], [1, c.y], [2, c.y]]);
+          score += this.evaluateLine(what, [[c.x, 0], [c.x, 1 ], [c.x, 2]]);
+          if (c.x == c.y) {
+            score += this.evaluateLine(what, [[0, 0], [1, 1 ], [2, 2]]);
+          }
+          else if (c.x + c.y == 2) {
+            score += this.evaluateLine(what, [[2, 0], [1, 1 ], [2, 0]]);
+          }
+          if (score > highScore) {
+            highScore = score;
+            pos = i;
+          }
+        } 
+      }
+      else {
+        // random empty field
+        pos = this.game.getRandom(0, candidates.length);
+      }
+      return candidates[pos];
+    },
+    
+    evaluateLine : function(what, cells) {
+      var score = 1;
+      var result = this.checkLine(cells, false);
+      if (result.x == 2 || result.y == 2) {
+        score += 2;
+      }
+      return score;
     },
     
     checkLine : function(cells, mark) {
@@ -123,8 +163,8 @@ function tictactoe() {
         this.state = STATE_OVER;
       }
       else {
-        var pos = this.getNextPos();
         var what = this.playerOne ? CIRCLE : CROSS;
+        var pos = this.getNextPos(what);
         this.draw(pos.x, pos.y, what);
         this.field[pos.x][pos.y] = what;
         this.playerOne = !this.playerOne;
@@ -169,10 +209,10 @@ function tictactoe() {
           return 'white';
           
          case CIRCLE:
-           return 'cyan';
+           return this.playSmart ? 'green' : 'cyan';
            
          case CROSS:
-           return 'purple';
+           return this.playSmart ? 'blue' : 'purple';
            
          case CIRCLE_WIN:
          case CROSS_WIN:

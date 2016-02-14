@@ -7,11 +7,6 @@ function snake() {
   var FOOD = 20;
   var WALL = 30;  
   
-  function shuffle(o) {
-    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-    return o;
-  }    
-  
   return {
     tail : [],
     head : [],
@@ -108,10 +103,10 @@ function snake() {
       if (!this.checkMove(this.head, dir)) {
         var o = [];
         if (dir == SNAKE_UP || dir == SNAKE_DOWN) {
-          o = shuffle([SNAKE_LEFT, SNAKE_RIGHT]);
+          o = this.game.shuffle([SNAKE_LEFT, SNAKE_RIGHT]);
         } 
         else {
-          o = shuffle([SNAKE_UP, SNAKE_DOWN]);
+          o = this.game.shuffle([SNAKE_UP, SNAKE_DOWN]);
         }
         if (!this.checkMove(this.head, o[0])) {
           this.checkMove(this.head, o[1]);
