@@ -18,11 +18,11 @@ $(function() {
     var r = Math.random(),
         game;
     
-    if (r > 0.9) {
+    if (r > 0.95) {
       game = snake();
     }
     else {
-      game = tictactoe();
+      game = pacman();
     }
     
     game.init(initGame(DIM));
