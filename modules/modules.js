@@ -37,7 +37,7 @@ function createRoutes() {
 
 
 module.exports = {
-  routes: function() {    
+  routes: function() {
     return createRoutes();
   },
   list: function() {
