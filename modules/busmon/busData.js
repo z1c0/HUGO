@@ -27,11 +27,11 @@ var doRequest = function (callback, urlParams, renderCallback) {
 
 function filter(line, direction, minutes) {
   return (minutes >= 0 && minutes < 100) &&
-    ((line == "27" && direction == "Linz Fernheizkraftwerk") ||
-      (line == "27" && direction == "Linz Lederergasse") ||
-      (line == "27" && direction == "Linz Hafen") ||
-      (line == "46" && direction == "Linz Hafen") ||
-      (line == "26" && direction == "Linz St. Margarethen"));
+    ((line == "27" && direction.indexOf("Fernheizkraft") == 0) ||
+      (line == "27" && direction.indexOf("Lederergasse") == 0) ||
+      (line == "27" && direction.indexOf("Hafen") == 0) ||
+      (line == "46" && direction.indexOf("Hafen") == 0) ||
+      (line == "26" && direction.indexOf("St. Margarethen") == 0));
 }
 
 function getTimes(result, renderCallback) {
@@ -43,15 +43,15 @@ function getTimes(result, renderCallback) {
     var lineNr = d.itdServingLine[0].$.number;
     var direction = d.itdServingLine[0].$.direction;
     var minutes = d.$.countdown - 1;
+    // Remove "Linz " prefix.
+    if (direction.indexOf("Linz ") == 0) {
+      direction = direction.substr(5);
+    }
     //console.log("Linie " + lineNr + " (" + direction + "): " + minutes + " min.");
     if (filter(lineNr, direction, minutes)) {
       if (lineNr in nextDepartures && nextDepartures[lineNr].in < minutes) {
         minutes = nextDepartures[lineNr].in;
         direction = nextDepartures[lineNr].to;
-      }
-      // Remove "Linz " prefix.
-      if (direction.indexOf("Linz ") == 0) {
-        direction = direction.substr(5);
       }
       nextDepartures[lineNr] = { to: direction, in: minutes };
     }
