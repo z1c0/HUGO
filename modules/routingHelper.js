@@ -9,9 +9,9 @@ function getViewPath(name) {
 }
 
 
-module.exports = function RoutingHelper(router, dirName) {
+module.exports = function routingHelper(router, hugoModule) {
   var _router = router,
-      _name = path.basename(dirName);
+      _name = hugoModule.name;
       
   return {
     router : _router,
@@ -24,13 +24,19 @@ module.exports = function RoutingHelper(router, dirName) {
     },
     
     data : function() {
-      return {
-        db : db.get(_name),
+      var data = {
         config : settings,
         hugo : hugo,
         title : hugo.title,
       };
-    },    
+      if (hugoModule.config['useDB']) {
+        data.db = db.get(_name);
+      }
+      if (hugoModule.config['fullscreen']) {
+        data.layout = 'layoutfullscreen.hbs';
+      }
+      return data;
+    },
     
     get : function(path, f) {
       var fRender = f;
@@ -38,8 +44,9 @@ module.exports = function RoutingHelper(router, dirName) {
       var data = this.data();
       if (!fRender) {
         fRender = function(req, res, next) {
+          //console.log(data);
           res.render(view, data);
-        };        
+        };
       }
       else if (fRender.length == 1) {
         fRender = function(req, res, next) {

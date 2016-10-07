@@ -1,0 +1,19 @@
+{
+  "busmon": { 
+    "enabled" : false
+  },
+  "matrix": { 
+    "enabled" : false
+  },
+  "movies": { 
+    "enabled" : false,
+    "useDB" : true
+  },
+  "photos": { 
+    "enabled" : false,
+    "fullscreen" : true
+  },
+  "tvleds": { 
+    "enabled" : false
+  }
+}

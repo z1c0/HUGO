@@ -3,21 +3,26 @@ var path = require('path');
 var express = require('express');
 
 
-function findModules() {
-  var modules = [];
-  fs.readdirSync(__dirname).forEach(function(n) {
-    var filePath = path.join(__dirname, n);
-    if (fs.statSync(filePath).isDirectory()) {
-      var name = path.basename(filePath);
-      var m  = require(path.join(filePath, name));
-      m.name = name;
-      modules.push(m);
+function loadModules() {
+  var modules = [];  
+  var config = require('./modules.config.json');
+  //console.log(config);
+
+  for (var name in config) {
+    var c = config[name];
+    if (c.enabled) {
+      var filePath = path.join(__dirname, name);
+      if (fs.statSync(filePath).isDirectory()) {
+        var m = require(path.join(filePath, name));
+        m.name = name;
+        m.config = c;
+        modules.push(m);
+      }
     }
-  });
-  //console.log(modules);
+  }
   return modules;
 }
-var modules = findModules();
+var modules = loadModules();
 
 function createRoutes() {
   var hugo = require('../hugo');
@@ -28,9 +33,7 @@ function createRoutes() {
   });
   // modules
   modules.forEach(function(m) {
-    if (m.isEnabled) {
-      m.init(router);
-    }
+    m.init(router);
   });
   return router;
 }
