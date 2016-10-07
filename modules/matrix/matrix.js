@@ -4,6 +4,6 @@ function initRoutes(helper) {
 
 module.exports = {
   init: function(router) {    
-    initRoutes(require('../routingHelper')(router, __dirname));
+    initRoutes(require('../routingHelper')(router, this));
   }
 };
