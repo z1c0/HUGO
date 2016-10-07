@@ -1,6 +1,25 @@
 {{#section 'head'}}
-  <link rel='stylesheet' href='/movies/styles/style.css' />
+  <link rel="stylesheet" href="/bower_components/lightgallery/dist/css/lightgallery.min.css">
 {{/section}}
 
-<h2>Photos</h2>
+<div id="lightgallery">
+  <a href="pics/img1.jpg">
+    <img src="pics/img1.jpg" />
+  </a>
+  <a href="pics/img2.jpg">
+    <img src="pics/img2.jpg" />
+  </a>
+  <a href="pics/img3.jpg">
+    <img src="pics/img3.jpg" />
+  </a>
+</div>
 
+
+{{#section 'scripts'}}
+<script src="/bower_components/lightgallery/dist/js/lightgallery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#lightgallery").lightGallery(); 
+    });
+</script>
+{{/section}}
