@@ -1,0 +1,23 @@
+{
+  "name": "hugo",
+  "homepage": "https://github.com/z1c0/HUGO",
+  "authors": [
+    "z1c0 <wziegler@live.at>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fontawesome": "latest",
+    "bootstrap": "^3.3.7",
+    "bootswatch": "^3.3.7"
+  }
+}
