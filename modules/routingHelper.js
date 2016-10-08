@@ -1,7 +1,6 @@
 var path = require('path'),
     hugo = require('../hugo'),
-    db = require('../db/db'),
-    settings = require('../settings');
+    db = require('../db/db')
 
 
 function getViewPath(name) {

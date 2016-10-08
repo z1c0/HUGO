@@ -6,6 +6,10 @@ var cron = require('cron'),
 
 var movies = [];
 
+function getIftttUrl(eventName, iftttkey) {
+  return 'https://maker.ifttt.com/trigger/' + eventName + '/with/key/' + iftttkey;
+}
+
 function updateDb(data, movies) {
   movies.forEach(function(m) {
     data.db.find({ title: m.title }, function (err, docs) {   
@@ -18,7 +22,7 @@ function updateDb(data, movies) {
         data.db.insert(doc);
         
         request({
-          url: data.config.getIftttUrl('new_movie'),
+          url: getIftttUrl('new_movie', data.config.iftttkey),
           method: 'POST',
           json: {
             value1 : m.title,
