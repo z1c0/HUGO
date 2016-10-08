@@ -1,5 +1,21 @@
+"use strict"
+
+var cron = require('cron');
+var fetcher = require('./photoFetcher');
+
+
 function initRoutes(helper) {
-  helper.get('/');
+  fetcher.init(helper.data().config);
+  
+  var cronJob = cron.job("0 0 */2 * * *", function() {
+    fetcher.fetchPhotos();
+  });
+  cronJob.start();
+  fetcher.fetchPhotos();
+
+  helper.get('/', function(data) {
+    data.photos = fetcher.getPhotos();
+  });
 }
 
 module.exports = {

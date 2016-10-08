@@ -25,7 +25,7 @@ module.exports = function routingHelper(router, hugoModule) {
     
     data : function() {
       var data = {
-        config : settings,
+        config : hugoModule.config,
         hugo : hugo,
         title : hugo.title,
       };
