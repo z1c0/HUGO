@@ -137,6 +137,7 @@ function getDownloadedPhotos() {
   let photos = [];
   var files = fs.readdirSync(config.imageDir) 
   for (var i in files) {
+    // TODO: jpeg filter
     photos.push(files[i]); 
   }
   shuffle(photos);

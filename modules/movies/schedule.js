@@ -4,6 +4,9 @@ var cron = require('cron'),
     request = require('request');
 
 
+const megaplexWsdlUrl = "http://linz.megaplex.at/webservice/serviceext.asmx?wsdl";
+const megaplexContentUrl = "http://www.megaplex.at/content/";
+
 var movies = [];
 
 function getIftttUrl(eventName, iftttkey) {
@@ -35,7 +38,7 @@ function updateDb(data, movies) {
 
 function checkMovies(data) {
   movies = [];
-  var url = data.config.megaplexWsdlUrl;
+  var url = megaplexWsdlUrl;
   soap.createClient(url, function(err, client) {
     if (!err) {
       var from = moment().format('YYYY-MM-DD');
@@ -52,7 +55,7 @@ function checkMovies(data) {
               movieMap[title] = {
                 title : title,
                 nation : d.FilmNation,
-                image : data.config.megaplexContentUrl + d.FilmImg.split('/')[1],
+                image : megaplexContentUrl + d.FilmImg.split('/')[1],
                 start : d.FilmStart
               };
             }

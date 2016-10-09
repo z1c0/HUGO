@@ -8,8 +8,7 @@
   "movies": { 
     "enabled" : false,
     "useDB" : true,
-    "megaplexWsdlUrl" : "http://linz.megaplex.at/webservice/serviceext.asmx?wsdl",
-    "megaplexContentUrl" : "http://www.megaplex.at/content/"
+    "iftttkey" : ""
   },
   "photos": { 
     "enabled" : false,
@@ -17,5 +16,9 @@
   },
   "tvleds": { 
     "enabled" : false
+  },
+  "weather": { 
+    "enabled" : true,
+    "apiKey" : ""
   }
 }
