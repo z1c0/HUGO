@@ -17,15 +17,16 @@ function performGet(router, url, view, data, fetch, filter, isJson) {
       }
     }
     f(function(o) {
+      data.fetched = o;
       if (filter) {
-        o = filter(o);
+        data = filter(data);
       }
-      console.log(o);
+      //console.log(data);
       if (isJson) {
-        res.json(o);
+        res.json(data);
       }
       else {
-        res.render(view, o);
+        res.render(view, data);
       }
     });
   };

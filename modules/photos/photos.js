@@ -13,9 +13,7 @@ function initRoutes(helper) {
   cronJob.start();
   fetcher.fetchPhotos();
 
-  helper.get('/', function(data) {
-    data.photos = fetcher.getPhotos();
-  });
+  helper.get('/', fetcher.getPhotos);
 }
 
 module.exports = {

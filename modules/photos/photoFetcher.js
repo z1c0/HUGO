@@ -133,7 +133,7 @@ function shuffle(a) {
   }
 }
 
-function getDownloadedPhotos() {
+function getDownloadedPhotos(callback) {
   let photos = [];
   var files = fs.readdirSync(config.imageDir) 
   for (var i in files) {
@@ -141,7 +141,7 @@ function getDownloadedPhotos() {
     photos.push(files[i]); 
   }
   shuffle(photos);
-  return photos;
+  callback(photos);
 }
 
 //retrieveTokens();
