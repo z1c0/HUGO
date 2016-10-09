@@ -4,9 +4,7 @@ var fetcher = require('./weatherFetcher');
 function initRoutes(helper) {
   fetcher.init(helper.data().config);
   
-  helper.get('/', function(data) {
-    data.weather = fetcher.getWeather();
-  });
+  helper.get('/', fetcher.getWeather);
 }
 
 module.exports = {

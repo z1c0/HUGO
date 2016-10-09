@@ -1,18 +1,13 @@
 var busData = require('./busData');
 
-function initRoutes(helper) {  
-  helper.get('/', function(req, res, next) {
-    busData.fetch(function(o) {
-      //console.log(o);
-      var data = helper.data();
-      data.times = o;
-      res.render(helper.view(), data);
-    });    
+function initRoutes(helper) {
+  helper.get('/', busData.fetch, function(o) {
+    var d = helper.data();
+    d.times = o;
+    return d; 
   });
-  
-  helper.get('/json', function(req, res, next) {
-    busData.fetch(function(o) { res.json(o); });
-  });
+
+  helper.json('/json', busData.fetch);
 }
 
 

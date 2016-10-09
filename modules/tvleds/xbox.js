@@ -16,7 +16,6 @@ var deviceType = "";
 var checkInterval = 10;
 var database;
 
-
 function initStartCron()
 {  
   var ssdpClient = new SsdpClient({

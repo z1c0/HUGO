@@ -5,9 +5,9 @@ function initRoutes(helper) {
     xbox.init(helper.data().db);
   }
   
-  helper.get('/');    
+  helper.get('/');
   
-  helper.get('/diag', function(data) {
+  helper.get('/diag', null, function(data) {
     data.xbox = xbox;
   });
 }

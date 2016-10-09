@@ -5,9 +5,7 @@ function initRoutes(helper) {
   
   schedule.init(data);
   
-  helper.get('/', function(data) {
-    data.movies = schedule.getMovies();
-  });
+  helper.get('/',schedule.getMovies);
 }
 
 module.exports = {

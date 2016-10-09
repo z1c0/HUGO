@@ -7,6 +7,30 @@ function getViewPath(name) {
   return '../modules/' + name + '/' + name;
 }
 
+function performGet(router, url, view, data, fetch, filter, isJson) {
+  var fRender = function(req, res) {
+    
+    var f = fetch;
+    if (!f) {
+      f = function(o) {
+        o(data);
+      }
+    }
+    f(function(o) {
+      if (filter) {
+        o = filter(o);
+      }
+      console.log(o);
+      if (isJson) {
+        res.json(o);
+      }
+      else {
+        res.render(view, o);
+      }
+    });
+  };
+  router.get(url, fRender);
+}
 
 module.exports = function routingHelper(router, hugoModule) {
   var _router = router,
@@ -37,23 +61,12 @@ module.exports = function routingHelper(router, hugoModule) {
       return data;
     },
     
-    get : function(path, f) {
-      var fRender = f;
-      var view = this.view();
-      var data = this.data();
-      if (!fRender) {
-        fRender = function(req, res, next) {
-          //console.log(data);
-          res.render(view, data);
-        };
-      }
-      else if (fRender.length == 1) {
-        fRender = function(req, res, next) {
-          f(data);
-          res.render(view, data);
-        };        
-      }        
-      router.get(this.url() + path, fRender);
+    get : function(path, fetcher, filter) {
+      performGet(router, this.url() + path, this.view(), this.data(), fetcher, filter, false);
     },
+
+    json : function(path, fetcher, filter) {
+      performGet(router, this.url() + path, this.view(), this.data(), fetcher, filter, true);
+    }
   };  
 };

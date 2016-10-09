@@ -1,7 +1,7 @@
 "use strict"
 
-function getWeather() {
-  return "foo";
+function getWeather(callback) {
+  callback({ "foo" : 2 });
 }
 
 module.exports = {

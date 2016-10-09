@@ -3,7 +3,7 @@ function initRoutes(helper) {
 }
 
 module.exports = {
-  init: function(router) {    
+  init: function(router) {
     initRoutes(require('../routingHelper')(router, this));
   }
 };

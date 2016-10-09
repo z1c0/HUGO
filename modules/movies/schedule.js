@@ -85,7 +85,7 @@ module.exports = {
     cronJob.start();
     checkMovies(data);
   },
-  getMovies : function() {
-    return movies;
+  getMovies : function(callback) {
+    callback(movies);
   }
 };
