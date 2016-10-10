@@ -17,12 +17,12 @@ $(function() {
   function startGame() {
     var r = Math.random(),
         game;
-    
+   
     if (r > 0.95) {
       game = snake();
     }
     else {
-      game = pacman();
+      game = tictactoe();
     }
     
     game.init(initGame(DIM));
@@ -38,6 +38,6 @@ $(function() {
       }
     }, game.getInterval());
   }
-  
-  startGame();
+
+  $(document).ready(function() { startGame(); });
 });
