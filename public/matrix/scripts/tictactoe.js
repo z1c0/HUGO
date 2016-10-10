@@ -11,10 +11,12 @@ function tictactoe() {
   var STATE_OVER = 3;
    
   return {
+    title : "TicTacToe",
+
     playerOne : false,
     
     getInterval : function() {
-      return 500;
+      return 100;
     },
     
     init : function(game) {

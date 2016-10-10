@@ -13,31 +13,39 @@ $(function() {
       }    
     }
   }
-  
-  function startGame() {
-    var r = Math.random(),
-        game;
-   
-    if (r > 0.95) {
-      game = snake();
-    }
-    else {
-      game = tictactoe();
-    }
-    
-    game.init(initGame(DIM));
-    render(game);
-    
-    var timer = setInterval(function() {
-      game.simulate();
+
+  const viewModel = {
+    allGames : [
+      snake(),
+      tictactoe(),
+    ],
+    index : -1,
+    title :  ko.observable("..."),
+    nextGame : function() {
+      if (this.timer) {
+        clearInterval(this.timer);
+      }
+
+      this.index = (this.index + 1) % this.allGames.length;
+      let game = this.allGames[this.index];
+      this.title(game.title);
+
+      game.init(initGame(DIM));
       render(game);
       
-      if (game.isOver()) {
-        clearInterval(timer);
-        startGame();
-      }
-    }, game.getInterval());
+      this.timer = setInterval(function() {
+        game.simulate();
+        render(game);
+        
+        if (game.isOver()) {
+          viewModel.nextGame();
+        }
+      }, game.getInterval());
+    }
   }
 
-  $(document).ready(function() { startGame(); });
+  $(document).ready(function() {
+    ko.applyBindings(viewModel);
+    viewModel.nextGame(); 
+  });
 });

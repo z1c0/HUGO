@@ -11,14 +11,16 @@ function snake() {
     tail : [],
     head : [],
     food : [],
-    grow : 0,    
+    grow : 0,
+
+    title : "Snake",
     
     getInterval : function() {
-      return 250;
+      return 20;
     },
     
     init : function(game) {
-      this.lives = 3;
+      this.lives = 1;
       this.game = game;
       this.world = game.world;
       this.reset();
