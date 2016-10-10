@@ -1,6 +1,7 @@
+"use strict"
+
 var http = require('http');
 var parseString = require('xml2js').parseString;
-
 
 var doRequest = function (callback, urlParams, renderCallback) {
   var options = {

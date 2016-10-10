@@ -1,13 +1,8 @@
-var busData = require('./busData');
+"use strict"
 
 function initRoutes(helper) {
-  helper.get('/', busData.fetch);
-
-  helper.json('/json', busData.fetch, function(data) {
-    return data.fetched;
-  });
+  helper.get('/');
 }
-
 
 module.exports = {
   init: function(router) {

@@ -7,30 +7,11 @@ function getViewPath(name) {
   return '../modules/' + name + '/' + name;
 }
 
-function performGet(router, url, view, data, fetch, filter, isJson) {
-  var fRender = function(req, res) {
-    
-    var f = fetch;
-    if (!f) {
-      f = function(o) {
-        o(data);
-      }
-    }
-    f(function(o) {
-      data.fetched = o;
-      if (filter) {
-        data = filter(data);
-      }
-      //console.log(data);
-      if (isJson) {
-        res.json(data);
-      }
-      else {
-        res.render(view, data);
-      }
-    });
-  };
-  router.get(url, fRender);
+function ensureProperty(object, propertyName, defaultValue)
+{
+  if (!object.hasOwnProperty(propertyName)) {
+    object[propertyName] = defaultValue;
+  }
 }
 
 module.exports = function routingHelper(router, hugoModule) {
@@ -47,27 +28,65 @@ module.exports = function routingHelper(router, hugoModule) {
       return getViewPath(_name);
     },
     
-    data : function() {
-      var data = {
+    viewModel : function() {
+      var viewModel = {
         config : hugoModule.config,
         hugo : hugo,
         title : hugo.title,
       };
       if (hugoModule.config['useDB']) {
-        data.db = db.get(_name);
+        viewModel.db = db.get(_name);
       }
       if (hugoModule.config['fullscreen']) {
-        data.layout = 'layoutfullscreen.hbs';
+        viewModel.layout = 'layoutfullscreen.hbs';
       }
-      return data;
+      return viewModel;
     },
     
-    get : function(path, fetcher, filter) {
-      performGet(router, this.url() + path, this.view(), this.data(), fetcher, filter, false);
-    },
+    get : function(path, options) {
+      options = options || {};
+      ensureProperty(options, "useFetcher", true);
+      ensureProperty(options, "apiPath", "api");
+      //console.log(options);
 
-    json : function(path, fetcher, filter) {
-      performGet(router, this.url() + path, this.view(), this.data(), fetcher, filter, true);
+      let fetcher = null;
+      if (hugoModule.fetcher) {
+        fetcher = hugoModule.fetcher;
+      }
+
+      const view = this.view();
+      const viewModel = this.viewModel();
+      let fRender;
+
+      if (options.useFetcher) {
+        if (!fetcher) {
+          fetcher = require("./" + _name + "/" + _name + "Fetcher");
+        }
+        if (fetcher.init) {
+          fetcher.init(viewModel);
+        }
+
+        var fRenderJson = function(req, res) {
+          fetcher.fetch(function(data) {
+            res.json(data);
+          });
+        };
+        router.get(this.url() + path + options.apiPath, fRenderJson);
+
+        fRender = function(req, res) {
+          fetcher.fetch(function(data) {
+            viewModel.fetched = data;
+            res.render(view, viewModel);
+          });
+        };
+      }
+      else {
+        fRender = function(req, res) {
+          res.render(view, viewModel);
+        }
+      }
+
+      router.get(this.url() + path, fRender);
     }
-  };  
+  };
 };

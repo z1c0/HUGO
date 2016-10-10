@@ -14,22 +14,21 @@ function getWeather(callback) {
       console.log(err);
     }
     else {
-      //console.log(body);
+      console.log(body);
       callback({
         name : body.name,
         temp : Math.round(body.main.temp),
         description : body.weather[0].description,
         image : "http://openweathermap.org/img/w/" + body.weather[0].icon + ".png"
-
       });
     }
   });  
 }
 
 module.exports = {
-  init : function(cfg) {
-    config = cfg;
+  init : function(vm) {
+    config = vm.config;
   },
 
-  getWeather : getWeather
+  fetch : getWeather
 }

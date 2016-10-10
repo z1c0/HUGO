@@ -1,5 +1,5 @@
 function initRoutes(helper) {
-  helper.get('/');
+  helper.get('/', { useFetcher : false });
 }
 
 module.exports = {

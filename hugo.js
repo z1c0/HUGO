@@ -10,8 +10,5 @@ module.exports = {
   },
   hostname: function() {
     return require('os').hostname();
-  },
-  isProduction: function() {
-    return this.hostname() == 'hugopi';
   }
 };

@@ -1,10 +1,7 @@
 "use strict"
-var fetcher = require('./weatherFetcher');
 
-function initRoutes(helper) {
-  fetcher.init(helper.data().config);
-  
-  helper.get('/', fetcher.getWeather);
+function initRoutes(helper) { 
+  helper.get('/');
 }
 
 module.exports = {
