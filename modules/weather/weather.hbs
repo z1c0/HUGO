@@ -1,4 +1,8 @@
-<h2>{{fetched.name}}</h2>
-<h2>{{fetched.temp}} °C</h2>
+<h2 data-bind="text: name">{{fetched.name}}</h2>
+<h2 data-bind="text: temp">{{fetched.temp}} °C</h2>
 <h3>{{fetched.description}}</h3>
 <img src="{{fetched.image}}"</h2>
+
+{{#section 'scripts'}}
+  <script src="/weather/js/main.js"></script>
+{{/section}}
