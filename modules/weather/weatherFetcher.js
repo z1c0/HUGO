@@ -14,7 +14,7 @@ function getWeather(callback) {
       console.log(err);
     }
     else {
-      //console.log(body);
+      console.log(body);
       callback({
         name : body.name,
         temp : Math.round(body.main.temp),

@@ -1,8 +1,20 @@
-<h2 data-bind="text: name">{{fetched.name}}</h2>
-<h2 data-bind="text: temp">{{fetched.temp}} °C</h2>
-<h3>{{fetched.description}}</h3>
-<img src="{{fetched.image}}"</h2>
+<h2 data-bind="text: name"></h2>
+<h2><span data-bind="text: temp"></span> °C</h2>
+<h3 data-bind="text: name"></h3>
+<img data-bind="attr: { src: image}">
 
 {{#section 'scripts'}}
-  <script src="/weather/js/main.js"></script>
+<script>
+  $(function () {
+    $(document).ready(function () {
+      const viewModel = ko.mapping.fromJS({{{json fetched}}});
+      ko.applyBindings(viewModel);
+      setInterval(function () {
+        $.getJSON("api", function (data) {
+          ko.mapping.fromJS(data, viewModel);
+        });
+      }, 5000);
+    });
+  });  
+</script>
 {{/section}}

@@ -14,6 +14,9 @@ hbs.registerHelper('section', function (name, options) {
   this._sections[name] = options.fn(this);
   return null;
 });
+hbs.registerHelper('json', function(context) {
+  return JSON.stringify(context);
+});
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
