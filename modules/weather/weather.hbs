@@ -1,7 +1,11 @@
+{{#section 'head'}}
+  <link rel='stylesheet' href='/bower_components/weather-icons/css/weather-icons.min.css' />
+{{/section}}
+
 <h2 data-bind="text: name"></h2>
 <h2><span data-bind="text: temp"></span> °C</h2>
-<h3 data-bind="text: name"></h3>
-<img data-bind="attr: { src: image}">
+<h3 data-bind="text: description"></h3>
+<i class="wi" data-bind="css: icon"></i>
 
 {{#section 'scripts'}}
 <script>
