@@ -20,5 +20,8 @@
   "weather": { 
     "enabled" : true,
     "apiKey" : ""
+  },
+  "work" : {
+    "enabled" : true
   }
 }

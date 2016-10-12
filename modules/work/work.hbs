@@ -1,0 +1,18 @@
+<h2 data-bind="text: auditCount"></h2>
+<h2 data-bind="text: concernCount"></h2>
+
+{{#section 'scripts'}}
+<script>
+  $(function () {
+    $(document).ready(function () {
+      const viewModel = ko.mapping.fromJS({{{json fetched}}});
+      ko.applyBindings(viewModel);
+      setInterval(function () {
+        $.getJSON("work/api", function (data) {
+          ko.mapping.fromJS(data, viewModel);
+        });
+      }, 5000);
+    });
+  });  
+</script>
+{{/section}}
