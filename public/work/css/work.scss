@@ -1,9 +1,24 @@
 .code-reviews {
-  width: 100px;
+  background-color: darkgray;
+  display: inline-block;
+  padding: 1.0em;
+  position:relative;
+}
+
+.badge {
+  font-size: 1.5em;
+  position: absolute;
 }
 
 .audits {
-  width: auto;
   background-color: cornflowerblue;
-  border-radius: 5px;
+  top: 5px;
+  right: 5px;
+}
+
+.concerns {
+  background-color: indianred;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
 }
