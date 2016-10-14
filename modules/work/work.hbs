@@ -1,5 +1,18 @@
-<h2 data-bind="text: auditCount"></h2>
-<h2 data-bind="text: concernCount"></h2>
+{{#section 'head'}}
+  <link rel='stylesheet' href='/work/css/work.css' />
+  <link rel='stylesheet' href='/bower_components/fontawesome/css/font-awesome.min.css' />
+{{/section}}
+
+<div class="builds">
+  <ul>
+  <ul>
+</div>
+
+<div class="code-reviews" data-bind="with: phabricator">
+  <div><i class="fa fa-commenting-o fa-5x"></i></div>
+  <div class="audits"><span data-bind="text: audits"></span></div>
+  <div class="concerns"><span data-bind="text: concerns"></span></div>
+<div>
 
 {{#section 'scripts'}}
 <script>
@@ -8,8 +21,13 @@
       const viewModel = ko.mapping.fromJS({{{json fetched}}});
       ko.applyBindings(viewModel);
       setInterval(function () {
-        $.getJSON("work/api", function (data) {
-          ko.mapping.fromJS(data, viewModel);
+        $.getJSON("/work/api", function (data) {
+          try {
+            ko.mapping.fromJS(data, viewModel);
+          }
+          catch (e) {
+            error.log(e);
+          }
         });
       }, 5000);
     });

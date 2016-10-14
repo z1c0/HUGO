@@ -20,13 +20,17 @@ hbs.registerHelper('json', function(context) {
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(sass({ src: __dirname + '/public', outputStyle: 'compressed' }));
+app.use(sass({ 
+  src: __dirname + '/public',
+  outputStyle: 'compressed',
+  debug: true
+}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use('/', hugo.modules.routes());
 
 // catch 404 and forward to error handler
