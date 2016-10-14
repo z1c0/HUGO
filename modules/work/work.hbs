@@ -3,15 +3,21 @@
   <link rel='stylesheet' href='/bower_components/fontawesome/css/font-awesome.min.css' />
 {{/section}}
 
-<div class="builds">
-  <ul>
-  <ul>
-</div>
+<div class="dev-info">
+
+<!-- ko foreach: builds -->
+  <div class="build" data-bind="css: { 'build-failed' : result() === 'FAILURE' }">
+    <h3 data-bind="text: name"></h3>
+    <h2 data-bind="text: nr"></h2>
+  </div>
+<!-- /ko -->
 
 <div class="code-reviews" data-bind="with: phabricator">
   <i class="fa fa-commenting-o fa-5x"></i>
   <div class="badge audits"><span data-bind="text: audits"></span></div>
   <div class="badge concerns"><span data-bind="text: concerns"></span></div>
+</div>
+
 </div>
 
 {{#section 'scripts'}}

@@ -1,7 +1,26 @@
+.dev-info {
+  display: inline-block;
+}
+
+.build {
+  display: inline-block;
+  background-color: limegreen;
+  padding: 1.0em;
+  margin: 2em;
+}
+
+.build-failed {
+  background-color:darkred;
+}
+
+.build-in-progress {
+  background-color:dodgerblue;
+}
+
 .code-reviews {
-  background-color: darkgray;
   display: inline-block;
   padding: 1.0em;
+  margin: 2em;
   position:relative;
 }
 
