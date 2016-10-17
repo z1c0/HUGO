@@ -1,3 +1,5 @@
+"use strict";
+
 var path = require('path'),
     hugo = require('../hugo'),
     db = require('../db/db')
