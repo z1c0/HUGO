@@ -1,11 +1,20 @@
 {{#section 'head'}}
   <link rel='stylesheet' href='/bower_components/weather-icons/css/weather-icons.min.css' />
+
+    <style>
+
+      .wi { font-size: 80px; }
+
+    </style>
+
 {{/section}}
 
-<h2 data-bind="text: name"></h2>
-<h2><span data-bind="text: temp"></span> °C</h2>
-<h3 data-bind="text: description"></h3>
-<i class="wi" data-bind="css: icon"></i>
+<div>
+  <h2 data-bind="text: name"></h2>
+  <h2><span data-bind="text: temp"></span> °C</h2>
+  <h3 data-bind="text: description"></h3>
+  <i class="wi" data-bind="css: icon"></i>
+</div>
 
 {{#section 'scripts'}}
 <script>
@@ -14,10 +23,10 @@
       const viewModel = ko.mapping.fromJS({{{json fetched}}});
       ko.applyBindings(viewModel);
       setInterval(function () {
-        $.getJSON("api", function (data) {
+        $.getJSON("/weather/api", function (data) {
           ko.mapping.fromJS(data, viewModel);
         });
-      }, 5000);
+      }, 1000 * 60 * 5);
     });
   });  
 </script>

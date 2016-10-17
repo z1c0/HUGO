@@ -6,14 +6,6 @@ $signwidth: 600px;
 $signborderwidth: 16px;
 
 
-.vertical-align {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
 @mixin sign($w)
 {
   margin-left: auto;
