@@ -153,8 +153,8 @@ function checkForNewPhotos() {
 
 
 module.exports = {
-  init : function(cfg) {
-    config = cfg;
+  init : function(data) {
+    config = data.config;
     var cronJob = cron.job("0 0 */2 * * *", function() {
       checkForNewPhotos();
     });

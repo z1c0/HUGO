@@ -12,7 +12,11 @@
   },
   "photos": { 
     "enabled" : false,
-    "fullscreen" : true
+    "imageDir" : "",
+    "albumId" : "",
+    "clientId" : "",
+    "clientSecret" : "",
+    "refreshToken" : ""
   },
   "tvleds": { 
     "enabled" : false
@@ -22,6 +26,9 @@
     "apiKey" : ""
   },
   "work" : {
+    "enabled" : true
+  },
+  "news" : {
     "enabled" : true
   }
 }

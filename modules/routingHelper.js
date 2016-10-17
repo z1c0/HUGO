@@ -41,9 +41,6 @@ module.exports = function routingHelper(router, hugoModule) {
       if (hugoModule.config['useDB']) {
         viewModel.db = db.get(_name);
       }
-      if (hugoModule.config['fullscreen']) {
-        viewModel.layout = 'layoutfullscreen.hbs';
-      }
       return viewModel;
     },
     

@@ -4,10 +4,9 @@
 {{/section}}
 
 <div class='weather-info'>
-  <h2 data-bind="text: name"></h2>
-  <h2><span data-bind="text: temp"></span> °C</h2>
-  <h3 data-bind="text: description"></h3>
+  <h3><span data-bind="text: name"></span>, <span data-bind="text: description"></span></h3>
   <i class="wi" data-bind="css: icon"></i>
+  <span class="temperature" data-bind="text: temp"></span><span class="temperature">°C</span>
 </div>
 
 {{#section 'scripts'}}
