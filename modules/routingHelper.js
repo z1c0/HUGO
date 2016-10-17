@@ -18,8 +18,12 @@ module.exports = function routingHelper(router, hugoModule) {
   var _router = router,
       _name = hugoModule.name;
       
+  if (!hugoModule.displayName) {
+    hugoModule.displayName = hugoModule.name;
+  }
   return {
     router : _router,
+
     url : function() {
       return '/' + _name;
     },

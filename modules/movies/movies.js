@@ -10,5 +10,6 @@ module.exports = {
   init: function(router) {
     initRoutes(require('../routingHelper')(router, this));
   },
-  fetcher : schedule
+  fetcher : schedule,
+  icon : 'fa-film'
 };
