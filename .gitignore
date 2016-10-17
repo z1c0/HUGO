@@ -35,6 +35,5 @@ pics
 .node_repl_history
 
 db/store/*.json
-*.css
 secrets.js
 modules.config.json
