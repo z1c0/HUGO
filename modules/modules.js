@@ -1,7 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
-
+var EventEmitter = require('events').EventEmitter  
+var messageBus = new EventEmitter();
 
 function loadModules() {
   var modules = [];  
@@ -34,6 +35,18 @@ function createRoutes() {
   router.get('/status', function(req, res) {
     res.render('status', { layout : 'layoutDetails.hbs', hugo : hugo });
   });
+  router.get('/navigation', function(req, res) {
+    var addMessageListener = function(res) {
+      messageBus.once('message', function(data){
+        res.json(data)
+      })
+    }
+    addMessageListener(res)
+  });
+  router.post('/navigation', function(req, res) {
+    messageBus.emit('message', req.body)
+    res.status(200).end()
+  })
   // modules
   modules.forEach(function(m) {
     m.init(router);
