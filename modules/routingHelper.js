@@ -23,6 +23,9 @@ module.exports = function routingHelper(router, hugoModule) {
   if (!hugoModule.displayName) {
     hugoModule.displayName = hugoModule.name;
   }
+  if (!hugoModule.icon) {
+    hugoModule.icon = 'fa-code';
+  }
   return {
     router : _router,
 

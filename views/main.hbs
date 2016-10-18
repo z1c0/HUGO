@@ -1,7 +1,7 @@
 
 <div class="modules">
 {{#each hugo.modules.list}}
-  <a class="module" href="/{{this.name}}">
+  <a class="plain-link module" href="/{{this.name}}">
     <i class="fa {{#if this.icon}}{{this.icon}}{{else}}fa-code{{/if}} fa-5x"></i>
     <h2>{{this.displayName}}</h2>
   </a>

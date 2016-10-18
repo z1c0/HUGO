@@ -1,6 +1,8 @@
 <p class="lead">Modules</p>
 <ul class="list-group">
 {{#each hugo.modules.list}}
-  <li class="list-group-item"><a href="/{{this.name}}">{{this.name}}</a></li>
+  <li class="list-group-item">
+    <a href="/{{this.name}}"><i class="fa {{this.icon}}"></i> {{this.displayName}}</a>
+  </li>
   {{/each}}
 </ul>

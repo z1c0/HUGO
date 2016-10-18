@@ -31,8 +31,8 @@ body {
   color: $text-color;
   text-decoration: none;
 }
-a:hover {
-  background-color:  lighten($tile-background, 10%)
+a.plain-link:hover {
+  background-color: lighten($tile-background, 10%)
 }
 
 .modules {

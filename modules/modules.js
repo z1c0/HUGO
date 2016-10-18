@@ -28,8 +28,11 @@ function createRoutes() {
   var hugo = require('../hugo');
   var router = express.Router();
   // main
-  router.get('/', function(req, res, next) {
+  router.get('/', function(req, res) {
     res.render('main', { hugo : hugo });
+  });
+  router.get('/status', function(req, res) {
+    res.render('status', { layout : 'layoutDetails.hbs', hugo : hugo });
   });
   // modules
   modules.forEach(function(m) {
