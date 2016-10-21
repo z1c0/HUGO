@@ -8,5 +8,6 @@ module.exports = {
   init: function(router) {
     initRoutes(require('../routingHelper')(router, this));
   },
-  icon : 'fa-newspaper-o'
+  icon : 'fa-newspaper-o',
+  updateInterval : 1000 * 60 * 10
 };

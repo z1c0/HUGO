@@ -8,5 +8,6 @@ module.exports = {
   init: function(router) {
     initRoutes(require('../routingHelper')(router, this));
   },
-  icon : 'fa-sun-o'
+  icon : 'fa-sun-o',
+  updateInterval : 1000 * 60 * 5 
 };

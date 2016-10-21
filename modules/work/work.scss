@@ -1,10 +1,14 @@
+$color-green: #5EB555;
+$color-red: #B25957;
+$color-blue: #0078EF;
+
 .dev-info {
   display: inline-block;
 }
 
 .build {
   display: inline-block;
-  background-color: limegreen;
+  background-color: $color-green;
   padding: 1.0em;
   margin: 2em;
   h2 {
@@ -16,11 +20,11 @@
 }
 
 .build-failed {
-  background-color:darkred;
+  background-color: $color-red;
 }
 
 .build-in-progress {
-  background-color:dodgerblue;
+  background-color: $color-blue;
 }
 
 .code-reviews {

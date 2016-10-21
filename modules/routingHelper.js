@@ -39,6 +39,8 @@ module.exports = function routingHelper(router, hugoModule) {
     
     viewModel : function() {
       var viewModel = {
+        name : _name,
+        updateInterval : 1000 * 60,
         config : hugoModule.config,
         hugo : hugo,
         title : hugo.title,
@@ -55,14 +57,16 @@ module.exports = function routingHelper(router, hugoModule) {
       ensureProperty(options, "apiPath", "api");
       //console.log(options);
 
+      const view = this.view();
+      const viewModel = this.viewModel();
+      let fRender;
       let fetcher = null;
       if (hugoModule.fetcher) {
         fetcher = hugoModule.fetcher;
       }
-
-      const view = this.view();
-      const viewModel = this.viewModel();
-      let fRender;
+      if (hugoModule.updateInterval) {
+        viewModel.updateInterval = hugoModule.updateInterval;
+      }
 
       if (options.useFetcher) {
         if (!fetcher) {
@@ -93,6 +97,6 @@ module.exports = function routingHelper(router, hugoModule) {
       }
 
       router.get(this.url() + path, fRender);
-    }
+    },
   };
 };

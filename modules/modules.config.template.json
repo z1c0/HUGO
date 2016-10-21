@@ -29,6 +29,7 @@
     "enabled" : true
   },
   "news" : {
-    "enabled" : true
+    "enabled" : true,
+    "apiKey" : ""
   }
 }

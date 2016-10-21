@@ -18,24 +18,3 @@
 </div>
 
 </div>
-
-{{#section 'scripts'}}
-<script>
-  $(function () {
-    $(document).ready(function () {
-      const viewModel = ko.mapping.fromJS({{{json fetched}}});
-      ko.applyBindings(viewModel);
-      setInterval(function () {
-        $.getJSON("/work/api", function (data) {
-          try {
-            ko.mapping.fromJS(data, viewModel);
-          }
-          catch (e) {
-            error.log(e);
-          }
-        });
-      }, 5000);
-    });
-  });  
-</script>
-{{/section}}

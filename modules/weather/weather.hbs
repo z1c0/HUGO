@@ -8,19 +8,3 @@
   <i class="wi" data-bind="css: icon"></i>
   <span class="temperature" data-bind="text: temp"></span><span class="temperature">°C</span>
 </div>
-
-{{#section 'scripts'}}
-<script>
-  $(function () {
-    $(document).ready(function () {
-      const viewModel = ko.mapping.fromJS({{{json fetched}}});
-      ko.applyBindings(viewModel);
-      setInterval(function () {
-        $.getJSON("/weather/api", function (data) {
-          ko.mapping.fromJS(data, viewModel);
-        });
-      }, 1000 * 60 * 5);
-    });
-  });  
-</script>
-{{/section}}

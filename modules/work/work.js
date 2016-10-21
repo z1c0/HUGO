@@ -8,5 +8,6 @@ module.exports = {
   init: function(router) {
     initRoutes(require('../routingHelper')(router, this));
   },
-  icon : 'fa-keyboard-o'
+  icon : 'fa-keyboard-o',
+  updateInterval : 1000 * 10
 };

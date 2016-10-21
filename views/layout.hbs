@@ -20,6 +20,11 @@
   <script src="/bower_components/knockout/dist/knockout.js"></script>
   <script src="/bower_components/knockout-mapping/build/output/knockout.mapping-latest.js"></script>
   <script src="/client.js"></script>
+  <script>
+    {{#if fetched}}
+    setupDataBinding('{{{name}}}', {{{json fetched}}}, {{{updateInterval}}});
+    {{/if}}
+  </script>
   {{{_sections.scripts}}}
 </body>
 
