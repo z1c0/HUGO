@@ -3,7 +3,12 @@
 {{/section}}
 
 <div class="news">
+<!-- ko foreach: articles -->
+  <div data-bind="style: { backgroundImage : 'url(\'' + urlToImage() + '\')' }" class="article">
+    <div class="article-text">
+      <h2 data-bind="text: title"></h2>
+      <p data-bind="text: description"></p>
+    </div>
+  </div>
+<!-- /ko -->
 </div>
-
-{{#section 'scripts'}}
-{{/section}}
