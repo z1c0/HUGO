@@ -2,7 +2,7 @@
 
 let index = 0;
 let interval = 0;
-const refreshTime = 1000;
+const refreshTime = 20 * 1000;
 
 function animateArticles() {
   let articles = $('.article');
