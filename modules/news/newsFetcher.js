@@ -3,10 +3,21 @@ var request = require('request');
 
 let config = {};
 
+const sources = [
+  'spiegel-online',
+  'focus',
+  'bbc-sport',
+  'hacker-news',
+  'wired-de',
+  'ars-technica',
+]
+let sourceIndex = 0;
+
 
 function getHeadlines(callback) {
+  console.log(sourceIndex);
   request.get({
-    url : 'https://newsapi.org/v1/articles?source=spiegel-online&sortBy=top&apiKey=' + config.apiKey,
+    url : 'https://newsapi.org/v1/articles?source=' + sources[sourceIndex] + '&sortBy=top&apiKey=' + config.apiKey,
     json : true
   },
   function(err, httpResponse, body) {
@@ -15,10 +26,11 @@ function getHeadlines(callback) {
       console.log(err);
     }
     else {
-      console.log(body);
+      //console.log(body);
       callback(body);
+      sourceIndex = (sourceIndex + 1) % sources.length;
     }
-  });
+  });  
 }
 
 

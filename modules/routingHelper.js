@@ -64,7 +64,7 @@ module.exports = function routingHelper(router, hugoModule) {
       if (hugoModule.fetcher) {
         fetcher = hugoModule.fetcher;
       }
-      if (hugoModule.updateInterval) {
+      if (hugoModule.hasOwnProperty('updateInterval')) {
         viewModel.updateInterval = hugoModule.updateInterval;
       }
 

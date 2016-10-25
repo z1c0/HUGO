@@ -22,7 +22,7 @@
   <script src="/client.js"></script>
   <script>
     {{#if fetched}}
-    setupDataBinding('{{{name}}}', {{{json fetched}}}, {{{updateInterval}}});
+    hugo.setupDataBinding('{{{name}}}', {{{json fetched}}}, {{{updateInterval}}});
     {{/if}}
   </script>
   {{{_sections.scripts}}}

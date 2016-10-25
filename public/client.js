@@ -1,42 +1,57 @@
 "use strict"
 
-function setupDataBinding(name, json, updateInterval) {
-  $(document).ready(function () {
-    const viewModel = ko.mapping.fromJS(json);
-    ko.applyBindings(viewModel);
-    setInterval(function () {
-      $.getJSON('/' + name + '/api', function (data) {
+var hugo = function() {
+  var viewModel = null;
+  var updateUrl = '';
+
+  function subscribeNavigationLongPoll() {
+    $(document).ready(function () {
+      var longPoll = function() {
+        $.ajax({
+          method: 'GET',
+          url: '/navigation', 
+          success: function(data) {
+            console.log(data);
+            window.location.href = data.to;
+          },
+          complete: function() {
+            longPoll()
+          },
+          timeout: 30000
+        });
+      }
+      longPoll();
+    });
+  };
+
+  subscribeNavigationLongPoll();
+
+  return {
+    updateBinding : function(callback) {
+      $.getJSON(updateUrl, function (data) {
         try {
           ko.mapping.fromJS(data, viewModel);
+          if (callback) {
+            callback(viewModel);
+          }
         }
         catch (e) {
-          error.log(e);
+          console.log(e);
         }
       });
-    }, updateInterval);
-  });
-}  
-
-function subscribeNavigationLongPoll() {
-  var longPoll = function() {
-    $.ajax({
-      method: 'GET',
-      url: '/navigation', 
-      success: function(data) {
-        //console.log(data);
-        window.location.href = data.to;
-      },
-      complete: function() {
-        longPoll()
-      },
-      timeout: 30000
-    });
+    },
+    
+    setupDataBinding : function(name, json, updateInterval) {
+      $(document).ready(function () {
+        updateUrl =  '/' + name + '/api';
+        viewModel = ko.mapping.fromJS(json);
+        ko.applyBindings(viewModel);
+        if (updateInterval > 0) {
+          setInterval(function () {
+            hugo.updateBinding(null);
+          }, updateInterval);
+        }
+      });
+    }
   }
-  longPoll();
-}
-
-$(function() {
-  $(document).ready(function () {
-    subscribeNavigationLongPoll();
-  });
-});
+}();
