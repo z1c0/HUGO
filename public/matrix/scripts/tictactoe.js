@@ -16,7 +16,7 @@ function tictactoe() {
     playerOne : false,
     
     getInterval : function() {
-      return 100;
+      return 500;
     },
     
     init : function(game) {
@@ -208,20 +208,20 @@ function tictactoe() {
     mapColor : function(x, y) {
       switch (this.world[x][y]) {
         case GRID:
-          return 'white';
+          return '#F1F1F1';
           
          case CIRCLE:
-           return this.playSmart ? 'green' : 'cyan';
+           return this.playSmart ? 'limegreen' : 'cyan';
            
          case CROSS:
-           return this.playSmart ? 'blue' : 'purple';
+           return this.playSmart ? 'cornflowerblue' : 'purple';
            
          case CIRCLE_WIN:
          case CROSS_WIN:
            return 'gold';
            
         default:
-          return 'darkgray';
+          return '#222';
       }
     }
   }

@@ -1,5 +1,10 @@
 "use strict"
 
+function setIntervalAndExecute(f, t) {
+  f();
+  return(setInterval(f, t));
+}
+
 var dateTimeViewModel = {
   time : ko.observable(),
   seconds : ko.observable()
@@ -15,7 +20,7 @@ function zeroLead(number) {
   return number;
 }
 
-setInterval(function() {
+setIntervalAndExecute(function() {
   var date = new Date();
   dateTimeViewModel.time(zeroLead(date.getHours()) + ':' + zeroLead(date.getMinutes()));
   dateTimeViewModel.seconds(zeroLead(date.getSeconds()));
@@ -67,7 +72,7 @@ var hugo = function() {
       $(document).ready(function () {
         updateUrl =  '/' + name + '/api';
         viewModel = ko.mapping.fromJS(json);
-        ko.applyBindings(viewModel);
+        ko.applyBindings(viewModel, document.getElementById('main'));
         if (updateInterval > 0) {
           setInterval(function () {
             hugo.updateBinding(null);

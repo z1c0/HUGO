@@ -45,7 +45,7 @@ $(function() {
   }
 
   $(document).ready(function() {
-    ko.applyBindings(viewModel);
+    ko.applyBindings(viewModel, document.getElementById('main'));
     viewModel.nextGame(); 
   });
 });

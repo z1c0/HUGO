@@ -16,7 +16,7 @@ function snake() {
     title : "Snake",
     
     getInterval : function() {
-      return 20;
+      return 200;
     },
     
     init : function(game) {
@@ -65,15 +65,15 @@ function snake() {
         case SNAKE_DOWN:
         case SNAKE_LEFT:
         case SNAKE_RIGHT:
-          return "green";
+          return "limegreen";
         
         case FOOD:
-          return "orange";
+          return "orangered";
 
         case WALL:
-          return "darkblue";
+          return "#222";
       }
-      return "white";
+      return "#444444";
     },
     
     checkMove : function(cell, dir) {
