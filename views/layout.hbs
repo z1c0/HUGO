@@ -15,6 +15,16 @@
 
 <body>
   {{{body}}}
+
+  <div class="home">
+    <a href="/"><i class="fa fa-home fa-5x"></i></a>
+  </div>
+  
+  <div id="datetime" data-bind="with: dateTimeViewModel">
+    <span class="time" data-bind="text: time"></span>
+    <span class="seconds" data-bind="text: seconds"></span>
+  </div>
+
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="/bower_components/knockout/dist/knockout.js"></script>

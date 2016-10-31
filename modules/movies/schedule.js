@@ -15,8 +15,9 @@ function getIftttUrl(eventName, iftttkey) {
 
 function updateDb(data, movies) {
   movies.forEach(function(m) {
-    data.db.find({ title: m.title }, function (err, docs) {   
+    data.db.find({ title: m.title }, function (err, docs) {
       if (docs.length == 0) {
+        //console.log(m);
         // not found -> insert into db
         var doc = {
           title : m.title,

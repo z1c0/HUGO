@@ -35,18 +35,49 @@ a.plain-link:hover {
   background-color: lighten($tile-background, 10%)
 }
 
+.tile {
+  position: fixed;
+  border-radius: 3px;
+  padding: 1em;
+  bottom: 0.5em;
+}
+
+.home {
+  @extend .tile;
+  background: black;
+  opacity: 0.2;
+  left: 0.5em;
+}
+
+#datetime {
+  @extend .tile;
+  right: 0.5em;
+  background: rgba(0, 0, 0, 0.2);
+  vertical-align: top;
+  .fa {
+    margin-right: 20px;
+  }
+  .time {
+    font-size: 120px;
+  }
+  .seconds {
+    font-size: xx-large;
+    opacity: 0.5;
+  }
+}
 .modules {
   margin: 1em;
 }
 
 .module {
-  width: 11em;
-  height: 11em;
+  width: 9.5em;
+  height: 9.5em;
   text-align: center;
   display: inline-block;
   background-color: $tile-background;
-  margin: 0.5em;
-  padding: 1em;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+  padding: 0.5em;
   border-radius: 3px;
   h2 {
     margin-top: 0.5em;

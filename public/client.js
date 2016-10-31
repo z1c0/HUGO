@@ -1,5 +1,27 @@
 "use strict"
 
+var dateTimeViewModel = {
+  time : ko.observable(),
+  seconds : ko.observable()
+}
+$(document).ready(function () {
+  ko.applyBindings(dateTimeViewModel, document.getElementById('datetime'));
+});
+
+function zeroLead(number) {
+  if (number < 10) {
+    return '0' + number;
+  }
+  return number;
+}
+
+setInterval(function() {
+  var date = new Date();
+  dateTimeViewModel.time(zeroLead(date.getHours()) + ':' + zeroLead(date.getMinutes()));
+  dateTimeViewModel.seconds(zeroLead(date.getSeconds()));
+}, 1000);
+
+
 var hugo = function() {
   var viewModel = null;
   var updateUrl = '';
