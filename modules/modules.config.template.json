@@ -31,5 +31,9 @@
   "news" : {
     "enabled" : true,
     "apiKey" : ""
+  },
+  "cal" : {
+    "enabled" : true,
+    "icalUrl" : ""
   }
 }

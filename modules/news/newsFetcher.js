@@ -15,7 +15,7 @@ let sourceIndex = 0;
 
 
 function getHeadlines(callback) {
-  console.log(sourceIndex);
+  //console.log(sourceIndex);
   request.get({
     url : 'https://newsapi.org/v1/articles?source=' + sources[sourceIndex] + '&sortBy=top&apiKey=' + config.apiKey,
     json : true

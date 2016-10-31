@@ -22,7 +22,7 @@ function animateArticles() {
     hugo.updateBinding(function(viewModel) {
       animateArticles();
       interval = setInterval(animateArticles, refreshTime);
-    })    
+    })
   } 
 }
 
