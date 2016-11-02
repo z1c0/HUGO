@@ -1,20 +1,13 @@
-var xbox = require('./xbox');
+"use strict"
 
-function initRoutes(helper) {  
-  if (helper.data().hugo.isProduction()) {
-    xbox.init(helper.data().db);
-  }
-  
-  helper.get('/');
-  
-  helper.get('/diag', null, function(data) {
-    data.xbox = xbox;
-  });
+function initRoutes(helper) { 
+  helper.get('/', { useFetcher : false });
 }
 
 module.exports = {
   init: function(router) {
     initRoutes(require('../routingHelper')(router, this));
   },
-  icon : 'fa-tv'
+  icon : 'fa-lightbulb-o',
+  displayName : 'lights'
 };

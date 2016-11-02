@@ -1,36 +1,18 @@
 {{#section 'head'}}
-  <link rel='stylesheet' href='/tvleds/styles/style.css' />
-  <script type="text/javascript" src="/tvleds/scripts/colors.js" defer></script>
+  <link rel='stylesheet' href='/css/tvleds.css' />
 {{/section}}
 
-<div id="container"></div>
+<div id="colors">
+  <canvas id="color-chooser" data-ledhost="{{{config.ledHost}}}"></canvas>
 
-{{#unless xbox}}
-<p><a class="btn btn-lg btn-success" href="/tvleds/diag" role="button">more</a></p>
-{{/unless}}
+  <div id="color-infos">
+    <p>RGB ...</p>
+    <p>{{{config.ledHost}}}</p>
+  </div>  
+</div>
 
-{{#if xbox }}
-<div class="section">
-  <span>R</span>
-  <input type="range" id="sliderR" value="0" min="0" max="255" onchange="sliderChange()">
-  <span>G</span>
-  <input type="range" id="sliderG" value="0" min="0" max="255" onchange="sliderChange()">
-  <span>B</span>
-  <input type="range" id="sliderB" value="0" min="0" max="255" onchange="sliderChange()">
-</div>
-<div class="section">
-  {{#with xbox}}
-  <p>XBox: {{getStatus}}</p>
-  <p>last seen: {{getLastSeen}}</p>
-  <p>device type: {{getDeviceType}}</p>
-  <p>location: {{getLocation}}</p>
-  {{#with getCurrentColor}}
-    <p><span style='background-color:rgb({{r}},{{g}},{{b}})'>current: {{r}} / {{g}} / {{b}}</span></p>
-  {{/with}}
-  {{#with getTargetColor}}
-    <p><span style='background-color:rgb({{r}},{{g}},{{b}})'>target: {{r}} / {{g}} / {{b}}</span></p>
-  {{/with}}
-  {{/with}}
-</div>
-{{/if}}
+{{#section 'scripts'}}
+  <script src="/tvleds/colors.js"></script>
+  <script src="/tvleds/tvleds.client.js"></script>
+{{/section}}
 

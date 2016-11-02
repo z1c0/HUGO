@@ -45,7 +45,7 @@ $(function() {
   }
 
   $(document).ready(function() {
-    ko.applyBindings(viewModel, document.getElementById('main'));
+    ko.applyBindings(viewModel, document.getElementById('main-main'));
     viewModel.nextGame(); 
   });
 });

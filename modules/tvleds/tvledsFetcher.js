@@ -182,6 +182,8 @@ function onSsdpResponse(headers, statusCode, rinfo) {
 
 
 module.exports = {
+
+  
   getStatus: function() {
     return xboxOn ? "ON" : "OFF";
   },
@@ -202,6 +204,6 @@ module.exports = {
   },
   init: function(db) {
     database = db;
-    initStartCron();
+    //initStartCron();
   }
 };

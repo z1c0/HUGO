@@ -72,7 +72,7 @@ var hugo = function() {
       $(document).ready(function () {
         updateUrl =  '/' + name + '/api';
         viewModel = ko.mapping.fromJS(json);
-        ko.applyBindings(viewModel, document.getElementById('main'));
+        ko.applyBindings(viewModel, document.getElementById('main-main'));
         if (updateInterval > 0) {
           setInterval(function () {
             hugo.updateBinding(null);

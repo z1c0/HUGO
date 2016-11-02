@@ -1,27 +1,11 @@
-input[type=range] {
-  display: block;
+#colors {
+  margin: 1em;
+  height: 50%;
 }
 
-#container {
-  overflow: hidden;
+#color-chooser {
+  border-radius: 3px;
 }
 
-.section {
-  border: 0 solid yellow;
-  border-top-width: 1px;
-  margin-top: 2em;
-  margin-left: 1em;
-  padding: 0.5em;
-}
-
-.tile {
-  width: 32%;
-  height: 0;
-  padding-bottom: 32%;
-  margin: 0.5%;
-  float: left;
-  border-color: rgb(10,10,10);
-  border-style: solid;
-  border-width: 1px; 
-  border-radius: 4px;
+#color-infos {
 }
