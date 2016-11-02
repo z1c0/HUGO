@@ -11,3 +11,4 @@ module.exports = {
   icon : 'fa-newspaper-o',
   updateInterval : 0
 };
+ 

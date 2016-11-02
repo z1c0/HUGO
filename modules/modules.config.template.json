@@ -1,4 +1,7 @@
 {
+  "hello": { 
+    "enabled" : true
+  },
   "busmon": { 
     "enabled" : false
   },
