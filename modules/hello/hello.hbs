@@ -1,6 +1,11 @@
 {{#section 'head'}}
+  <link rel='stylesheet' href='/bower_components/emojione/assets/css/emojione-awesome.css' />
   <link rel='stylesheet' href='/css/hello.css' />
 {{/section}}
 
 <div class="hello">
+  <h1><span data-bind="text: greeting"></span><i data-bind="css: emoji"></i></h1>
+  <div class="gif" data-bind="style: { backgroundImage: 'url(\'' + gif.url() + '\')', width:  gif.width() + 'px', height: gif.height() + 'px' };"></div>
 </div>
+
+

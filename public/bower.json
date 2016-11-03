@@ -23,6 +23,7 @@
     "lg-autoplay": "^1.0.1",
     "knockout": "^3.4.0",
     "knockout-mapping": "^2.4.1",
-    "weather-icons": "^2.0.10"
+    "weather-icons": "^2.0.10",
+    "emojione": "^2.2.6"
   }
 }

@@ -87,6 +87,9 @@ a.plain-link:hover {
 }
 
 .module {
+  // stitch
+  //outline: 1px dashed $text-color;
+  //outline-offset: -2px;
   width: 9.5em;
   height: 9.5em;
   text-align: center;
@@ -96,8 +99,8 @@ a.plain-link:hover {
   margin-bottom: 0.5em;
   padding: 0.5em;
   border-radius: 3px;
-  h2 {
-    margin-top: 0.5em;
+  h3 {
+    margin-top: 0.7em;
   }
 }
 
