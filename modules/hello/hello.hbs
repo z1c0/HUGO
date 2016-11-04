@@ -4,8 +4,17 @@
 {{/section}}
 
 <div class="hello">
-  <h1><span data-bind="text: greeting"></span><i data-bind="css: emoji"></i></h1>
-  <div class="gif" data-bind="style: { backgroundImage: 'url(\'' + gif.url() + '\')', width:  gif.width() + 'px', height: gif.height() + 'px' };"></div>
+  <div class="left">
+    <p data-bind="text: greeting"></p>
+    <i data-bind="css: emoji"></i>
+  </div>
+  <div class="right">
+    <div class="gif" data-bind="style: { backgroundImage: 'url(\'' + gif.url() + '\')', width:  gif.width() + 'px', height: gif.height() + 'px' };"></div>
+  </div>
+</div>
+
+<div class"bus">
+  
 </div>
 
 

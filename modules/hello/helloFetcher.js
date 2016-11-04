@@ -12,7 +12,10 @@ function getSpecialDayData() {
   const month = today.getMonth();
   if (day === 24 && month === 11) {
     data = {
-      greeting : 'Merry Christmas!',
+      greeting : oneOf([
+        'Merry Christmas!',
+        "It's Christmas!",
+        'Merry Xmas!']),
       giphyTag : oneOf(['xmas', 'santa']),
       emoji : oneOf(['santa_tone1', 'christmas_tree', 'snowman2', 'gift']),
     }
@@ -50,7 +53,9 @@ function getSpecialDayData() {
       if (b.day === day && b.month === month) {
         console.log(b);
         data = {
-          greeting : 'Happy Birthday ' + b.name + '!',
+          greeting : oneOf([
+            'Hey ' + b.name + ", it's your birthday!",
+            'Happy Birthday ' + b.name + '!']),
           giphyTag : 'birthday',
           emoji : oneOf([
             'birthday', 'gift', 'ribbon', 'shopping_bags',
