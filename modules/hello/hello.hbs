@@ -3,7 +3,7 @@
   <link rel='stylesheet' href='/css/hello.css' />
 {{/section}}
 
-<div class="hello">
+<div id="hello">
   <div class="left">
     <p data-bind="text: greeting"></p>
     <i data-bind="css: emoji"></i>
@@ -13,8 +13,13 @@
   </div>
 </div>
 
-<div class"bus">
-  
+<div id="bus">
+  <!-- xko foreach: articles -->
+  <p datax-bind="text: description"></p>
+  <!-- x/ko -->
 </div>
 
 
+{{#section 'scripts'}}
+  <script src="/hello/hello.client.js"></script>
+{{/section}}

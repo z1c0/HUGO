@@ -28,9 +28,6 @@ setIntervalAndExecute(function() {
 
 
 var hugo = function() {
-  var viewModel = null;
-  var updateUrl = '';
-
   function subscribeNavigationLongPoll() {
     $(document).ready(function () {
       var longPoll = function() {
@@ -50,35 +47,44 @@ var hugo = function() {
       longPoll();
     });
   };
-
   subscribeNavigationLongPoll();
 
-  return {
-    updateBinding : function(callback) {
-      $.getJSON(updateUrl, function (data) {
-        try {
-          ko.mapping.fromJS(data, viewModel);
-          if (callback) {
-            callback(viewModel);
-          }
+
+  return {   
+    setupDataBinding : function(elementName, moduleName, json, updateInterval) {
+      let binding = {
+        update : function(callback) {
+          let viewModel = this.viewModel;
+          $.getJSON(this.updateUrl, function(data) {
+            try {
+              //console.log(data);
+              ko.mapping.fromJS(data, viewModel);
+              if (callback) {
+                callback(viewModel);
+              }
+            }
+            catch (e) {
+              console.log(e);
+            }
+          });
         }
-        catch (e) {
-          console.log(e);
+      };
+
+      $(function() {
+        binding.updateUrl =  '/' + moduleName + '/api';
+        binding.viewModel = ko.mapping.fromJS(json);
+        const el = document.getElementById(elementName);
+        if (!el) {
+          alert("element '" + elementName + "' not found");
         }
-      });
-    },
-    
-    setupDataBinding : function(name, json, updateInterval) {
-      $(document).ready(function () {
-        updateUrl =  '/' + name + '/api';
-        viewModel = ko.mapping.fromJS(json);
-        ko.applyBindings(viewModel, document.getElementById('main-main'));
+        ko.applyBindings(binding.viewModel, el);
         if (updateInterval > 0) {
           setInterval(function () {
-            hugo.updateBinding(null);
+            binding.update(null);
           }, updateInterval);
         }
       });
+      return binding;
     }
   }
 }();

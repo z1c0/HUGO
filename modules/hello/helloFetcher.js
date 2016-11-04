@@ -111,7 +111,9 @@ function getTimeOfDayData() {
   }
   else if (hour >= 11 && hour < 18) {
     if (weekDay === 5) {
-      greeting = "It's burrito Friday!";
+      greeting = oneOf([
+        "It's Burrito Friday!",
+        'Burrito, Burrito, Burrito']),
       giphyTag = 'burrito';
       emoji = oneOf(['taco', 'burrito']);
     }
