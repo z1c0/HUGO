@@ -79,7 +79,7 @@ var hugo = function() {
         }
         ko.applyBindings(binding.viewModel, el);
         if (updateInterval > 0) {
-          setInterval(function () {
+          setIntervalAndExecute(function () {
             binding.update(null);
           }, updateInterval);
         }

@@ -5,11 +5,10 @@
   </style>
 {{/section}}
 
-<div id="lightgallery">
+<div id="photos">
   {{#each fetched}}
     <a href="/pics/{{this}}"></a>
   {{/each}}
-
 </div>
 
 {{#section 'scripts'}}
@@ -17,7 +16,7 @@
 <script src="/bower_components/lg-autoplay/dist/lg-autoplay.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-    var lg = $("#lightgallery");
+    var lg = $("#photos");
     lg.lightGallery({
       mode : 'lg-fade',
       controls : false,
@@ -31,7 +30,7 @@
       autoplayControls : false,
       progressBar : false
     });
-    $('#lightgallery > :first-child').trigger('click');
+    $('#photos > :first-child').trigger('click');
   });
 </script>
 {{/section}}

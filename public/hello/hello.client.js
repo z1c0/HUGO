@@ -1,5 +1,5 @@
 'use strict';
 
 (function() {
-  hugo.setupDataBinding('bus', 'busmon', {}, 10 * 1000);
+  hugo.setupDataBinding('bus', 'busmon', { departures : [] }, 10 * 1000);
 })();

@@ -14,9 +14,13 @@
 </div>
 
 <div id="bus">
-  <!-- xko foreach: articles -->
-  <p datax-bind="text: description"></p>
-  <!-- x/ko -->
+  <!-- ko foreach: departures -->
+  <p>
+  <span data-bind="text: line">
+  </span><span data-bind="text: to"></span>
+  <span data-bind="text: min"></span>
+  </p>
+  <!-- /ko -->
 </div>
 
 

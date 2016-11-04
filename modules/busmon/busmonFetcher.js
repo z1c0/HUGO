@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 var http = require('http');
 var parseString = require('xml2js').parseString;
@@ -60,10 +60,15 @@ function getTimes(result, renderCallback) {
   
   var departureList = [];
   for (var d in nextDepartures) {
-    departureList.push({ l: d, to: nextDepartures[d].to, in: nextDepartures[d].in }); 
+    departureList.push({ 
+      line: d,
+      to: nextDepartures[d].to,
+      min: nextDepartures[d].in }); 
   }
   //console.log(nextDepartures);
-  renderCallback(departureList);
+  renderCallback({
+    departures : departureList
+  });
 }
 
 function getLines(result, renderCallback) {
