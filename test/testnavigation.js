@@ -3,9 +3,11 @@
 var request = require('request');
 
 function sendNavigationCommand(command) {
+  const url =  'http://' + process.argv[2] + '/navigation';
+  console.log('url: ' + url);
   console.log(command);
   request.post({
-    url : 'http://localhost:4000/navigation',
+    url : url,
     json : command
   },
   function(err, httpResponse, body) {
@@ -19,7 +21,7 @@ function sendNavigationCommand(command) {
 }
 
 let command = {
-  to : process.argv[2]
+  to : process.argv[3]
 };
 if (!command.to) {
   command.to = '/';
