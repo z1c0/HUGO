@@ -3,7 +3,7 @@
   <link rel='stylesheet' href='/css/hello.css' />
 {{/section}}
 
-<div id="hello">
+<div id="hello" class="part">
   <div class="left">
     <p data-bind="text: greeting"></p>
     <i data-bind="css: emoji"></i>
@@ -13,12 +13,10 @@
   </div>
 </div>
 
-<div id="bus">
+<div id="bus" class="part">
   <!-- ko foreach: departures -->
   <p>
-  <span data-bind="text: line">
-  </span><span data-bind="text: to"></span>
-  <span data-bind="text: min"></span>
+  <span data-bind="text: line() + ' ' + to().padRight(18) + min().padLeft(2)">
   </p>
   <!-- /ko -->
 </div>

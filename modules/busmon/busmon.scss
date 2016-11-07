@@ -3,6 +3,7 @@
   src: url('/fonts/LEDBDREV.TTF') format('truetype');
 }
 
+$color-lcd-font: limegreen;
 $signcolormain: rgb(240, 240, 240);
 $signcolordarker: rgb(220, 220, 220);
 $logocolor: green;
@@ -36,6 +37,12 @@ $signborderwidth: 16px;
   -webkit-border-radius: $w / 2 $w / 2 0 0;
 }
 
+.lcd-text {
+  font-family: "LcdFont";
+  color: $color-lcd-font;
+  white-space: pre;
+}
+
 table {
   width: 100%;
   padding: 5px;
@@ -46,8 +53,7 @@ table {
   }
   
   td {
-    font-family: "LcdFont";
-    color: limegreen;
+    @extend .lcd-text;
     font-size: xx-large;
     padding: 5px;
     margin: 0;

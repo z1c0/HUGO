@@ -1,5 +1,10 @@
-#hello {
+@import '../busmon/busmon';
+
+.part {
   padding: 1em;
+}
+
+#hello {
   font-size: 1rem;
   .left {
     width: 60%;
@@ -21,5 +26,12 @@
       border-radius: 2px;
       margin-left: auto;
     }
+  }
+}
+
+#bus {
+  span {
+    font-size: large;
+    @extend .lcd-text;
   }
 }

@@ -63,7 +63,7 @@ function getTimes(result, renderCallback) {
     departureList.push({ 
       line: d,
       to: nextDepartures[d].to,
-      min: nextDepartures[d].in }); 
+      min: nextDepartures[d].in.toString() }); 
   }
   //console.log(nextDepartures);
   renderCallback({
