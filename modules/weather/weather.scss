@@ -1,16 +1,17 @@
 #weather {
+  font-size: calc(1.2vw);
   padding: 2em;
-  h2, h3 {
+  p {
     margin: 0;
+    font-size: 4em;
   }
 }
 
 .temperature {
-  font-size: 80px;
+  font-size: 10em;
   font-weight: bold;
 }
 
 .wi {
-  font-size: 50px;
-  margin-right: 0.5em;
+  font-size: 6em;
 }

@@ -2,12 +2,14 @@
 $main-background: #1E1E1E; // TODO: common include
 
 .part {
+  margin: 1em;
   padding: 1em;
 }
 
 #hello {
   font-size: 1rem;
   padding-bottom: 7em;
+  //height: 40%;
   .left {
     width: 60%;
     display: inline-block;
@@ -46,7 +48,15 @@ $main-background: #1E1E1E; // TODO: common include
 }
 
 #bus {
+  background: $signcolormain;
+  display: inline-block;
+  border-radius: 3px;
+  p {
+    margin: 0;
+    background: $main-background;
+  }
   span {
+    padding: 5px;
     font-size: large;
     @extend .lcd-text;
   }

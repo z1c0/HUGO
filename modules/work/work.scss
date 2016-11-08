@@ -2,20 +2,24 @@ $color-green: #5EB555;
 $color-red: #B25957;
 $color-blue: #0078EF;
 
-#work {
+
+#builds {
   display: inline-block;
+  width: 100%;
 }
 
 .build {
   display: inline-block;
   background-color: $color-green;
-  padding: 1.0em;
-  margin: 2em;
-  h2 {
-    font-weight: bolder;
+  padding: 0.5em 1em;
+  margin: 1em;
+  width: 25%;
+  h1 {
+    margin: 0;
+    font-weight: bold;
   }
-  h3 {
-    font-weight: 900;
+  h2 {
+    margin: 0;
   }
 }
 
@@ -36,6 +40,7 @@ $color-blue: #0078EF;
 
 .badge {
   font-size: 1.5em;
+  border-radius: 1px;
   position: absolute;
 }
 
