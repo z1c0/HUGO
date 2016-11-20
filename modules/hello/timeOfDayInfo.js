@@ -1,58 +1,94 @@
-'use strict';
-var request = require('request');
+'use strict'
 
-function oneOf(items) {
-  return items[Math.floor(Math.random() * items.length)];
+function specialDay(day, month) {
+  var d = new Date();
+  d.setDate(day);
+  d.setMonth(month - 1);
+  return d;
 }
 
-function getSpecialDayData() {
-  let data = null;
-  const today = new Date();
-  const day = today.getDate();
-  const month = today.getMonth();
-  if (day === 24 && month === 11) {
-    data = {
-      greeting : oneOf([
-        'Merry Christmas!',
-        "It's Christmas!",
-        'Merry Xmas!']),
-      giphyTag : oneOf(['xmas', 'santa']),
-      emoji : oneOf(['santa_tone1', 'christmas_tree', 'snowman2', 'gift']),
-    }
+function bdayTemplate(who, when) {
+  return {
+    id : who,
+    date : when,
+    text : [
+      'Hey ' + who.name + ", it's your birthday!",
+      'Happy Birthday ' + who.name + '!'
+    ],
+    tag : 'birthday',
+    emoji : [ 'birthday', 'gift', 'ribbon', 'shopping_bags', 'balloon', 'tada', 'confetti_ball' ]
+  };
+};
+
+
+
+var candidates = [
+  {
+    id : 'XMAS',
+    date : specialDay(24, 12),
+    text : [
+      'Merry Christmas!',
+      'Frohe Weihnachten!',
+      "It's Christmas!",
+      'Merry Xmas!' 
+    ],
+    tag : [ 'xmas', 'santa' ],
+    emoji : [ 'santa_tone1', 'christmas_tree', 'snowman2', 'gift']
+  },
+  {
+    id : 'StarWars',
+    date : specialDay(4, 5),
+    text : [
+      "It's Star Wars day!",
+      'Happy Star Wars day!',
+      'May the Force be with you!'
+    ],
+    tag : [ 'star+wars', 'jedi', 'yoda'],
+    emoji : [ 'eight_pointed_black_star', 'dizzy', 'robot', 'alien' ]
+  },
+  {
+    id : 'TowelDay',
+    date : specialDay(25, 5),
+    text : [
+      "It's Towel Day!",
+      "Don't Panic!",
+      '42!',
+      "Don't forget your towel today.",
+      'Did you pack your towel today?'
+    ],
+    tags : [ 'galaxy', 'universe' ],
+    emoji : [ 'eight_pointed_black_star', 'dizzy', 'telescope', 'sparkles', 'alien' ]
+  },
+  {
+    id : 'GroundhogDay',
+    date : specialDay(2, 2),
+    text : [
+      "Murmeltiertag!",
+      "Früher Frühling ...?",
+      "... oder noch 6 Wochen Winter?",
+      'Sieht Phil seinen Schatten?'
+    ],
+    tag : [ 'groundhogday', 'groundhog', 'winter' ],
+    emoji : ['snowman', 'snowman2', 'snowflake', 'chipmunk', 'rainbow', 'partly_sunny' ],
+  },
+  bdayTemplate('Steffi', specialDay(23, 2)),
+  bdayTemplate('Timo', specialDay(16, 10)),
+  bdayTemplate('Nico', specialDay(3, 12)),
+  bdayTemplate('Wolfgang', specialDay(10, 3)),
+
+  /*
+  {
+    id : 'abc',
+    date : specialDay(24, 12),
+    text : [
+    ],
+    tags : [ '', '' ],
+    emoji : [ '', '' ]
   }
-  else if (day === 4 && month === 4) {
-    data = {
-      greeting : oneOf([
-        "It's Star Wars day!",
-        'Happy Star Wars day!',
-        'May the Force be with you!']),
-      giphyTag : oneOf(['star+wars', 'jedi', 'yoda']),
-      emoji : oneOf(['eight_pointed_black_star', 'dizzy', 'robot', 'alien']),
-    }
-  }
-  else if (day === 25 && month === 4) {
-    data = {
-      greeting : oneOf([
-        "It's Towel Day!",
-        "Don't Panic!",
-        '42!',
-        "Don't forget your towel today.",
-        'Did you pack your towel today?']),
-      giphyTag : oneOf(['galaxy', 'universe']),
-      emoji : oneOf(['eight_pointed_black_star', 'dizzy', 'telescope', 'sparkles', 'alien']),
-    }
-  }
-  else if (day === 2 && month === 1) {
-    data = {
-      greeting : oneOf([
-        "Murmeltiertag!",
-        "Früher Frühling?",
-        "Nnoch 6 Wochen Winter",
-        'Sieht Phil seinen Schatten?']),
-      giphyTag : oneOf(['groundhogday', 'groundhog', 'winter']),
-      emoji : oneOf(['snowman', 'snowman2', 'snowflake', 'chipmunk', 'rainbow', 'partly_sunny']),
-    }
-  }
+  */
+];
+
+/*
   else {
     const birthdays = [
       { name : 'Bernoulli', day : 3,  month : 11 },
@@ -63,14 +99,6 @@ function getSpecialDayData() {
     birthdays.forEach(b => {
       if (b.day === day && b.month === month) {
         console.log(b);
-        data = {
-          greeting : oneOf([
-            'Hey ' + b.name + ", it's your birthday!",
-            'Happy Birthday ' + b.name + '!']),
-          giphyTag : 'birthday',
-          emoji : oneOf([
-            'birthday', 'gift', 'ribbon', 'shopping_bags',
-            'balloon', 'tada', 'confetti_ball'])
         }
       }
     });
@@ -184,33 +212,27 @@ function getTimeOfDayData() {
   }
 }
 
-function fetchTimeOfDayStuff(callback) {
-  const data = getTimeOfDayData();
-  //console.log(data);
-  const giphyUrl = 'http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=y&tag=' + data.giphyTag;
-  request.get({
-    url : giphyUrl,
-    json : true
-  },
-  function(err, httpResponse, body) {
-    if (err) {
-      // TODO
-      console.log(err);
+*/
+
+
+function getMatchForTime(dt) {
+  let match = null;
+  let hiscore = 0;
+  candidates.forEach(c => {
+    let score = 0;
+
+    if (c.date.getDate() === dt.getDate() && c.date.getMonth() === dt.getMonth()) {
+      score = 10;
     }
-    else {
-      //console.log(body);
-      data.emoji = 'e1a-' + data.emoji;
-      data.gif = {
-        url : body.data.fixed_width_downsampled_url,
-        width : body.data.fixed_width_downsampled_width,
-        height : body.data.fixed_width_downsampled_height
-      }
-      callback(data);
-    }
+    
+    if (score > hiscore) {
+      hiscore = score;
+      match = c;
+    } 
   });
+  return match;
 }
 
-
 module.exports = {
-  fetch : fetchTimeOfDayStuff
+  getMatch : getMatchForTime
 };
