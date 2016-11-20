@@ -1,3 +1,5 @@
+'use strict';
+
 var cron = require('cron'),
     http = require('http'),
     xmldoc = require('xmldoc'),
@@ -14,7 +16,7 @@ var targetColor = { r : 0, g : 0, b : 0 };
 var location = "";
 var deviceType = "";
 var checkInterval = 10;
-var database;
+var ledHost;
 
 function initStartCron()
 {  
@@ -84,11 +86,13 @@ function hsvToRgb(h, s, v) {
 function setXBoxStatus(onOff) {
   if (xboxOn != onOff) {
     xboxOn = onOff;
+    /*
     var doc = {
       at : new Date(),
       XBoxOn: onOff
     };
     database.insert(doc);
+    */
   }
 }
 
@@ -120,8 +124,9 @@ function updateLeds(animate) {
     targetColor.b = t[2];    
   }
   var query = "/?r=" + currentColor.r + "&g=" + currentColor.g + "&b=" + currentColor.b;
+  //console.log(query);
   http.get({    
-    host: "192.168.1.45",
+    host: ledHost,
     path: query }).
       on("error", function () { console.log("FAILED Arduino GET: "+ query); });
 }
@@ -142,21 +147,21 @@ function onSsdpResponse(headers, statusCode, rinfo) {
             if (xml[0] == '<') { // otherwise, don't bother
             var device = new xmldoc.XmlDocument(xml).childNamed("device");
             if (device) {
-                var friendlyName = device.childNamed("friendlyName");
-                if (friendlyName) {      
+              var friendlyName = device.childNamed("friendlyName");
+              if (friendlyName) {      
                 //console.log(friendlyName.val);
-                if (friendlyName.val === "Xbox-SystemOS") {                
-                    var dt = device.childNamed("deviceType");
-                    if (dt) {              
+                if (friendlyName.val === '[TV] UE55JU6450') {
+                  var dt = device.childNamed("deviceType");
+                  if (dt) {              
                     deviceType = dt.val;
                     if (deviceType == "urn:schemas-upnp-org:device:MediaRenderer:1") {                    
-                        xboxLastSeen = moment();
-                        location = headers.LOCATION;
-                        if (!ssdpDone) {
-                          ssdpDone = true;
-                          updateLeds(true);
-                          setXBoxStatus(true);
-                        }
+                      xboxLastSeen = moment();
+                      location = headers.LOCATION;
+                      if (!ssdpDone) {
+                        ssdpDone = true;
+                        updateLeds(true);
+                        setXBoxStatus(true);
+                      }
                     }
                   }
                 }
@@ -164,7 +169,7 @@ function onSsdpResponse(headers, statusCode, rinfo) {
             }
           }        
         } catch (e) {
-            //console.log("Error: " + headers.LOCATION + " - " + xml);
+          //console.log("Error: " + headers.LOCATION + " - " + xml);
         }
       });  
     });  
@@ -182,8 +187,6 @@ function onSsdpResponse(headers, statusCode, rinfo) {
 
 
 module.exports = {
-
-  
   getStatus: function() {
     return xboxOn ? "ON" : "OFF";
   },
@@ -202,8 +205,9 @@ module.exports = {
   getTargetColor: function() {
     return targetColor;
   },
-  init: function(db) {
-    database = db;
-    //initStartCron();
+  init: function(data) {
+    //console.log(data);
+    ledHost = data.config.ledHost;
+    initStartCron();
   }
 };
