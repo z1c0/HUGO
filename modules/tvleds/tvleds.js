@@ -3,7 +3,7 @@ var tvChecker = require('./tvCheckerJob.js');
 
 function initRoutes(helper) {
   tvChecker.init(helper.viewModel());
-  helper.get('/', { useFetcher : false });
+  helper.get('/', { useFetcher : false });  
 }
 
 /*

@@ -1,4 +1,5 @@
 @import '../busmon/busmon';
+@import '../weather/weather';
 $main-background: #1E1E1E; // TODO: common include
 
 .part {
@@ -45,6 +46,12 @@ $main-background: #1E1E1E; // TODO: common include
       }
     }
   }
+}
+
+#weather {
+  display: inline-block;
+  font-size: 5px;
+  margin-left: 30px;
 }
 
 #bus {

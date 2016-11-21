@@ -16,4 +16,9 @@ function formatBusDisplayLine(viewModel) {
 
 (function() {
   hugo.setupDataBinding('bus', 'busmon', { departures : [] }, 10 * 1000);
+  hugo.setupDataBinding(
+    'weather',
+    'weather',
+    { icon : null, temp : null, name : null, description : null }, 
+    10 * 1000);
 })();

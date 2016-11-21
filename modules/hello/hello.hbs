@@ -1,4 +1,5 @@
 {{#section 'head'}}
+  <link rel='stylesheet' href='/bower_components/weather-icons/css/weather-icons.min.css' />
   <link rel='stylesheet' href='/bower_components/emojione/assets/css/emojione-awesome.css' />
   <link rel='stylesheet' href='/css/hello.css' />
 {{/section}}
@@ -22,6 +23,12 @@
     <span data-bind="text: formatBusDisplayLine($data)">
   </p>
   <!-- /ko -->
+</div>
+
+<div id="weather" class="part">
+  <p><span data-bind="text: name"></span>, <span data-bind="text: description"></span></p>
+  <i class="wi" data-bind="css: icon"></i>
+  <span class="temperature" data-bind="text: temp"></span><span class="temperature">°C</span>
 </div>
 
 
