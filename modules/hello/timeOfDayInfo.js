@@ -229,7 +229,10 @@ var candidates = [
       'Good morning handsome!'
     ],
     tag : [ 'good+morning', 'sunrise', 'wake+up', 'coffee' ],
-    emoji : [ 'shower', 'coffee', 'tea', 'ok_hand', 'v', 'sunrise', 'sunrise_over_mountains', 'smile_cat' ]
+    emoji : [ 
+      'shower', 'coffee', 'tea', 'ok_hand', 'v', 'sunrise',
+      'sunrise_over_mountains', 'smile_cat' 
+    ]
   },
   {
     id : 'Lunch',
@@ -254,7 +257,7 @@ var candidates = [
       ['Langeweile ...?', [ 'unamused', 'poop' ]],
       ['Einfach Musik hören?', [ 'cd', 'radio', 'musical_keyboard']],
       ['An apple a day ...', [ 'apple', 'pill' ]],
-      ["Wie wär's mit einem Spiel?", [ 'game_die' ]] 
+      ["Wie wär's mit einem Spiel?", [ 'game_die' ]],
       ['Ein Buch lesen?', ['books', 'books', 'closed_book']],
       ['Vielleicht basteln?', [ 'scissors', 'paperclips', 'straight_ruler', 'triangular_ruler' ]],
       ['Ein Runde Fahrad fahren?', [ 'mountain_bicyclist', 'bicyclist' ]],
@@ -267,10 +270,10 @@ var candidates = [
     id : 'Evening',
     match : matcher.timeOfDay(18, 24), 
     text : [
-      ['Wanna play a game?', [ 'joystick', 'alien', 'space_invader', 'gun' ]],
+      ['Wanna play a game?', [ 'joystick', 'video_game', 'alien', 'space_invader' ]],
       ['Take a relaxing bath.', [ 'bathtub', 'bath_tone1' ]],
       'Enjoy your evening',
-      ['Ein Projekt wartet ...', ['keyboard', 'computer', 'bar_chart', 'wrench', 'mouse_three_button' ]] 
+      ['Ein Projekt wartet ...', ['keyboard', 'computer', 'bar_chart', 'wrench', 'mouse_three_button' ]],
       ['Watch some Netflix?', [ 'tv' ]],
       ['Netflix and chill?', [ 'smirk', 'tv' ]]
     ],
