@@ -1,19 +1,46 @@
-'use strict'
+'use strict';
 
-function specialDay(day, month) {
-  return function(dt) {
-    var score = 0;
-    if (day === dt.getDate() && (month - 1) === dt.getMonth()) {
-      score = 10;
+var matcher = {
+  specialDay : function(day, month) {
+    return function(dt) {
+      return  day === dt.getDate() && (month - 1) === dt.getMonth();
     }
-    return score;
+  },
+
+  timeOfDay : function(hourFrom, hourTo) {
+    return function(dt) {
+      return dt.getHours() >= hourFrom && dt.getHours() < hourTo; 
+    }
+  },
+
+  weekDay : function (weekDay) {
+    return function(dt) {
+      return dt.getDay() === weekDay;
+    }    
+  },
+
+  timeOfWeekDay : function (weekDay, hourFrom, hourTo) {
+    return function(dt) {
+      return matcher.weekDay(weekDay)(dt) && matcher.timeOfDay(hourFrom, hourTo)(dt);
+    }    
+  },
+
+  workoutDay : function(dt) {
+    return matcher.timeOfWeekDay(1, 6, 7)(dt) || 
+      matcher.timeOfWeekDay(3, 6, 7)(dt) ||
+      matcher.timeOfWeekDay(5, 6, 7)(dt);
+  },
+
+  weekend : function(dt) {
+    return matcher.weekDay(6)(dt) || matcher.weekDay(0)(dt);
   }
 }
+
 
 function birthday(who, day, month) {
   return {
     id : who,
-    match : specialDay(day, month),
+    match : matcher.specialDay(day, month),
     text : [
       'Hey ' + who.name + ", it's your birthday!",
       'Happy Birthday ' + who.name + '!'
@@ -26,21 +53,11 @@ function birthday(who, day, month) {
   };
 };
 
-function timeOfDay(hourFrom, hourTo) {
-  return function(dt) {
-    var score = 0;
-    if (dt.getHours() >= hourFrom && dt.getHours() < hourTo) { 
-      score = 1;
-    }
-    return score;
-  }
-}
-
 
 var candidates = [
   {
     id : 'XMAS',
-    match : specialDay(24, 12),
+    match : matcher.specialDay(24, 12),
     text : [
       'Merry Christmas!',
       'Frohe Weihnachten!',
@@ -52,7 +69,7 @@ var candidates = [
   },
   {
     id : 'StarWars',
-    match : specialDay(4, 5), 
+    match : matcher.specialDay(4, 5), 
     text : [
       "It's Star Wars day!",
       'Happy Star Wars day!',
@@ -63,7 +80,7 @@ var candidates = [
   },
   {
     id : 'TowelDay',
-    match : specialDay(25, 5),
+    match : matcher.specialDay(25, 5),
     text : [
       "It's Towel Day!",
       "Don't Panic!",
@@ -76,7 +93,7 @@ var candidates = [
   },
   {
     id : 'GroundhogDay',
-    match : specialDay(2, 2),
+    match : matcher.specialDay(2, 2),
     text : [
       "Murmeltiertag!",
       "Früher Frühling ...?",
@@ -87,8 +104,20 @@ var candidates = [
     emoji : [ 'snowman', 'snowman2', 'snowflake', 'chipmunk', 'rainbow', 'partly_sunny' ]
   },
   {
+    id : 'Halloween',
+    match : matcher.specialDay(31, 10),
+    text: [
+      'Halloween!',
+      'Happy Halloween!',
+      ['Trick or Treat!', [ 'chocolate_bar', 'lollipop', 'candy' ]]
+      ['Süßes oder Saures!', [ 'chocolate_bar', 'lollipop', 'candy' ]]
+    ],
+    tag : [ 'halloween' ],
+    emoji : [ 'jack_o_lantern', 'spider', 'ghost', 'skull', 'spider', 'spider_web']
+  },
+  {
     id : 'Nikolaus',
-    match : specialDay(6, 12), 
+    match : matcher.specialDay(6, 12), 
     text : [
       "Nikolausabend!",
       "Nikolaus!",
@@ -100,7 +129,7 @@ var candidates = [
   },
   {
     id : 'Sylvester',
-    match : specialDay(31, 12),
+    match : matcher.specialDay(31, 12),
     text : [
       'Guten Rutsch!',
       'Prosit ' + (new Date().getFullYear() + 1),
@@ -113,7 +142,7 @@ var candidates = [
   },
   {
     id : 'NewYear',
-    match : specialDay(1, 1), 
+    match : matcher.specialDay(1, 1), 
     text : [
       "Prosit Neujahr!",
       "Ein gutes neues Jahr!",
@@ -124,14 +153,17 @@ var candidates = [
   },
   {
     id : 'WeddingDay',
-    match : specialDay(3, 9),
+    match : matcher.specialDay(3, 9),
     text : [
       'Gratulation zum  Hochzeitstag!',
       'Frohen Hochzeitstag!',
       'Schönen Hochzeitstag!'
     ],
     tag : [ 'wedding', 'bride' ],
-    emoji : [ 'church', 'tophat', 'wedding', 'champagne_glass', 'ring', 'bride_with_veil' ]
+    emoji : [ 
+      'church', 'bouquet', 'rose', 'tophat', 'wedding',
+      'champagne_glass', 'man_in_tuxedo', 'ring', 'bride_with_veil'
+    ]
   },
 
   birthday('Steffi', 23, 2),
@@ -140,21 +172,55 @@ var candidates = [
   birthday('Wolfgang', 10, 3),
   
   {
-    id : 'Night',
-    match : timeOfDay(0, 6),
-    text : [
-      'You really should be sleeping ...',
-      'So spät noch auf ...?',
-      'Immer noch munter ...?',
-      'Kannst du morgen ausschlafen?',
-      'No work tomorrow?'
+    id : 'Workout',
+    match : matcher.workoutDay,
+    text : [ 
+      "Go get 'em!",
+      ['Good morning champion!', [ 'star', 'trophy', 'first_place', 'first_place' ]],
+      'Ready for a good workout?',
+      'Ready for your workout?'
     ],
-    tag : [ 'sleeping' ],
-    emoji : [ 'sleeping', 'thinking', 'bridge_at_night', 'zzz', 'full_moon_with_face']
+    tag : ['workout', 'weightlifting', 'muscle', 'motivational'],
+    emoji : ['thumbsup_tone1', 'lifter', 'muscle']
   },
   {
+    id : 'BurritoFriday',
+    match : matcher.timeOfWeekDay(5, 11, 16),
+    text : [
+      "It's Burrito Friday!",
+      "TGIF!",
+      "TGI(Burrito)F!",
+      "Burrito Freitag!",
+      'Burrito, Burrito, Burrito'
+    ],
+    tag : 'burrito',
+    emoji : [ 'taco', 'burrito', 'avocado', 'hot_pepper' ]
+  },
+  {
+    id : 'Weekend',
+    match : matcher.weekend,
+    text : [
+      'Wochenende!',
+      'Was steht am Programm?',
+      "Los geht's! Wochenendausflug!"
+      ],
+    tag : 'weekend',
+    emoji : [
+      'tada', 'dancer_tone2', 'beers', 'cocktail',
+      'tropical_drink', 'man_dancing_tone2'
+    ]
+  },
+
+//wochendfrühstück
+//:pancakes:
+//:croissant:
+//:cooking:
+//:tea:
+// :coffee:
+
+  {
     id : 'GoodMorning',
-    match : timeOfDay(6, 11),
+    match : matcher.timeOfDay(6, 11),
     text : [ 
       'Have a great day!',
       'Guten Morgen!',
@@ -166,117 +232,104 @@ var candidates = [
     emoji : [ 'shower', 'coffee', 'tea', 'ok_hand', 'v', 'sunrise', 'sunrise_over_mountains', 'smile_cat' ]
   },
   {
-    id : 'Evening',
-    match : timeOfDay(18, 24), 
+    id : 'Lunch',
+    match : matcher.timeOfDay(11, 15),
     text : [
-      ['Play a game?', [ 'joystick' ]],
-      ['Take a relaxing bath?', [ 'bathtub', 'bath_tone1' ]],
+      'Mahlzeit',
+      'Enjoy your lunch!',
+      "What's for lunch today?"
+    ],      
+    tag : 'lunch',
+    emoji : [
+      'pizza', 'hamburger', 'fries', 'apple', 'sushi', 'cooking', 'poultry_leg',
+      'watermelon', 'shallow_pan_of_food', 'stew', 'spaghetti', 'fork_knife_plate'
+    ],
+  },
+  {
+    id : 'Afternoon',
+    match : matcher.timeOfDay(15, 18), 
+    text : [ 
+      ['Müssen wir noch einkaufen?', [ 'shopping_cart', 'shopping_bags' ]],
+      ['Ein Bild malen?', [ 'art', 'crayon' ]],
+      ['Langeweile ...?', [ 'unamused', 'poop' ]],
+      ['Einfach Musik hören?', [ 'cd', 'radio', 'musical_keyboard']],
+      ['An apple a day ...', [ 'apple', 'pill' ]],
+      ["Wie wär's mit einem Spiel?", [ 'game_die' ]] 
+      ['Ein Buch lesen?', ['books', 'books', 'closed_book']],
+      ['Vielleicht basteln?', [ 'scissors', 'paperclips', 'straight_ruler', 'triangular_ruler' ]],
+      ['Ein Runde Fahrad fahren?', [ 'mountain_bicyclist', 'bicyclist' ]],
+      ['Auf den Spielplatz?', ['basketball_player_tone1', 'soccer', 'basketball']]
+    ],
+    tag : [ 'playground', 'afternoon'],
+    emoji : [ 'monkey' ],
+  },
+  {
+    id : 'Evening',
+    match : matcher.timeOfDay(18, 24), 
+    text : [
+      ['Wanna play a game?', [ 'joystick', 'alien', 'space_invader', 'gun' ]],
+      ['Take a relaxing bath.', [ 'bathtub', 'bath_tone1' ]],
       'Enjoy your evening',
+      ['Ein Projekt wartet ...', ['keyboard', 'computer', 'bar_chart', 'wrench', 'mouse_three_button' ]] 
       ['Watch some Netflix?', [ 'tv' ]],
       ['Netflix and chill?', [ 'smirk', 'tv' ]]
     ],
     tag : ['tv', 'netflix', 'movie', 'sunset' ],
-    emoji : [ 'wine_glass', 'bridge_at_night', 'night_with_stars']
-  }
-
-//wochendfrühstück
-//:pancakes:
-//:croissant:
-//:cooking:
-//:tea:
-// :coffee:
-
+    emoji : [ 'wine_glass', 'tumbler_glass', 'bridge_at_night', 'night_with_stars']
+  },
+  {
+    id : 'Night',
+    match : matcher.timeOfDay(0, 6),
+    text : [
+      'You really should be sleeping ...',
+      'So spät noch auf ...?',
+      'Immer noch munter ...?',
+      'Kannst du morgen ausschlafen?',
+      'No work tomorrow?'
+    ],
+    tag : [ 'sleeping' ],
+    emoji : [
+      'sleeping', 'thinking', 'bed', 'sleeping_accommodation',
+      'bridge_at_night', 'zzz', 'full_moon_with_face']
+  },
 ];
 
-/*
-
-function getTimeOfDayData() {
-  } 
-  else if (hour >= 6 && hour < 11) {
-    if (hour < 8 && Math.random() > 0.5 && (weekDay === 1 || weekDay === 3 || weekDay === 5)) {
-      greeting = oneOf([ 
-        "Go get 'em!",
-        'Good morning champion!',
-        'Ready for a good workout?',
-        'Ready for your workout?'
-      ]);
-      giphyTag = oneOf(['workout', 'weightlifting', 'muscle', 'motivational']);
-      emoji = oneOf(['thumbsup_tone1', 'lifter', 'muscle']);
-    }
-    else {
-    }
-  }
-  else if (hour >= 11 && hour < 15) {
-    if (weekDay === 5) {
-      greeting = oneOf([
-        "It's Burrito Friday!",
-        "TGIF!",
-        "TGI(Burrito)F!",
-        "Burrito Freitag!",
-        'Burrito, Burrito, Burrito']),
-      giphyTag = 'burrito';
-      emoji = oneOf(['taco', 'burrito', 'avocado' hot_pepper]);
-    }
-    else if (weekDay === 6 || weekDay === 7) {
-      greeting = oneOf([
-        'Wochenende!',
-        'Was steht am Programm?',
-        "Los geht's! Wochenendausflug!"]),
-      giphyTag = 'weekend';
-      emoji = oneOf(['tada', 'dancer_tone2', 'beers', 'cocktail', 'tropical_drink', 'man_dancing_tone2']);
-    }
-    else {
-      greeting = oneOf([ 
-        'Enjoy your lunch!',
-        "What's for lunch today?"
-      ]);      
-      giphyTag = 'lunch';
-      emoji = oneOf([
-        'pizza', 'hamburger', 'fries', 'apple', 'sushi', 'cooking', 'poultry_leg',
-        'watermelon', 'shallow_pan_of_food', 'stew', 'spaghetti', 'fork_knife_plate']);
-    }
-  }
-  else if (hour >= 15 && hour < 18) {
-    greeting = oneOf([ 
-      'Einkaufen gehen?',
-      'Malen?',
-      'Basteln?',
-      'Ein Runde Fahrad fahren?',
-      'Auf den Spielplatz?'
-    ]);      
-    giphyTag = oneOf([
-      'playground', 'groceries'
-    ]);
-    emoji = oneOf([
-      'mountain_bicyclist', 'bicyclist', 'basketball_player_tone1', 'soccer', 'art',
-      'game_die', 'basketball', 'microphone', 'musical_score']);
-  }  
-  }
-  //emoji: bath
-  // entspannungsbad?
-  return {
-    giphyTag : giphyTag,
-    greeting : greeting,
-    emoji : emoji
-  }
-}
-
-*/
-
-
-function getMatchForTime(dt) {
-  let match = null;
-  let hiscore = 0;
+function getMatchesForTime(dt) {
+  let matches = [];
   candidates.forEach(c => {
-    let score = c.match(dt);
-    if (score > hiscore) {
-      hiscore = score;
-      match = c;
-    } 
+    if (c.match(dt)) {
+      matches.push(c);
+    }
   });
-  return match;
+  return matches;
 }
+
+function oneOf(items) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function getSingleMatchForTime() {
+  const matches = getMatchesForTime(new Date());
+  const m = matches[0];
+  let result = {};
+  const t = oneOf(m.text);
+  if (typeof t === 'string') {
+    result.text = t;
+  }
+  else {
+    result.text = t[0];
+    result.emoji = oneOf(t[1]);
+  }
+  result.tag = oneOf(m.tag);
+  if (!result.emoji) {
+    result.emoji = oneOf(m.emoji);
+  }
+  result.emoji = 'e1a-' + result.emoji;
+  return result;
+}
+
 
 module.exports = {
-  getMatch : getMatchForTime
+  getMatches : getMatchesForTime,
+  get : getSingleMatchForTime
 };
