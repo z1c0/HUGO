@@ -84,6 +84,17 @@ describe('timeOfDayInfo', function() {
       
       it('has content', function() {
         assert.isAtLeast(match.text.length, 2);
+        match.text.forEach(t => {
+          if (typeof t === 'string') {
+            assert.isAtMost(t.length, 40, t);
+          }
+          else {
+            expect(t).to.be.an('Array', test.expected);
+            expect(t[0]).to.be.a('string', match.id);
+            expect(t[1]).to.be.a('Array', match.id);
+            expect(t[1]).to.have.length.above(1, match.id);
+          }
+        });
         assert.isAtLeast(match.emoji.length, 1);
       });
 

@@ -288,7 +288,7 @@ var candidates = [
     probability : Probability.likely,
     text : [
       'Ausgeschlafen?',
-      ['Frühstück für Champions!' [ 'trophy', 'grinning', 'thumbsup' ]],
+      ['Frühstück für Champions!', [ 'trophy', 'grinning', 'thumbsup' ]],
       'Wochenendfrühstück!'
     ],
     tag : 'breakfast',
@@ -351,7 +351,7 @@ var candidates = [
       ['Langeweile ...?', [ 'unamused', 'poop' ]],
       ['Einfach Musik hören?', [ 'cd', 'radio', 'musical_keyboard']],
       ['An apple a day ...', [ 'apple', 'pill' ]],
-      ["Wie wär's mit einem Spiel?", [ 'game_die' ]],
+      ["Wie wär's mit einem Spiel?", [ 'game_die', 'black_joker' ]],
       ['Ein Buch lesen?', ['books', 'books', 'closed_book']],
       ['Vielleicht basteln?', [ 'scissors', 'paperclips', 'straight_ruler', 'triangular_ruler' ]],
       ['Ein Runde Fahrad fahren?', [ 'mountain_bicyclist', 'bicyclist' ]],
@@ -361,16 +361,30 @@ var candidates = [
     emoji : [ 'monkey' ],
   },
   {
+    id : 'BedTime',
+    match : is(timeOfDay(19, 20)), 
+    probability : Probability.veryLikly,
+    text : [
+      'Schlafenszeit',
+      'Schlaf gut, lieber Timo',
+      'Night night',
+      'Zeit zum Bettgehen'
+    ],
+    tag : ['bed', 'sleepy' ],
+    emoji : [ 'bed', 'sleeping_accommodation', 'sleeping', 'full_moon_with_face' ]
+  },
+  {
     id : 'Evening',
     match : is(timeOfDay(18, 24)), 
     probability : Probability.certain,
     text : [
-      ['Wanna play a game?', [ 'joystick', 'video_game', 'alien', 'space_invader' ]],
+      ['Wanna play a game?', [ 'joystick', 'video_game', 'space_invader' ]],
       ['Take a relaxing bath.', [ 'bathtub', 'bath_tone1' ]],
       'Enjoy your evening',
+      ['Couchen und Fernschauen', [ 'tv', 'couch', 'clapper', 'film_frames' ]], 
       ['Ein Projekt wartet ...', ['keyboard', 'computer', 'bar_chart', 'wrench', 'mouse_three_button' ]],
-      ['Watch some Netflix?', [ 'tv' ]],
-      ['Netflix and chill?', [ 'smirk', 'tv' ]]
+      ['Watch some Netflix?', [ 'film_frames', 'tv', 'couch', 'clapper' ]],
+      ['Netflix and chill?', [ 'smirk', 'tv', 'couch' ]]
     ],
     tag : ['tv', 'netflix', 'movie', 'sunset' ],
     emoji : [ 'wine_glass', 'tumbler_glass', 'bridge_at_night', 'night_with_stars']
