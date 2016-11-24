@@ -114,6 +114,19 @@ function birthday(who, day, month) {
 
 var candidates = [
   {
+    id : 'CatDay',
+    match : is(specialDay(8, 8)),
+    probability : Probability.possible,
+    text : [
+      "It's International Cat Day!",
+      'Miau! Miau! Miau!',
+      'Meow! Meow! Meow!',
+      'Heute ist internationaler Katzentag!',
+    ],
+    tag : [ 'cat' ],
+    emoji : [ 'cat', 'cat2', 'smiley_cat', 'kissing_cat', 'smile_cat', 'heart_eyes_cat' ]
+  },
+  {
     id : 'XMAS',
     match : is(specialDay(24, 12)),
     probability : Probability.possible,
@@ -172,7 +185,9 @@ var candidates = [
     text: [
       'Halloween!',
       'Happy Halloween!',
-      ['Trick or Treat!', [ 'chocolate_bar', 'lollipop', 'candy' ]]
+      ['Heute is Weltspartag', [ 'moneybag', 'dollar', 'euro', 'money_with_wings', 'money_mouth']],
+      ['Alles Gute zum Namenstag!', [ 'blush', 'kissing_closed_eyes', 'wink' ]],
+      ['Trick or Treat!', [ 'chocolate_bar', 'lollipop', 'candy' ]],
       ['Süßes oder Saures!', [ 'chocolate_bar', 'lollipop', 'candy' ]]
     ],
     tag : [ 'halloween' ],

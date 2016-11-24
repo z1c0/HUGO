@@ -32,6 +32,7 @@ describe('timeOfDayInfo', function() {
       { arg: helper_SpecialDay( 2, 2), expected: 'GroundhogDay' },
       { arg: helper_SpecialDay( 4, 5), expected: 'StarWars' },
       { arg: helper_SpecialDay(25, 5), expected: 'TowelDay' },
+      { arg: helper_SpecialDay( 8, 8), expected: 'CatDay' },
       { arg: helper_SpecialDay(31, 10), expected: 'Halloween' },
       { arg: helper_SpecialDay( 6, 12), expected: 'Nikolaus' },
       { arg: helper_SpecialDay(24, 12), expected: 'XMAS' },
