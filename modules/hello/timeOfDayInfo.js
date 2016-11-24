@@ -1,46 +1,104 @@
 'use strict';
 
-var matcher = {
-  specialDay : function(day, month) {
-    return function(dt) {
-      return  day === dt.getDate() && (month - 1) === dt.getMonth();
-    }
-  },
+const Day = {
+  Mon : 1,
+  Tue : 2,
+  Wed : 3,
+  Thur : 4,
+  Fr : 5,
+  Sa : 6,
+  So : 0
+} 
 
-  timeOfDay : function(hourFrom, hourTo) {
-    return function(dt) {
-      return dt.getHours() >= hourFrom && dt.getHours() < hourTo; 
-    }
-  },
+const Probability = {
+  veryUnlikely : 0.15,
+  unlikely : 0.25,
+  possible : 0.5,
+  likely : 0.75,
+  veryLikely : 0.85,
+  certain : 1.0
+} 
 
-  weekDay : function (weekDay) {
-    return function(dt) {
-      return dt.getDay() === weekDay;
-    }    
-  },
-
-  timeOfWeekDay : function (weekDay, hourFrom, hourTo) {
-    return function(dt) {
-      return matcher.weekDay(weekDay)(dt) && matcher.timeOfDay(hourFrom, hourTo)(dt);
-    }    
-  },
-
-  workoutDay : function(dt) {
-    return matcher.timeOfWeekDay(1, 6, 7)(dt) || 
-      matcher.timeOfWeekDay(3, 6, 7)(dt) ||
-      matcher.timeOfWeekDay(5, 6, 7)(dt);
-  },
-
-  weekend : function(dt) {
-    return matcher.weekDay(6)(dt) || matcher.weekDay(0)(dt);
+function matchFactor(f) {
+  return {
+    _f : [ f ],
+    evaluate : function(dt) {
+      for (var i = 0; i < this._f.length; i++) {
+        if (!this._f[i](dt)) {
+          return false;
+        }
+      }
+      return true;
+    },
   }
 }
+
+function matchTerm(f) {
+  return {
+    _f : [ matchFactor(f) ],
+    evaluate : function(dt) {
+      for (var i = 0; i < this._f.length; i++) {
+        if (this._f[i].evaluate(dt)) {
+          return true;
+        }
+      }
+      return false;
+    },
+    or : function(f) {
+      this._f.push(matchFactor(f));
+      return this;
+    },
+    and : function(f) {
+      this._f[this._f.length - 1]._f.push(f);
+      return this;
+    }
+  }
+}
+
+function is(f) {
+  if (!f) {
+    throw new Error("f must be defined");
+  }
+  return matchTerm(f);
+}
+
+
+
+function specialDay(day, month) {
+  return function(dt) {
+    return day === dt.getDate() && (month - 1) === dt.getMonth();
+  }
+}
+
+function timeOfDay(hourFrom, hourTo) {
+  return function(dt) {
+    return dt.getHours() >= hourFrom && dt.getHours() < hourTo; 
+  }
+}
+
+function weekDay(day) {
+  return function(dt) {
+    return dt.getDay() === day;
+  }    
+}
+
+function timeOfWeekDay(day, hourFrom, hourTo) {
+  return function(dt) {
+    return weekDay(day)(dt) && timeOfDay(hourFrom, hourTo)(dt);
+  }
+}
+
+function weekEnd(dt) {
+  return weekDay(Day.Sa)(dt) || weekDay(Day.So)(dt);
+}
+
 
 
 function birthday(who, day, month) {
   return {
     id : who,
-    match : matcher.specialDay(day, month),
+    match : is(specialDay(day, month)),
+    probability : Probability.possible,
     text : [
       'Hey ' + who.name + ", it's your birthday!",
       'Happy Birthday ' + who.name + '!'
@@ -57,7 +115,8 @@ function birthday(who, day, month) {
 var candidates = [
   {
     id : 'XMAS',
-    match : matcher.specialDay(24, 12),
+    match : is(specialDay(24, 12)),
+    probability : Probability.possible,
     text : [
       'Merry Christmas!',
       'Frohe Weihnachten!',
@@ -69,7 +128,8 @@ var candidates = [
   },
   {
     id : 'StarWars',
-    match : matcher.specialDay(4, 5), 
+    match : is(specialDay(4, 5)), 
+    probability : Probability.possible,
     text : [
       "It's Star Wars day!",
       'Happy Star Wars day!',
@@ -80,7 +140,8 @@ var candidates = [
   },
   {
     id : 'TowelDay',
-    match : matcher.specialDay(25, 5),
+    match : is(specialDay(25, 5)),
+    probability : Probability.possible,
     text : [
       "It's Towel Day!",
       "Don't Panic!",
@@ -93,7 +154,8 @@ var candidates = [
   },
   {
     id : 'GroundhogDay',
-    match : matcher.specialDay(2, 2),
+    match : is(specialDay(2, 2)),
+    probability : Probability.possible,
     text : [
       "Murmeltiertag!",
       "Früher Frühling ...?",
@@ -105,7 +167,8 @@ var candidates = [
   },
   {
     id : 'Halloween',
-    match : matcher.specialDay(31, 10),
+    match : is(specialDay(31, 10)),
+    probability : Probability.possible,
     text: [
       'Halloween!',
       'Happy Halloween!',
@@ -117,7 +180,8 @@ var candidates = [
   },
   {
     id : 'Nikolaus',
-    match : matcher.specialDay(6, 12), 
+    match : is(specialDay(6, 12)), 
+    probability : Probability.possible,
     text : [
       "Nikolausabend!",
       "Nikolaus!",
@@ -129,7 +193,8 @@ var candidates = [
   },
   {
     id : 'Sylvester',
-    match : matcher.specialDay(31, 12),
+    match : is(specialDay(31, 12)),
+    probability : Probability.possible,
     text : [
       'Guten Rutsch!',
       'Prosit ' + (new Date().getFullYear() + 1),
@@ -142,7 +207,8 @@ var candidates = [
   },
   {
     id : 'NewYear',
-    match : matcher.specialDay(1, 1), 
+    match : is(specialDay(1, 1)), 
+    probability : Probability.possible,
     text : [
       "Prosit Neujahr!",
       "Ein gutes neues Jahr!",
@@ -153,7 +219,8 @@ var candidates = [
   },
   {
     id : 'WeddingDay',
-    match : matcher.specialDay(3, 9),
+    match : is(specialDay(3, 9)),
+    probability : Probability.possible,
     text : [
       'Gratulation zum  Hochzeitstag!',
       'Frohen Hochzeitstag!',
@@ -173,7 +240,10 @@ var candidates = [
   
   {
     id : 'Workout',
-    match : matcher.workoutDay,
+    match : is(timeOfWeekDay(Day.Mon, 6, 7)).
+      or(timeOfWeekDay(Day.Wed, 6, 7)).
+      or(timeOfWeekDay(Day.Fr, 6, 7)),
+    probability : Probability.veryLikely,
     text : [ 
       "Go get 'em!",
       ['Good morning champion!', [ 'star', 'trophy', 'first_place', 'first_place' ]],
@@ -185,7 +255,8 @@ var candidates = [
   },
   {
     id : 'BurritoFriday',
-    match : matcher.timeOfWeekDay(5, 11, 16),
+    match : is(timeOfWeekDay(5, 11, 16)),
+    probability : Probability.likely,
     text : [
       "It's Burrito Friday!",
       "TGIF!",
@@ -197,30 +268,36 @@ var candidates = [
     emoji : [ 'taco', 'burrito', 'avocado', 'hot_pepper' ]
   },
   {
+    id : 'Breakfast',
+    match : is(weekEnd).and(timeOfDay(7, 11)),
+    probability : Probability.likely,
+    text : [
+      'Ausgeschlafen?',
+      ['Frühstück für Champions!' [ 'trophy', 'grinning', 'thumbsup' ]],
+      'Wochenendfrühstück!'
+    ],
+    tag : 'breakfast',
+    emoji : [ 'pancakes', 'croissant', 'cooking', 'tea', 'coffee' ]
+  },
+  {
     id : 'Weekend',
-    match : matcher.weekend,
+    match : is(weekEnd),
+    probability : Probability.likely,
     text : [
       'Wochenende!',
       'Was steht am Programm?',
       "Los geht's! Wochenendausflug!"
-      ],
+    ],
     tag : 'weekend',
     emoji : [
       'tada', 'dancer_tone2', 'beers', 'cocktail',
       'tropical_drink', 'man_dancing_tone2'
     ]
   },
-
-//wochendfrühstück
-//:pancakes:
-//:croissant:
-//:cooking:
-//:tea:
-// :coffee:
-
   {
     id : 'GoodMorning',
-    match : matcher.timeOfDay(6, 11),
+    match : is(timeOfDay(6, 11)),
+    probability : Probability.certain,
     text : [ 
       'Have a great day!',
       'Guten Morgen!',
@@ -236,7 +313,8 @@ var candidates = [
   },
   {
     id : 'Lunch',
-    match : matcher.timeOfDay(11, 15),
+    match : is(timeOfDay(11, 15)),
+    probability : Probability.certain,
     text : [
       'Mahlzeit',
       'Enjoy your lunch!',
@@ -250,7 +328,8 @@ var candidates = [
   },
   {
     id : 'Afternoon',
-    match : matcher.timeOfDay(15, 18), 
+    match : is(timeOfDay(15, 18)), 
+    probability : Probability.certain,
     text : [ 
       ['Müssen wir noch einkaufen?', [ 'shopping_cart', 'shopping_bags' ]],
       ['Ein Bild malen?', [ 'art', 'crayon' ]],
@@ -268,7 +347,8 @@ var candidates = [
   },
   {
     id : 'Evening',
-    match : matcher.timeOfDay(18, 24), 
+    match : is(timeOfDay(18, 24)), 
+    probability : Probability.certain,
     text : [
       ['Wanna play a game?', [ 'joystick', 'video_game', 'alien', 'space_invader' ]],
       ['Take a relaxing bath.', [ 'bathtub', 'bath_tone1' ]],
@@ -282,7 +362,8 @@ var candidates = [
   },
   {
     id : 'Night',
-    match : matcher.timeOfDay(0, 6),
+    match : is(timeOfDay(0, 6)),
+    probability : Probability.certain,
     text : [
       'You really should be sleeping ...',
       'So spät noch auf ...?',
@@ -300,7 +381,7 @@ var candidates = [
 function getMatchesForTime(dt) {
   let matches = [];
   candidates.forEach(c => {
-    if (c.match(dt)) {
+    if (c.match.evaluate(dt)) {
       matches.push(c);
     }
   });
@@ -311,11 +392,20 @@ function oneOf(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-function getSingleMatchForTime() {
-  const matches = getMatchesForTime(new Date());
-  const m = matches[0];
+function getSingleMatchForTime(dt) {
+  if (!dt) {
+    dt = new Date();
+  }
+  const matches = getMatchesForTime(dt);
+  let match = null;
+  matches.forEach(m => {
+    if (Math.random() <= m.probability) {
+      match = m;
+    }
+  });
+
   let result = {};
-  const t = oneOf(m.text);
+  const t = oneOf(match.text);
   if (typeof t === 'string') {
     result.text = t;
   }
@@ -323,9 +413,9 @@ function getSingleMatchForTime() {
     result.text = t[0];
     result.emoji = oneOf(t[1]);
   }
-  result.tag = oneOf(m.tag);
+  result.tag = oneOf(match.tag);
   if (!result.emoji) {
-    result.emoji = oneOf(m.emoji);
+    result.emoji = oneOf(match.emoji);
   }
   result.emoji = 'e1a-' + result.emoji;
   return result;
@@ -333,6 +423,13 @@ function getSingleMatchForTime() {
 
 
 module.exports = {
+  matcher : {  // Exported for unit test
+    is : is,
+    specialDay : specialDay,
+    timeOfDay : timeOfDay,
+    weekDay : weekDay,
+    weekEnd : weekEnd
+  },
   getMatches : getMatchesForTime,
   get : getSingleMatchForTime
 };
