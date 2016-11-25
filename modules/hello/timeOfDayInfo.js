@@ -103,7 +103,7 @@ function birthday(who, day, month) {
       'Hey ' + who.name + ", it's your birthday!",
       'Happy Birthday ' + who.name + '!'
     ],
-    tag : 'birthday',
+    tag : [ 'birthday' ],
     emoji : [ 
       'birthday', 'cake', 'gift', 'ribbon', 'shopping_bags', 
       'balloon', 'tada', 'confetti_ball', 'champagne'
@@ -116,12 +116,12 @@ var candidates = [
   {
     id : 'CatDay',
     match : is(specialDay(8, 8)),
-    probability : Probability.possible,
+    probability : 0.1,
     text : [
       "It's International Cat Day!",
       'Miau! Miau! Miau!',
       'Meow! Meow! Meow!',
-      'Heute ist internationaler Katzentag!',
+      'Heute ist internationaler Katzentag!'
     ],
     tag : [ 'cat' ],
     emoji : [ 'cat', 'cat2', 'smiley_cat', 'kissing_cat', 'smile_cat', 'heart_eyes_cat' ]
@@ -162,7 +162,7 @@ var candidates = [
       "Don't forget your towel today.",
       'Did you pack your towel today?'
     ],
-    tags : [ 'galaxy', 'universe' ],
+    tag : [ 'galaxy', 'universe' ],
     emoji : [ 'eight_pointed_black_star', 'dizzy', 'telescope', 'sparkles', 'alien' ]
   },
   {
@@ -279,7 +279,7 @@ var candidates = [
       "Burrito Freitag!",
       'Burrito, Burrito, Burrito'
     ],
-    tag : 'burrito',
+    tag : [ 'burrito' ],
     emoji : [ 'taco', 'burrito', 'avocado', 'hot_pepper' ]
   },
   {
@@ -291,7 +291,7 @@ var candidates = [
       ['Frühstück für Champions!', [ 'trophy', 'grinning', 'thumbsup' ]],
       'Wochenendfrühstück!'
     ],
-    tag : 'breakfast',
+    tag : [ 'breakfast' ],
     emoji : [ 'pancakes', 'croissant', 'cooking', 'tea', 'coffee' ]
   },
   {
@@ -303,7 +303,7 @@ var candidates = [
       'Was steht am Programm?',
       "Los geht's! Wochenendausflug!"
     ],
-    tag : 'weekend',
+    tag : [ 'weekend' ],
     emoji : [
       'tada', 'dancer_tone2', 'beers', 'cocktail',
       'tropical_drink', 'man_dancing_tone2'
@@ -335,7 +335,7 @@ var candidates = [
       'Enjoy your lunch!',
       "What's for lunch today?"
     ],      
-    tag : 'lunch',
+    tag : [ 'lunch' ],
     emoji : [
       'pizza', 'hamburger', 'fries', 'apple', 'sushi', 'cooking', 'poultry_leg',
       'watermelon', 'shallow_pan_of_food', 'stew', 'spaghetti', 'fork_knife_plate'
@@ -421,19 +421,18 @@ function oneOf(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-function getSingleMatchForTime(dt) {
+function getSingleMatchForTime(dt, fRandom) {
   if (!dt) {
     dt = new Date();
   }
-  const matches = getMatchesForTime(dt);
-  let match = null;
-  matches.forEach(m => {
-    if (Math.random() <= m.probability) {
-      match = m;
-    }
-  });
+  if (!fRandom) {
+    fRandom = Math.random();
+  }
 
-  let result = {};
+  const matches = getMatchesForTime(dt);
+  const match = matches.find(m => fRandom() <= m.probability);
+
+  let result = { id : match.id };
   const t = oneOf(match.text);
   if (typeof t === 'string') {
     result.text = t;

@@ -11,7 +11,7 @@ function helper_SpecialDay(day, month) {
 }
 
 function helper_TimeOfDay(hour) {
-  var d = new Date();
+  var d = helper_WeekDay(2);
   d.setHours(hour);
   return d;
 }
@@ -27,7 +27,6 @@ function helper_TimeOfWeekDay(day, hour){
 }
 
 describe('timeOfDayInfo', function() {
-  describe('getMatch()', function() {
     var tests = [
       { arg: helper_SpecialDay( 2, 2), expected: 'GroundhogDay' },
       { arg: helper_SpecialDay( 4, 5), expected: 'StarWars' },
@@ -61,49 +60,75 @@ describe('timeOfDayInfo', function() {
       { arg: helper_WeekDay(0), expected: 'Weekend' },
     ];
 
+
+  describe('getMatches()', function() {
     tests.forEach(function(test) {
-      let matches = null;
-      let match = null;
-      it('correctly matches ' + test.expected, function() {
-        matches = info.getMatches(test.arg);
+      it(test.expected + ' matches at least once', function() {
+        const matches = info.getMatches(test.arg);
         assert.isAtLeast(matches.length, 1);
-        match = matches[0];
-        assert.equal(match.id, test.expected);
       });
 
-      it('each match has probability', function() {
+      it(test.expected +  ' match has valid text property', function() {
+        info.getMatches(test.arg).forEach(m => {
+          expect(m).to.have.ownProperty('text');
+          assert.isAtLeast(m.text.length, 2);
+          m.text.forEach(t => {
+            if (typeof t === 'string') {
+              assert.isAtMost(t.length, 40, t);
+            }
+            else {
+              expect(t).to.be.an('Array', test.expected);
+              expect(t[0]).to.be.a('string', m.id);
+              expect(t[1]).to.be.a('Array', m.id);
+              expect(t[1]).to.have.length.above(1, m.id);
+            }
+          });
+        });
+      });
+
+      it(test.expected +  ' match has valid tag property', function() {
+        info.getMatches(test.arg).forEach(m => {
+          expect(m).to.have.ownProperty('tag');
+          expect(m.tag).to.be.an('Array');
+          assert.isAtLeast(m.tag.length, 1);
+        });
+      });
+
+      it(test.expected +  ' match has valid emoji property', function() {
+        info.getMatches(test.arg).forEach(m => {
+          expect(m).to.have.ownProperty('emoji');
+          expect(m.emoji).to.be.an('Array');
+          assert.isAtLeast(m.emoji.length, 1);
+        });
+      });
+
+      it(test.expected +  ' match has valid probability property', function() {
         let p = 0;
-        matches.forEach(m => {
-          expect(m.probability).not.to.be.undefined;
+        info.getMatches(test.arg).forEach(m => {
+          expect(m).to.have.ownProperty('probability');
+          expect(m.probability).to.be.a('number');
           assert.isAtLeast(m.probability, 0.1);
           assert.isAtMost(m.probability, 1.0);
           p = Math.max(p, m.probability);
         });
         assert.equal(p, 1.0);
       });
-      
-      it('has content', function() {
-        assert.isAtLeast(match.text.length, 2);
-        match.text.forEach(t => {
-          if (typeof t === 'string') {
-            assert.isAtMost(t.length, 40, t);
-          }
-          else {
-            expect(t).to.be.an('Array', test.expected);
-            expect(t[0]).to.be.a('string', match.id);
-            expect(t[1]).to.be.a('Array', match.id);
-            expect(t[1]).to.have.length.above(1, match.id);
-          }
-        });
-        assert.isAtLeast(match.emoji.length, 1);
-      });
+    });
+  });
 
-      it('matches to single result', function() {
-        var result = info.get(test.arg);
+
+  describe('get()', function() {
+    tests.forEach(function(test) {
+      it(test.expected + ' matches to single result', function() {
+        const testRandomFunc = function() { return 0; };
+
+        var result = info.get(test.arg, testRandomFunc);
         assert.isOk(result);
+        assert.equal(result.id, test.expected);
       });
     });
   });
+
 
   describe('logicMatcher', function() {
     var m = info.matcher;
