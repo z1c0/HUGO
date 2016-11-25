@@ -426,7 +426,7 @@ function getSingleMatchForTime(dt, fRandom) {
     dt = new Date();
   }
   if (!fRandom) {
-    fRandom = Math.random();
+    fRandom = Math.random;
   }
 
   const matches = getMatchesForTime(dt);
