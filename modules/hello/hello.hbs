@@ -1,26 +1,34 @@
 {{#section 'head'}}
+  <link rel='stylesheet' href='/bower_components/weather-icons/css/weather-icons.min.css' />
   <link rel='stylesheet' href='/bower_components/emojione/assets/css/emojione-awesome.css' />
   <link rel='stylesheet' href='/css/hello.css' />
 {{/section}}
 
-<div id="hello">
+<div id="hello" class="part">
   <div class="left">
-    <p data-bind="text: greeting"></p>
+    <p data-bind="text: text"></p>
     <i data-bind="css: emoji"></i>
   </div>
   <div class="right">
-    <div class="gif" data-bind="style: { backgroundImage: 'url(\'' + gif.url() + '\')', width:  gif.width() + 'px', height: gif.height() + 'px' };"></div>
+    <div class="gif" data-bind="style: { backgroundImage: 'url(\'' + gif.url() + '\')' };">
+      <div class="gradientback"></div>
+    </div>
   </div>
 </div>
 
-<div id="bus">
+<div id="bus" class="part">
+  <!--<div id="logo">H</div>-->
   <!-- ko foreach: departures -->
   <p>
-  <span data-bind="text: line">
-  </span><span data-bind="text: to"></span>
-  <span data-bind="text: min"></span>
+    <span data-bind="text: formatBusDisplayLine($data)">
   </p>
   <!-- /ko -->
+</div>
+
+<div id="weather" class="part">
+  <p><span data-bind="text: name"></span>, <span data-bind="text: description"></span></p>
+  <i class="wi" data-bind="css: icon"></i>
+  <span class="temperature" data-bind="text: temp"></span><span class="temperature">°C</span>
 </div>
 
 

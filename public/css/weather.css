@@ -1,1 +1,1 @@
-#weather{padding:2em}#weather h2,#weather h3{margin:0}.temperature{font-size:80px;font-weight:bold}.wi{font-size:50px;margin-right:0.5em}
+#weather{font-size:calc(1.2vw);padding:2em}#weather p{margin:0;font-size:4em}.temperature{font-size:10em;font-weight:bold}.wi{font-size:6em}

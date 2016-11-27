@@ -19,14 +19,12 @@ function animateArticles() {
   if (index >= articles.length) {
     index = 0;
     clearInterval(interval);
-    hugo.updateBinding(function(viewModel) {
-      animateArticles();
-      interval = setInterval(animateArticles, refreshTime);
+    pageBinding.update(function(viewModel) {
+      interval = setIntervalAndExecute(animateArticles, refreshTime);
     })
   } 
 }
 
 $(document).ready(function() {
-  animateArticles();
-  interval = setInterval(animateArticles, refreshTime);
+  interval = setIntervalAndExecute(animateArticles, refreshTime);
 });

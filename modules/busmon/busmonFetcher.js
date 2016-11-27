@@ -48,13 +48,15 @@ function getTimes(result, renderCallback) {
     if (direction.indexOf("Linz ") == 0) {
       direction = direction.substr(5);
     }
-    //console.log("Linie " + lineNr + " (" + direction + "): " + minutes + " min.");
     if (filter(lineNr, direction, minutes)) {
-      if (lineNr in nextDepartures && nextDepartures[lineNr].in < minutes) {
-        minutes = nextDepartures[lineNr].in;
-        direction = nextDepartures[lineNr].to;
+      console.log("Linie " + lineNr + " (" + direction + "): " + minutes + " min.");
+      if (!nextDepartures[lineNr]) {
+        nextDepartures[lineNr] = {
+          to : direction,
+          mins : []
+        };
       }
-      nextDepartures[lineNr] = { to: direction, in: minutes };
+      nextDepartures[lineNr].mins.push(minutes);
     }
   }
   
@@ -63,9 +65,12 @@ function getTimes(result, renderCallback) {
     departureList.push({ 
       line: d,
       to: nextDepartures[d].to,
-      min: nextDepartures[d].in }); 
+      min: nextDepartures[d].mins[0],
+      min2: nextDepartures[d].mins[1]
+    }); 
   }
-  //console.log(nextDepartures);
+
+  console.log(departureList);
   renderCallback({
     departures : departureList
   });

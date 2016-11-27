@@ -1,12 +1,23 @@
-#hello {
+@import '../busmon/busmon';
+@import '../weather/weather';
+$main-background: #1E1E1E; // TODO: common include
+
+.part {
+  margin: 1em;
   padding: 1em;
+}
+
+#hello {
   font-size: 1rem;
+  padding-bottom: 7em;
+  //height: 40%;
   .left {
     width: 60%;
     display: inline-block;
     vertical-align: top;
     p {
-      font-size: 5em;
+      font-size: 4.5em;
+      white-space: nowrap;
     }
     i {
       font-size: 6em;
@@ -20,6 +31,40 @@
     .gif {
       border-radius: 2px;
       margin-left: auto;
+      width: 200px;
+      height: 200px;
+      background-repeat: no-repeat;
+      position: relative;
+      &:after {
+        position: absolute;
+        content: "";
+        left: 0px;
+        bottom: 0px;
+        height: 15px;
+        width: 100%;
+        background: linear-gradient(transparent, $main-background);
+      }
     }
+  }
+}
+
+#weather {
+  display: inline-block;
+  font-size: 5px;
+  margin-left: 30px;
+}
+
+#bus {
+  //background: $signcolormain;
+  display: inline-block;
+  //border-radius: 3px;
+  p {
+    margin: 0;
+    background: $main-background;
+  }
+  span {
+    padding: 5px;
+    font-size: large;
+    @extend .lcd-text;
   }
 }

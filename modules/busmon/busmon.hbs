@@ -2,29 +2,28 @@
   <link rel='stylesheet' href='/css/busmon.css' />
 {{/section}}
 
-<div id="sign-upper">
-  <div id="logo">H</div>
-  <p class="signtextbold">Froschberg</p>
-  <p class="signtext">Linie 26, 27, 46</p>
-</div>
-<div id="sign-lower">
-  <table>
-    <thead>
-      <tr>
-        <th class="signtext">Linie</th>
-        <th class="signtext">Ziel</th>
-        <th class="signtext">Abfahrt<br>in Min.</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each fetched}}
-      <tr>
-        <td>{{this.l}}</td>
-        <td>{{this.to}}</td>
-        <td class="textright">{{this.in}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
+<div id="busmon">
+  <div id="sign-upper">
+    <div id="logo">H</div>
+    <p class="signtextbold">Froschberg</p>
+    <!--<p class="signtext">Linie 26, 27, 46</p>-->
+  </div>
+  <div id="sign-lower">
+    <table>
+      <thead>
+        <tr>
+          <th class="signtext">Linie</th>
+          <th class="signtext">Ziel</th>
+          <th class="signtext">Abfahrt<br>in Min.</th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: departures">
+        <tr>
+          <td data-bind="text: line"></td>
+          <td data-bind="text: to"></td>
+          <td data-bind="text: min"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -2,8 +2,28 @@
 
 function setIntervalAndExecute(f, t) {
   f();
-  return(setInterval(f, t));
+  return setInterval(f, t);
 }
+
+function padHelper(string, maxLen, padChar, left) {
+  if (!padChar) {
+    padChar = ' ';
+  }
+  let pad = new Array(maxLen + 1 - string.length).join(padChar);
+  return left ? (pad + string) : (string + pad);
+}
+
+String.prototype.padLeft = function(maxLen, padChar) {
+  return padHelper(this, maxLen, padChar, true);
+};
+
+String.prototype.padRight = function(maxLen, padChar) {
+  return padHelper(this, maxLen, padChar, false);
+};
+
+
+//---------------------------------------------------------------------------------------------
+
 
 var dateTimeViewModel = {
   time : ko.observable(),

@@ -10,5 +10,5 @@ module.exports = {
     initRoutes(require('../routingHelper')(router, this));
   },
   icon : 'fa-user-circle',
-  //updateInterval : moment.duration(5, 'seconds').asMilliseconds()
+  updateInterval : moment.duration(20, 'seconds').asMilliseconds()
 };

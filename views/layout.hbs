@@ -34,7 +34,7 @@
   <script src="/client.js"></script>
   <script>
     {{#if fetched}}
-    hugo.setupDataBinding('{{{name}}}', '{{{name}}}', {{{json fetched}}}, {{{updateInterval}}});
+    var pageBinding = hugo.setupDataBinding('{{{name}}}', '{{{name}}}', {{{json fetched}}}, {{{updateInterval}}});
     {{/if}}
   </script>
   {{{_sections.scripts}}}

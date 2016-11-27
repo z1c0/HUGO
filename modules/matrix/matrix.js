@@ -5,5 +5,6 @@ function initRoutes(helper) {
 module.exports = {
   init: function(router) {
     initRoutes(require('../routingHelper')(router, this));
-  }
+  },
+  icon: 'fa-th'
 };

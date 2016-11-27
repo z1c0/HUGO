@@ -1,3 +1,9 @@
+/*
+*{
+  outline: 1px solid red;
+}
+*/
+
 $footer-height: 60px;
 $text-color: #FBFBFB;
 $main-background: #1E1E1E;
@@ -47,7 +53,7 @@ a.plain-link:hover {
 }
 
 #main-main {
-  height: 100%;
+  height: 99%;
   width: 100%;
   display: inline-block;
 }

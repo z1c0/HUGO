@@ -3,18 +3,21 @@
 {{/section}}
 
 <div id="work">
-
-<!-- ko foreach: builds -->
+  <div id="builds">
+  <!-- ko foreach: builds -->
   <div class="build" data-bind="css: { 'build-failed' : result() === 'FAILURE' }">
-    <h3 data-bind="text: name"></h3>
+    <h1 data-bind="text: name"></h1>
     <h2 data-bind="text: nr"></h2>
   </div>
-<!-- /ko -->
+  <!-- /ko -->
+  </div>
 
-<div class="code-reviews" data-bind="with: phabricator">
-  <i class="fa fa-commenting-o fa-5x"></i>
-  <div class="badge audits"><span data-bind="text: audits"></span></div>
-  <div class="badge concerns"><span data-bind="text: concerns"></span></div>
-</div>
+  <div>
+    <div class="code-reviews" data-bind="with: phabricator">
+      <i class="fa fa-list fa-5x"></i>
+      <div class="badge audits"><span data-bind="text: audits"></span></div>
+      <div class="badge concerns"><span data-bind="text: concerns"></span></div>
+    </div>
+  </div>
 
 </div>

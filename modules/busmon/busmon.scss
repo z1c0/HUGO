@@ -3,12 +3,21 @@
   src: url('/fonts/LEDBDREV.TTF') format('truetype');
 }
 
+$color-lcd-font: limegreen;
 $signcolormain: rgb(240, 240, 240);
 $signcolordarker: rgb(220, 220, 220);
 $logocolor: green;
 $logobackground: yellow;
-$signwidth: 600px;
-$signborderwidth: 16px;
+$signwidth: 650px;
+$signborderwidth: 5px;
+
+#busmon {
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
+  margin: 1em;
+  p {
+    margin: 0;
+  }
+}
 
 @mixin sign($w)
 {
@@ -26,14 +35,21 @@ $signborderwidth: 16px;
   border-radius: 50%;
 	width: $w;
 	height: $w; 
+  line-height: $w;
+  box-sizing: content-box;
 }
 
 @mixin semicircle($w) {
   @include sign($w);
-  height: $w / 2;
   border-radius:$w / 2 $w / 2 0 0;
   -moz-border-radius: $w / 2 $w / 2 0 0;
   -webkit-border-radius: $w / 2 $w / 2 0 0;
+}
+
+.lcd-text {
+  font-family: "LcdFont";
+  color: $color-lcd-font;
+  white-space: pre;
 }
 
 table {
@@ -46,29 +62,26 @@ table {
   }
   
   td {
-    font-family: "LcdFont";
-    color: limegreen;
+    @extend .lcd-text;
     font-size: xx-large;
     padding: 5px;
     margin: 0;
   }
 }
 
-
-
 #logo {
-  @include circle(120px);
+  font-size: 5em;
+  font-family: sans-serif;
+  @include circle(100px);
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20px;
+  margin-top: 10px;
   color: $logocolor;
-  background-color: $logobackground;  
+  background-color: $logobackground;
   border-color: $logocolor; 
   border-width: 10px;
   border-style: solid;
-  line-height: 120px;
   font-weight: bold;
-  font-size: 5em;
   text-align: center;
 }
 
@@ -77,15 +90,15 @@ table {
 }
 
 .signtext {
-   font-size: 22px;
+   font-size: 1.5em;
    margin-left: 1em;
    font-weight: normal;
    color: black;
  }
  
  .signtextbold {
-   font-size: 34px;
-   font-weight: bold;
+   font-size: 3em;
+   font-weight: 600;
    text-align: center;
    color: black;
  }
@@ -96,5 +109,5 @@ table {
  
  #sign-lower {
   @include sign($signwidth);
-  margin-top: 10px;
+  margin-top: 5px;
  }  
