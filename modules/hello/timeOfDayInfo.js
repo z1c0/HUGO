@@ -64,19 +64,20 @@ function is(f) {
 
 
 
-function specialDay(day, month) {
-  return function(dt) {
-    return day === dt.getDate() && (month - 1) === dt.getMonth();
-  }
-}
-
 function timeOfDay(hourFrom, hourTo) {
   return function(dt) {
     return dt.getHours() >= hourFrom && dt.getHours() < hourTo; 
   }
 }
 
-function weekDay(day) {
+function specialDay(day, month, verySpecial) {
+  return function(dt) {
+    const untilHour = verySpecial ? 24 : 20;
+    return day === dt.getDate() && (month - 1) === dt.getMonth() && timeOfDay(6, untilHour)(dt)
+  }
+}
+
+function dayOfWeek(day) {
   return function(dt) {
     return dt.getDay() === day;
   }    
@@ -84,23 +85,27 @@ function weekDay(day) {
 
 function timeOfWeekDay(day, hourFrom, hourTo) {
   return function(dt) {
-    return weekDay(day)(dt) && timeOfDay(hourFrom, hourTo)(dt);
+    return dayOfWeek(day)(dt) && timeOfDay(hourFrom, hourTo)(dt);
   }
 }
 
 function weekEnd(dt) {
-  return weekDay(Day.Sa)(dt) || weekDay(Day.So)(dt);
+  return dayOfWeek(Day.Sa)(dt) || dayOfWeek(Day.So)(dt);
 }
 
+function weekDay(dt) {
+  return !weekEnd(dt);
+}
 
 
 function birthday(who, day, month) {
   return {
     id : who,
-    match : is(specialDay(day, month)),
+    match : is(specialDay(day, month, true)),
     probability : Probability.possible,
     text : [
       'Hey ' + who.name + ", it's your birthday!",
+      'Alles Gute zum Geburtstag' + who.name + '!', 
       'Happy Birthday ' + who.name + '!'
     ],
     tag : [ 'birthday' ],
@@ -115,8 +120,8 @@ function birthday(who, day, month) {
 var candidates = [
   {
     id : 'CatDay',
-    match : is(specialDay(8, 8)),
-    probability : 0.1,
+    match : is(specialDay(8, 8, false)),
+    probability : Probability.unlikely,
     text : [
       "It's International Cat Day!",
       'Miau! Miau! Miau!',
@@ -127,8 +132,34 @@ var candidates = [
     emoji : [ 'cat', 'cat2', 'smiley_cat', 'kissing_cat', 'smile_cat', 'heart_eyes_cat' ]
   },
   {
+    id : 'Valentine',
+    match : is(specialDay(14, 2, false)),
+    probability : Probability.possible,
+    text : [
+      "Happy Valentine's Day!",
+      "Alles Liebe zum Valentinstag!",
+      "Be my Valentine"
+    ],
+    tag : [ 'valentine' ],
+    emoji : [ 
+      'love_letter', 'sparkling_heart', 'cupid', 'love_hotel', 'tulip',
+      'rose', 'bouquet', 'couplekiss', 'couple_with_heart' ]
+  },
+  {
+    id : 'PaddysDay',
+    match : is(specialDay(17, 3, false)),
+    probability : Probability.possible,
+    text : [
+      "It's St. Patrick's Day!",
+      "Sláinte! It's Paddy's Day!",
+      "Happy St. Patrick's Day!"
+    ],
+    tag : [ 'stpatricksday', 'guinness' ],
+    emoji : [ 'beers', 'shamrock', 'beer', 'flag_ie' ]
+  },
+  {
     id : 'XMAS',
-    match : is(specialDay(24, 12)),
+    match : is(specialDay(24, 12, true)),
     probability : Probability.possible,
     text : [
       'Merry Christmas!',
@@ -141,7 +172,7 @@ var candidates = [
   },
   {
     id : 'StarWars',
-    match : is(specialDay(4, 5)), 
+    match : is(specialDay(4, 5, false)), 
     probability : Probability.possible,
     text : [
       "It's Star Wars day!",
@@ -153,7 +184,7 @@ var candidates = [
   },
   {
     id : 'TowelDay',
-    match : is(specialDay(25, 5)),
+    match : is(specialDay(25, 5, false)),
     probability : Probability.possible,
     text : [
       "It's Towel Day!",
@@ -167,7 +198,7 @@ var candidates = [
   },
   {
     id : 'GroundhogDay',
-    match : is(specialDay(2, 2)),
+    match : is(specialDay(2, 2, false)),
     probability : Probability.possible,
     text : [
       "Murmeltiertag!",
@@ -180,7 +211,7 @@ var candidates = [
   },
   {
     id : 'Halloween',
-    match : is(specialDay(31, 10)),
+    match : is(specialDay(31, 10, true)),
     probability : Probability.possible,
     text: [
       'Halloween!',
@@ -195,7 +226,7 @@ var candidates = [
   },
   {
     id : 'Nikolaus',
-    match : is(specialDay(6, 12)), 
+    match : is(specialDay(6, 12, true)), 
     probability : Probability.possible,
     text : [
       "Nikolausabend!",
@@ -208,7 +239,7 @@ var candidates = [
   },
   {
     id : 'Sylvester',
-    match : is(specialDay(31, 12)),
+    match : is(specialDay(31, 12, true)),
     probability : Probability.possible,
     text : [
       'Guten Rutsch!',
@@ -222,7 +253,7 @@ var candidates = [
   },
   {
     id : 'NewYear',
-    match : is(specialDay(1, 1)), 
+    match : is(specialDay(1, 1, true)), 
     probability : Probability.possible,
     text : [
       "Prosit Neujahr!",
@@ -234,7 +265,7 @@ var candidates = [
   },
   {
     id : 'WeddingDay',
-    match : is(specialDay(3, 9)),
+    match : is(specialDay(3, 9, true)),
     probability : Probability.possible,
     text : [
       'Gratulation zum  Hochzeitstag!',
@@ -270,7 +301,7 @@ var candidates = [
   },
   {
     id : 'BurritoFriday',
-    match : is(timeOfWeekDay(5, 11, 16)),
+    match : is(timeOfWeekDay(5, 11, 17)),
     probability : Probability.likely,
     text : [
       "It's Burrito Friday!",
@@ -296,7 +327,7 @@ var candidates = [
   },
   {
     id : 'Weekend',
-    match : is(weekEnd),
+    match : is(weekEnd).and(timeOfDay(10, 19)),
     probability : Probability.likely,
     text : [
       'Wochenende!',
@@ -331,8 +362,9 @@ var candidates = [
     match : is(timeOfDay(11, 15)),
     probability : Probability.certain,
     text : [
-      'Mahlzeit',
+      'Mahlzeit!',
       'Enjoy your lunch!',
+      "Was gibt's heute zum Mittagessen?",
       "What's for lunch today?"
     ],      
     tag : [ 'lunch' ],
@@ -455,7 +487,7 @@ module.exports = {
     is : is,
     specialDay : specialDay,
     timeOfDay : timeOfDay,
-    weekDay : weekDay,
+    dayOfWeek : dayOfWeek,
     weekEnd : weekEnd
   },
   getMatches : getMatchesForTime,

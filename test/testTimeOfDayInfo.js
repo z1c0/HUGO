@@ -5,6 +5,7 @@ var expect = require('chai').expect;
 
 function helper_SpecialDay(day, month) {
   var d = new Date();
+  d.setHours(12);
   d.setMonth(month - 1);
   d.setDate(day);
   return d;
@@ -29,6 +30,8 @@ function helper_TimeOfWeekDay(day, hour){
 describe('timeOfDayInfo', function() {
     var tests = [
       { arg: helper_SpecialDay( 2, 2), expected: 'GroundhogDay' },
+      { arg: helper_SpecialDay(17, 3), expected: 'PaddysDay' },
+      { arg: helper_SpecialDay(14, 2), expected: 'Valentine' },
       { arg: helper_SpecialDay( 4, 5), expected: 'StarWars' },
       { arg: helper_SpecialDay(25, 5), expected: 'TowelDay' },
       { arg: helper_SpecialDay( 8, 8), expected: 'CatDay' },
@@ -56,8 +59,8 @@ describe('timeOfDayInfo', function() {
       { arg: helper_TimeOfDay(18), expected: 'Evening' },
 
       { arg: helper_TimeOfWeekDay(5, 12), expected: 'BurritoFriday' },
-      { arg: helper_WeekDay(6), expected: 'Weekend' },
-      { arg: helper_WeekDay(0), expected: 'Weekend' },
+      { arg: helper_TimeOfWeekDay(6, 11), expected: 'Weekend' },
+      { arg: helper_TimeOfWeekDay(0, 16), expected: 'Weekend' },
     ];
 
 
@@ -157,7 +160,7 @@ describe('timeOfDayInfo', function() {
 
     it('evaluate AND / OR', function() {
       var e = m.is(m.weekEnd).and(m.timeOfDay(4, 10))
-        .or(m.timeOfDay(15, 17)).and(m.weekDay(0));
+        .or(m.timeOfDay(15, 17)).and(m.dayOfWeek(0));
       assert.isTrue(e.evaluate(helper_TimeOfWeekDay(0, 7)));
       assert.isTrue(e.evaluate(helper_TimeOfWeekDay(0, 16)));
       assert.isFalse(e.evaluate(helper_TimeOfWeekDay(1, 16)));
