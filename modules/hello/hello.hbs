@@ -16,6 +16,26 @@
   </div>
 </div>
 
+<div id="calendar" class="part">
+  <div class="icon">
+    <time>
+      <strong data-bind="text: month"></strong>
+      <span data-bind="text: day"></span>
+    </time>
+  </div>
+  <p class="today" data-bind="with: today">
+    <strong data-bind="text:title"></strong><br>
+    {{!--<span data-bind="text:title"></span>--}}
+  </p>
+  {{!--<p>
+    <strong>SP Hopfen und Malz</strong><br>
+    <span>..</span>
+  </p>--}}
+  {{!--<ul data-bind="foreach: appointments">
+    <li data-bind="text: title">
+  </ul>--}}
+</div>
+
 <div id="bus" class="part">
   <!--<div id="logo">H</div>-->
   <!-- ko foreach: departures -->

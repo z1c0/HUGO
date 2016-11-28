@@ -1,17 +1,19 @@
 @import '../busmon/busmon';
 @import '../weather/weather';
 $main-background: #1E1E1E; // TODO: common include
+$color-calendar-main: #EF4D3C;
 
 .part {
-  margin: 1em;
-  padding: 1em;
+  margin: 0.5rem 1rem;
+  padding: 1rem;
+  //background: lightpink;
+  //border: 1px solid red; 
 }
 
 #hello {
   font-size: 1rem;
-  padding-bottom: 7em;
-  //height: 40%;
   .left {
+    height: 200px;
     width: 60%;
     display: inline-block;
     vertical-align: top;
@@ -25,6 +27,7 @@ $main-background: #1E1E1E; // TODO: common include
 
   .right
   {
+    height: 200px;
     width: 39%;
     display: inline-block;
     .gif {
@@ -47,15 +50,70 @@ $main-background: #1E1E1E; // TODO: common include
   }
 }
 
-#weather {
-  display: inline-block;
-  font-size: 5px;
-  margin-left: 30px;
+#calendar {
+  background: #313136;
+  height: 80px;
+  overflow: hidden;
+  .icon {
+    display: inline-block;
+    vertical-align: top;
+    time {
+      font-size: 0.8rem;
+      display: block;
+      position: relative;
+      width: 7em;
+      height: 7em;
+      background-color: #fff;
+      border-radius: 0.6em;
+      overflow: hidden;
+    }
+    time * {
+      display: block;
+      width: 100%;
+      font-size: 1em;
+      font-weight: bold;
+      font-style: normal;
+      text-align: center;
+    }
+
+    time strong {
+      position: absolute;
+      top: 0;
+      padding: 0.4em 0;
+      color: #fff;
+      background-color: $color-calendar-main;
+    }
+    time span {
+      font-size: 4em;
+      letter-spacing: -0.05em;
+      padding-top: 0.4em;
+      color: #222;
+    }
+  }
+  p {
+    width: 42%;
+    font-size: 1.5em;
+    padding: 0 10px;
+    display : inline-block;
+  }
+  // p.today {
+  //   border-right: solid $color-calendar-main 5px;
+  // }
+  ul {
+    display : inline-block;
+    //vertical-align: top;
+    li {
+      list-style-type: none;
+    }
+  }
 }
 
 #bus {
-  //background: $signcolormain;
   display: inline-block;
+  margin: 0;
+  padding-top: 2rem; 
+  vertical-align: top;
+  //background: $signcolormain;
   //border-radius: 3px;
   p {
     margin: 0;
@@ -66,4 +124,12 @@ $main-background: #1E1E1E; // TODO: common include
     font-size: large;
     @extend .lcd-text;
   }
+}
+
+#weather {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: auto;
+  font-size: 5px;
+  margin-left: 40px;
 }

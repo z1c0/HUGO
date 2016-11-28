@@ -47,7 +47,7 @@ a.plain-link:hover {
   border-radius: 3px;
   padding: 0.5em;
   bottom: 0.5em;
-  height: 4em;
+  height: 3em;
   opacity: 0.6;
   z-index: 5000;
 }
@@ -61,8 +61,8 @@ a.plain-link:hover {
 .home {
   @extend .tile;
   //background: black;
-  width: 4em;
-  line-height: 4em;
+  width: 3em;
+  line-height: 3em;
   text-align: center;
   vertical-align: middle;  
   left: 0.5em;
@@ -74,11 +74,8 @@ a.plain-link:hover {
 #datetime {
   @extend .tile;
   right: 0.5em;
-  //background: rgba(0, 0, 0, 0.2);
-  vertical-align: top;
-  .fa {
-    margin-right: 20px;
-  }
+  padding: 0 0 0 0.5em;
+  line-height: 3em;
   .time {
     font-size: xx-large;
   }

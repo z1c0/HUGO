@@ -49,7 +49,7 @@ function getTimes(result, renderCallback) {
       direction = direction.substr(5);
     }
     if (filter(lineNr, direction, minutes)) {
-      console.log("Linie " + lineNr + " (" + direction + "): " + minutes + " min.");
+      //console.log("Linie " + lineNr + " (" + direction + "): " + minutes + " min.");
       if (!nextDepartures[lineNr]) {
         nextDepartures[lineNr] = {
           to : direction,
@@ -70,7 +70,7 @@ function getTimes(result, renderCallback) {
     }); 
   }
 
-  console.log(departureList);
+  //console.log(departureList);
   renderCallback({
     departures : departureList
   });

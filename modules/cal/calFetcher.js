@@ -5,7 +5,7 @@ var moment = require('moment');
 let config = {};
 
 const maximumEntries = 100;
-const maximumNumberOfDays = 10;
+const maximumNumberOfDays = 20;
 
 
 function isFullDayEvent(event) {
@@ -71,7 +71,6 @@ function getAppointments(callback) {
                 startDate : startDate.format("x"),
                 endDate : endDate.format("x"),
                 fullDayEvent : isFullDayEvent(event),
-                firstYear : event.start.getFullYear()
               });
             }
           }
@@ -110,7 +109,10 @@ function getAppointments(callback) {
     appointments = appointments.slice(0, maximumEntries);
     //console.log(appointments);
     callback({ 
-      appointments : appointments
+      today : appointments[0],
+      appointments : appointments,
+      month : moment.months()[now.getMonth()],
+      day : now.getDate(),
     });
   });
 }

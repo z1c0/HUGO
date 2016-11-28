@@ -323,7 +323,7 @@ var candidates = [
       'Wochenendfrühstück!'
     ],
     tag : [ 'breakfast' ],
-    emoji : [ 'pancakes', 'croissant', 'cooking', 'tea', 'coffee' ]
+    emoji : [ 'pancakes', 'croissant', 'honey_pot', 'cooking', 'tea', 'coffee' ]
   },
   {
     id : 'Weekend',
