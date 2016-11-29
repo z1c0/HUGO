@@ -3,12 +3,17 @@ var info = require('../modules/hello/timeOfDayInfo');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 
-function helper_SpecialDay(day, month) {
+
+function helper_SpecialTimeOfDay(day, month, hour) {
   var d = new Date();
-  d.setHours(12);
+  d.setHours(hour);
   d.setMonth(month - 1);
   d.setDate(day);
   return d;
+}
+
+function helper_SpecialDay(day, month) {
+  return helper_SpecialTimeOfDay(day, month, 12);
 }
 
 function helper_TimeOfDay(hour) {
@@ -61,6 +66,8 @@ describe('timeOfDayInfo', function() {
       { arg: helper_TimeOfWeekDay(5, 12), expected: 'BurritoFriday' },
       { arg: helper_TimeOfWeekDay(6, 11), expected: 'Weekend' },
       { arg: helper_TimeOfWeekDay(0, 16), expected: 'Weekend' },
+      { arg: helper_SpecialTimeOfDay(1, 12, 17), expected: 'Advent' },
+      { arg: helper_SpecialTimeOfDay(23, 12, 22), expected: 'Advent' },
     ];
 
 

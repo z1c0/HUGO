@@ -341,6 +341,24 @@ var candidates = [
     ]
   },
   {
+    id : 'Advent',
+    match : is(function(dt) {
+      console.log(dt);
+      return dt.getMonth() === 11 && dt.getDate() < 24 && dt.getHours() >= 17;
+    }),
+    probability : Probability.likely,
+    text : [ 
+      'Advent, Advent, ...',
+      'Singen wir am Adventkranz'
+    ],
+    tag : [ 'candle' ],
+    emoji : [ 
+      'candle', 'dizzy'
+    ]
+  },
+
+  
+  {
     id : 'GoodMorning',
     match : is(timeOfDay(6, 11)),
     probability : Probability.certain,
