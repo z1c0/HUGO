@@ -1,8 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
-var EventEmitter = require('events').EventEmitter  
-var messageBus = new EventEmitter();
+var autoNav = require('./autoNav');
+
 
 function loadModules() {
   var modules = [];  
@@ -17,6 +17,7 @@ function loadModules() {
         var m = require(path.join(filePath, name));
         m.name = name;
         m.config = c;
+        m.getRoute = function() { return this.name; };
         modules.push(m);
       }
     }
@@ -35,18 +36,7 @@ function createRoutes() {
   router.get('/status', function(req, res) {
     res.render('status', { layout : 'layoutDetails.hbs', hugo : hugo });
   });
-  router.get('/navigation', function(req, res) {
-    var addMessageListener = function(res) {
-      messageBus.once('message', function(data){
-        res.json(data)
-      })
-    }
-    addMessageListener(res)
-  });
-  router.post('/navigation', function(req, res) {
-    messageBus.emit('message', req.body)
-    res.status(200).end()
-  })
+  autoNav.init(router, modules);
   // modules
   modules.forEach(function(m) {
     m.init(router);

@@ -314,6 +314,21 @@ var candidates = [
     emoji : [ 'taco', 'burrito', 'avocado', 'hot_pepper' ]
   },
   {
+    id : 'XmasCalendar',
+    match : is(function(dt) {
+      return dt.getMonth() === 11 && dt.getDate() <= 24 && dt.getHours() >= 6 && dt.getHours() < 9;
+    }),
+    probability : Probability.likely,
+    text : [ 
+      'Was war im Adventkalender?',
+      'Hast du das ' + new Date().getDate() + '. Türchen aufgemacht?'
+    ],
+    tag : [ 'christmas+calendar' ],
+    emoji : [ 
+      'candy', 'lollipop', 'date', 'police_car', 'oncoming_police_car', 'rotating_light'
+    ]
+  },
+  {
     id : 'Breakfast',
     match : is(weekEnd).and(timeOfDay(7, 11)),
     probability : Probability.likely,
@@ -323,7 +338,7 @@ var candidates = [
       'Wochenendfrühstück!'
     ],
     tag : [ 'breakfast' ],
-    emoji : [ 'pancakes', 'croissant', 'honey_pot', 'cooking', 'tea', 'coffee' ]
+    emoji : [ 'pancakes', 'bacon', 'croissant', 'honey_pot', 'cooking', 'tea', 'coffee' ]
   },
   {
     id : 'Weekend',
@@ -343,7 +358,6 @@ var candidates = [
   {
     id : 'Advent',
     match : is(function(dt) {
-      console.log(dt);
       return dt.getMonth() === 11 && dt.getDate() < 24 && dt.getHours() >= 17;
     }),
     probability : Probability.likely,
@@ -357,7 +371,6 @@ var candidates = [
     ]
   },
 
-  
   {
     id : 'GoodMorning',
     match : is(timeOfDay(6, 11)),
@@ -377,7 +390,7 @@ var candidates = [
   },
   {
     id : 'Lunch',
-    match : is(timeOfDay(11, 15)),
+    match : is(timeOfDay(11, 14)),
     probability : Probability.certain,
     text : [
       'Mahlzeit!',
@@ -393,7 +406,7 @@ var candidates = [
   },
   {
     id : 'Afternoon',
-    match : is(timeOfDay(15, 18)), 
+    match : is(timeOfDay(14, 18)), 
     probability : Probability.certain,
     text : [ 
       ['Müssen wir noch einkaufen?', [ 'shopping_cart', 'shopping_bags' ]],
@@ -405,6 +418,7 @@ var candidates = [
       ['Ein Buch lesen?', ['books', 'books', 'closed_book']],
       ['Vielleicht basteln?', [ 'scissors', 'paperclips', 'straight_ruler', 'triangular_ruler' ]],
       ['Ein Runde Fahrad fahren?', [ 'mountain_bicyclist', 'bicyclist' ]],
+      ['Roller fahren?', [ 'scooter', 'checkered_flag' ]],
       ['Auf den Spielplatz?', ['basketball_player_tone1', 'soccer', 'basketball']]
     ],
     tag : [ 'playground', 'afternoon'],
@@ -480,6 +494,7 @@ function getSingleMatchForTime(dt, fRandom) {
   }
 
   const matches = getMatchesForTime(dt);
+  //console.log(matches);
   const match = matches.find(m => fRandom() <= m.probability);
 
   let result = { id : match.id };

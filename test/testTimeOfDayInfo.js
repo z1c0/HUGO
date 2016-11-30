@@ -5,10 +5,8 @@ var expect = require('chai').expect;
 
 
 function helper_SpecialTimeOfDay(day, month, hour) {
-  var d = new Date();
+  var d = new Date(2016, month - 1, day);
   d.setHours(hour);
-  d.setMonth(month - 1);
-  d.setDate(day);
   return d;
 }
 
@@ -68,6 +66,7 @@ describe('timeOfDayInfo', function() {
       { arg: helper_TimeOfWeekDay(0, 16), expected: 'Weekend' },
       { arg: helper_SpecialTimeOfDay(1, 12, 17), expected: 'Advent' },
       { arg: helper_SpecialTimeOfDay(23, 12, 22), expected: 'Advent' },
+      { arg: helper_SpecialTimeOfDay(10, 12, 8), expected: 'XmasCalendar' },
     ];
 
 

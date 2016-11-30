@@ -20,10 +20,11 @@ function sendNavigationCommand(command) {
   });
 }
 
-let command = {
-  to : process.argv[3]
+let cmd = process.argv[3];
+let data = process.argv[4];  
+
+let msg = {
+  cmd : cmd,
+  data : data
 };
-if (!command.to) {
-  command.to = '/';
-}
-sendNavigationCommand(command);
+sendNavigationCommand(msg);
