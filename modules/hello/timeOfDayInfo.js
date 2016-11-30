@@ -427,7 +427,7 @@ var candidates = [
   {
     id : 'BedTime',
     match : is(timeOfDay(19, 20)), 
-    probability : Probability.veryLikly,
+    probability : Probability.veryLikely,
     text : [
       'Schlafenszeit',
       'Schlaf gut, lieber Timo',

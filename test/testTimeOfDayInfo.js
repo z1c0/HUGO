@@ -59,6 +59,7 @@ describe('timeOfDayInfo', function() {
       { arg: helper_TimeOfDay(7), expected: 'GoodMorning' },
       { arg: helper_TimeOfDay(12), expected: 'Lunch' },
       { arg: helper_TimeOfDay(15), expected: 'Afternoon' },
+      { arg: helper_TimeOfDay(19), expected: 'BedTime' },
       { arg: helper_TimeOfDay(18), expected: 'Evening' },
 
       { arg: helper_TimeOfWeekDay(5, 12), expected: 'BurritoFriday' },

@@ -65,7 +65,7 @@ function checkMovies(data) {
           details.forEach(function(d) {
             var title = canonicalizeTitle(d.FilmTitle);
             if (title) {
-              console.log(d);
+              //console.log(d);
               movieMap[title] = {
                 title : title,
                 image : megaplexContentUrl + d.FilmImg.split('/')[1],

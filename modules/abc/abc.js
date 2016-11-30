@@ -1,13 +1,12 @@
 'use strict';
 
 function initRoutes(helper) {
-  helper.get('/');
+  helper.get('/', { useFetcher : false });
 }
 
 module.exports = {
   init: function(router) {
     initRoutes(require('../routingHelper')(router, this));
   },
-  icon : 'fa-bus',
-  displayName : 'bus'
+  icon : 'fa-graduation-cap',
 };
