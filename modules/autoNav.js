@@ -2,6 +2,7 @@
 var EventEmitter = require('events').EventEmitter  
 var messageBus = new EventEmitter();
 
+var currentAutoNav = '';
 
 var Cursor = function(array) {
   var idx = 0;
@@ -12,12 +13,6 @@ var Cursor = function(array) {
   this.current = function () {
     return array[idx];
   };
-  this.setCurrent = function(c) {
-    let i = array.indexOf(c);
-    if (i >= 0) {
-      idx = i;
-    }
-  }
   this.next = function () {
     idx = (idx + 1) % array.length;
     return array[idx];
@@ -99,16 +94,20 @@ function init(router, modules) {
   setInterval(() => {
     let data = null;
     var dt = new Date();
-    if (dt.getHours() >= 10 && dt.getHours() < 11 && cursor.current() !== 'news') {
-      cursor.setCurrent("news");
-      data = prepare(cursor.current());
+    if (dt.getHours() >= 10 && dt.getHours() < 11 && currentAutoNav !== 'news') {
+      currentAutoNav = 'news';
+      data = prepare(currentAutoNav);
     }
-    else if (dt.getHours() >= 14 && dt.getHours() < 15 && cursor.current() !== 'photos') {
-      cursor.setCurrent("photos");
-      data = prepare(cursor.current());
+    else if (dt.getHours() >= 14 && dt.getHours() < 15 && currentAutoNav !== 'photos') {
+      currentAutoNav = 'photos';
+      data = prepare(currentAutoNav);
+    }
+    else if (currentAutoNav !== 'hello') {
+      currentAutoNav = 'hello';
+      data = prepare(currentAutoNav);
     }
     navigate(data);
-  }, 1000 * 10);
+  }, 1000 * 60);
 }
 
 module.exports = {
