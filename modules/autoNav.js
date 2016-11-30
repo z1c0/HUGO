@@ -94,13 +94,17 @@ function init(router, modules) {
   setInterval(() => {
     let data = null;
     var dt = new Date();
-    if (dt.getHours() >= 10 && dt.getHours() < 11 && currentAutoNav !== 'news') {
-      currentAutoNav = 'news';
-      data = prepare(currentAutoNav);
+    if (dt.getHours() >= 10 && dt.getHours() < 11) {
+      if (currentAutoNav !== 'news') {
+        currentAutoNav = 'news';
+        data = prepare(currentAutoNav);
+      }
     }
-    else if (dt.getHours() >= 14 && dt.getHours() < 15 && currentAutoNav !== 'photos') {
-      currentAutoNav = 'photos';
-      data = prepare(currentAutoNav);
+    else if (dt.getHours() >= 14 && dt.getHours() < 15) {
+      if (currentAutoNav !== 'photos') {
+        currentAutoNav = 'photos';
+        data = prepare(currentAutoNav);
+      }
     }
     else if (currentAutoNav !== 'hello') {
       currentAutoNav = 'hello';
