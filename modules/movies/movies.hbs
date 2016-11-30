@@ -2,10 +2,24 @@
   <link rel='stylesheet' href='/css/movies.css' />
 {{/section}}
 
-<h2>Megaplex OV Movies</h2>
 
-<ul>
-{{#each fetched}}
-  <li><div class="round"><a href="/{{this.title}}"><img src="{{this.image}}"></a></div></li>
-{{/each}}
-</ul>
+<div id="movies">
+  <h1>Megaplex OV Movies</h1>
+  
+  <ul>
+  {{#each fetched}}
+    <li>
+      <a href="{{this.url}}">
+      <div class="round">
+        <img src="{{this.image}}">
+      </div>
+      <p>
+        <span class="title">{{this.title}}</span>
+        <br/>
+        <span class="start">{{this.start}}</span>
+      </p>
+      </a>
+    </li>
+  {{/each}}
+  </ul>
+</div>

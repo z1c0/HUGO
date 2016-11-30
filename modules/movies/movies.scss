@@ -3,12 +3,43 @@
   width: $radius;
   height: $radius;
   overflow: hidden;
+  background: rgb(40, 40, 40);
   border-radius: 50%;
+  border-size: 0;
   img {
     width: $radius;
   }
 }
 
-.round {
-  @include make-round(100px);
- } 
+#movies {
+  padding: 1em;
+}
+
+ul {
+  padding-top: 1em;
+  li {
+    list-style: none;
+
+    .round {
+      @include make-round(100px);
+      display: inline-block;
+      vertical-align: middle;
+      margin-bottom: 1.5em;
+    }
+
+    p {
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 0.5em;
+    }
+
+    .title {
+      font-size: 2.5em;
+    } 
+
+    .start {
+      font-size: 1em;
+      font-style: italic;
+    } 
+  }
+}
