@@ -26,7 +26,6 @@ build/Release
 # Dependency directory
 node_modules
 bower_components
-pics
 
 # Optional npm cache directory
 .npm
@@ -35,5 +34,6 @@ pics
 .node_repl_history
 
 db/store/*.json
+public/pics
 secrets.js
 modules.config.json

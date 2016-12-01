@@ -1,0 +1,37 @@
+{{#section 'head'}}
+  <link rel="stylesheet" href="/bower_components/lightgallery/dist/css/lightgallery.min.css">
+  <style>
+    .lg-toolbar.group { visibility: collapse; }
+  </style>
+{{/section}}
+
+<div id="pics">
+  {{#each fetched}}
+    <a href="/pics/{{this}}"></a>
+  {{/each}}
+</div>
+
+{{#section 'scripts'}}
+<script src="/bower_components/lightgallery/dist/js/lightgallery.min.js"></script>
+<script src="/bower_components/lg-autoplay/dist/lg-autoplay.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    var lg = $("#pics");
+    lg.lightGallery({
+      mode : 'lg-fade',
+      speed : 2000,
+      controls : false,
+      preLoad : 3,
+      download : false,
+      counter : false,
+      closeable : false,
+      autoplay: true,
+      pause : 10000,
+      fourceAutoplay : true,
+      autoplayControls : false,
+      progressBar : false
+    });
+    $('#pics > :first-child').trigger('click');
+  });
+</script>
+{{/section}}
