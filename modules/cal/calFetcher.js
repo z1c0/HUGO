@@ -1,8 +1,6 @@
-"use strict"
+'use strict';
 var ical = require('ical')
 var moment = require('moment');
-
-let config = {};
 
 const maximumEntries = 100;
 const maximumNumberOfDays = 20;
@@ -24,7 +22,7 @@ function isFullDayEvent(event) {
 };
 
 function getAppointments(callback) {
-  ical.fromURL(config.icalUrl, {}, function(err, data) {
+  ical.fromURL(this.config.icalUrl, {}, function(err, data) {
     let appointments = [];
     const now = new Date();
     const today = moment().startOf("day").toDate();
@@ -118,10 +116,6 @@ function getAppointments(callback) {
 }
 
 
-module.exports = {
-  init : function(vm) {
-    config = vm.config;
-  },
-
-  fetch : getAppointments
+module.exports = function Fetcher() {
+  this.fetch = getAppointments;
 }

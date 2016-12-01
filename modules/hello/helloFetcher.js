@@ -28,6 +28,6 @@ function fetchTimeOfDayStuff(callback) {
 }
 
 
-module.exports = {
-  fetch : fetchTimeOfDayStuff
+module.exports = function Fetcher() {
+  this.fetch = fetchTimeOfDayStuff;
 };

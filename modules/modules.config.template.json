@@ -1,43 +1,64 @@
 {
   "hello": { 
-    "enabled" : true
+    "autoNav" : true,
+    "icon" : "fa-user-circle",
+    "updateInterval" : 20000
   },
-  "busmon": { 
-    "enabled" : false
+  "abc" : {
+    "enabled" : true,
+    "fetcher" : "",
+    "icon" : "fa-graduation-cap"
   },
-  "matrix": { 
-    "enabled" : false
+  "bus" : {
+    "icon" : "fa-bus",
+    "module" : "busmon"
   },
-  "movies": { 
-    "enabled" : false,
-    "useDB" : true,
-    "iftttkey" : ""
+  "calendar" : {
+    "icon" : "fa-calendar-check-o",
+    "module" : "cal",
+    "updateInterval" : 3600000,
+    "icalUrl" : ""
   },
-  "photos": { 
-    "enabled" : false,
+  "matrix" : {
+    "icon" : "fa-th",
+    "fetcher" : ""
+  },
+  "movies": {
+    "icon" : "fa-film",
+    "fetcher" : "schedule"
+  },
+  "photos": {
+    "module" : "pics",
+    "icon" : "fa-image",
+    "autoNav" : true,
     "imageDir" : "",
     "albumId" : "",
     "clientId" : "",
     "clientSecret" : "",
     "refreshToken" : ""
   },
-  "tvleds": { 
-    "enabled" : false,
+  "lights" : {
+    "module" : "tvleds",
+    "icon" : "fa-lightbulb-o",
+    "fetcher" : "tvCheckerJob",
     "ledHost" : "192.168.1.139"
   },
-  "weather": { 
-    "enabled" : true,
+  "Linz": { 
+    "module" : "weather",
+    "icon" : "fa-thermometer-half",
+    "updateInterval" : 30000, 
+    "autoNav" : true,
+    "location" : "Linz,AT",
+    "apiKey" : ""
+  },
+  "news" : {
+    "autoNav" : true,
+    "icon" : "fa-newspaper-o",
+    "updateInterval" : 0, 
     "apiKey" : ""
   },
   "work" : {
-    "enabled" : true
-  },
-  "news" : {
-    "enabled" : true,
-    "apiKey" : ""
-  },
-  "cal" : {
-    "enabled" : true,
-    "icalUrl" : ""
+    "icon" : "fa-tasks",
+    "updateInterval" : "30000"
   }
 }

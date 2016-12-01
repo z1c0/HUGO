@@ -1,7 +1,5 @@
-"use strict"
+'use strict';
 var request = require('request');
-
-let config = {};
 
 const iconTable = {
   "01d": "wi-day-sunny",
@@ -26,7 +24,9 @@ const iconTable = {
 
 function getWeather(callback) {
   request.get({
-    url : "http://api.openweathermap.org/data/2.5/weather?q=Linz,AT&appid=" + config.apiKey + "&units=metric&lang=de&ts=" + Date.now(),
+    url : 'http://api.openweathermap.org/data/2.5/weather?q=' + 
+      this.config.location + '&appid=' + this.config.apiKey +
+       "&units=metric&lang=de&ts=" + Date.now(),
     json : true
   },
   function(err, httpResponse, body) {
@@ -46,10 +46,6 @@ function getWeather(callback) {
   });  
 }
 
-module.exports = {
-  init : function(vm) {
-    config = vm.config;
-  },
-
-  fetch : getWeather
+module.exports = function Fetcher() {
+  this.fetch = getWeather;
 }

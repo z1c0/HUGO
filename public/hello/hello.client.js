@@ -15,13 +15,13 @@ function formatBusDisplayLine(viewModel) {
 }
 
 (function() {
-  hugo.setupDataBinding('bus', 'busmon', { departures : [] }, 10 * 1000);
+  hugo.setupDataBinding('bus', 'bus', { departures : [] }, 10 * 1000);
   hugo.setupDataBinding('calendar',
-    'cal', 
+    'calendar', 
     { today: { title: ''}, appointments: [], day : '', month : '' },
     60 * 1000);
   hugo.setupDataBinding('weather',
-    'weather',
+    'linz',
     { icon : null, temp : null, name : null, description : null }, 
     10 * 1000);
 })();

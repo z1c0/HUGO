@@ -1,102 +1,41 @@
-"use strict";
+'use strict';
 
-var path = require('path'),
-    hugo = require('../hugo'),
-    db = require('../db/db')
+function init(router, hugoModule) {
+  let url = '/' + hugoModule.route;
+  let view = '../modules/' + hugoModule.module + '/' + hugoModule.module;
+  let fRender;
+  if (hugoModule.fetcher !== '') {
+    let Fetcher = require('./' + hugoModule.module + '/' + hugoModule.fetcher);
+    let fetcher = new Fetcher();
+    fetcher.config = hugoModule;
+    if (fetcher.init) {
+      fetcher.init();
+    }
 
+    var fRenderJson = function(req, res) {
+      fetcher.fetch(function(data) {
+        res.json(data);
+      });
+    };
+    router.get(url + '/api', fRenderJson);
 
-function getViewPath(name) {
-  return '../modules/' + name + '/' + name;
-}
-
-function ensureProperty(object, propertyName, defaultValue)
-{
-  if (!object.hasOwnProperty(propertyName)) {
-    object[propertyName] = defaultValue;
+    fRender = function(req, res) {
+      fetcher.fetch(function(data) {
+        hugoModule.fetched = data;
+        res.render(view, hugoModule);
+      });
+    };
   }
-}
-
-module.exports = function routingHelper(router, hugoModule) {
-  var _router = router,
-      _name = hugoModule.name;
-      
-  if (!hugoModule.displayName) {
-    hugoModule.displayName = hugoModule.name;
+  else {
+    fRender = function(req, res) {
+      res.render(view, hugoModule);
+    }
   }
-  if (!hugoModule.icon) {
-    hugoModule.icon = 'fa-code';
-  }
-  return {
-    router : _router,
 
-    url : function() {
-      return '/' + _name;
-    },
-    
-    view : function() {
-      return getViewPath(_name);
-    },
-    
-    viewModel : function() {
-      var viewModel = {
-        name : _name,
-        updateInterval : 1000 * 60,
-        config : hugoModule.config,
-        hugo : hugo,
-        title : hugo.title,
-      };
-      if (hugoModule.config['useDB']) {
-        viewModel.db = db.get(_name);
-      }
-      return viewModel;
-    },
-    
-    get : function(path, options) {
-      options = options || {};
-      ensureProperty(options, "useFetcher", true);
-      ensureProperty(options, "apiPath", "api");
-      //console.log(options);
-
-      const view = this.view();
-      const viewModel = this.viewModel();
-      let fRender;
-      let fetcher = null;
-      if (hugoModule.fetcher) {
-        fetcher = hugoModule.fetcher;
-      }
-      if (hugoModule.hasOwnProperty('updateInterval')) {
-        viewModel.updateInterval = hugoModule.updateInterval;
-      }
-
-      if (options.useFetcher) {
-        if (!fetcher) {
-          fetcher = require("./" + _name + "/" + _name + "Fetcher");
-        }
-        if (fetcher.init) {
-          fetcher.init(viewModel);
-        }
-
-        var fRenderJson = function(req, res) {
-          fetcher.fetch(function(data) {
-            res.json(data);
-          });
-        };
-        router.get(this.url() + path + options.apiPath, fRenderJson);
-
-        fRender = function(req, res) {
-          fetcher.fetch(function(data) {
-            viewModel.fetched = data;
-            res.render(view, viewModel);
-          });
-        };
-      }
-      else {
-        fRender = function(req, res) {
-          res.render(view, viewModel);
-        }
-      }
-
-      router.get(this.url() + path, fRender);
-    },
-  };
+  router.get(url, fRender);
 };
+
+
+module.exports = {
+  init : init
+}

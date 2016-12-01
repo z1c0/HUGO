@@ -41,7 +41,7 @@ function getIPAddress() {
     });  
     if (iface.length > 0)  {
       var a = iface[0].address; 
-      console.log(a);
+      //console.log(a);
       return a;
     }
   }
@@ -186,7 +186,15 @@ function onSsdpResponse(headers, statusCode, rinfo) {
 }
 
 
-module.exports = {
+module.exports = function Fetcher() {
+  this.init = function() {
+    ledHost = this.config.ledHost;
+    initStartCron();
+  }
+  this.fetch = function(callback) {
+    callback({ ledHost : ledHost });
+  }
+  /*
   getStatus: function() {
     return xboxOn ? "ON" : "OFF";
   },
@@ -204,10 +212,5 @@ module.exports = {
   },
   getTargetColor: function() {
     return targetColor;
-  },
-  init: function(data) {
-    //console.log(data);
-    ledHost = data.config.ledHost;
-    initStartCron();
-  }
+  }*/
 };

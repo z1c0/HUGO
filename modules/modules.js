@@ -1,7 +1,19 @@
+'use strict';
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
+var routingHelper = require('./routingHelper');
 var autoNav = require('./autoNav');
+
+
+function ensureProperty(object, propertyName, defaultValue)
+{
+  if (!object.hasOwnProperty(propertyName)) {
+    object[propertyName] = defaultValue;
+  }
+  return object[propertyName];
+}
+
 
 
 function loadModules() {
@@ -10,16 +22,18 @@ function loadModules() {
   //console.log(config);
 
   for (var name in config) {
-    var c = config[name];
-    if (c.enabled) {
-      var filePath = path.join(__dirname, name);
-      if (fs.statSync(filePath).isDirectory()) {
-        var m = require(path.join(filePath, name));
-        m.name = name;
-        m.config = c;
-        m.getRoute = function() { return this.name; };
-        modules.push(m);
-      }
+    let m = config[name];
+    m.displayName = name;
+    if (ensureProperty(m, 'enabled', true)) {
+      ensureProperty(m, 'module', name);
+      ensureProperty(m, 'route', name.toLowerCase());
+      ensureProperty(m, 'updateInterval',  1000 * 60);
+      ensureProperty(m, 'fetcher', m.module + 'Fetcher');
+  //     if (hugoModule.config['useDB']) {
+  //       viewModel.db = db.get(_name);
+  //     }
+      //console.log(m);
+      modules.push(m);
     }
   }
   return modules;
@@ -39,7 +53,7 @@ function createRoutes() {
   autoNav.init(router, modules);
   // modules
   modules.forEach(function(m) {
-    m.init(router);
+    routingHelper.init(router, m);
   });
   return router;
 }

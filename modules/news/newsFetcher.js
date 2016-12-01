@@ -1,8 +1,7 @@
-"use strict"
+'use strict';
 var request = require('request');
 
-let config = {};
-
+// TODO : Cursor + make "this."
 const sources = [
   'spiegel-online',
   'focus',
@@ -17,7 +16,7 @@ let sourceIndex = 0;
 function getHeadlines(callback) {
   //console.log(sourceIndex);
   request.get({
-    url : 'https://newsapi.org/v1/articles?source=' + sources[sourceIndex] + '&sortBy=top&apiKey=' + config.apiKey,
+    url : 'https://newsapi.org/v1/articles?source=' + sources[sourceIndex] + '&sortBy=top&apiKey=' + this.config.apiKey,
     json : true
   },
   function(err, httpResponse, body) {
@@ -34,10 +33,6 @@ function getHeadlines(callback) {
 }
 
 
-module.exports = {
-  init : function(vm) {
-    config = vm.config;
-  },
-
-  fetch : getHeadlines
+module.exports = function Fetcher() {
+  this.fetch = getHeadlines;
 }

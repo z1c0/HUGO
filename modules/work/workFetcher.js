@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 var request = require('request');
 
 function getWorkData(callback) {
@@ -17,6 +17,6 @@ function getWorkData(callback) {
   });  
 }
 
-module.exports = {
-  fetch : getWorkData
+module.exports = function Fetcher() {
+  this.fetch = getWorkData;
 }

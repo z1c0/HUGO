@@ -96,8 +96,8 @@ function getLines(result, renderCallback) {
   }
 }
 
-module.exports = {
-  fetch: function (f) {
+module.exports = function Fetcher() {
+  this.fetch = function (f) {
     doRequest(getLines, "sessionID=0&type_dm=any&name_dm=60500560", f);
   }
 };

@@ -42,8 +42,8 @@ function init(router, modules) {
 
   let navigatables = [];
   modules.forEach(m => {
-    if (m.config.autoNav) {
-      navigatables.push(m.getRoute());
+    if (m.autoNav) {
+      navigatables.push(m.route);
     }
   });
   //console.log(navigatables);

@@ -45,6 +45,7 @@ function canonicalizeTitle(title) {
   if (title.startsWith('OV') && !title.includes('Sneak Preview')) {
     newTitle = title.replace('OV ', '');
     newTitle = newTitle.replace('IMAX ', '');
+    newTitle = newTitle.replace('ATMOS ', ''); 
     newTitle = newTitle.replace('3D', '');
   }
   return newTitle;
@@ -89,17 +90,18 @@ function checkMovies(data) {
   });
 }
 
-module.exports = {
-  init : function(data) {
+module.exports = function Fetcher() {
+  this.init = function() {
     // run every hour 
     // */20 * * * * *",
     var cronJob = cron.job("0 0 */1 * * *", function() {
-      checkMovies(data);
+      checkMovies(this.config);
     });
     cronJob.start();
-    checkMovies(data);
-  },
-  fetch : function(callback) {
+    checkMovies(this.config);
+  }
+
+  this.fetch = function(callback) {
     callback(movies);
   }
 };
