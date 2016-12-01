@@ -13,10 +13,13 @@ var Cursor = function(array) {
   this.current = function () {
     return array[idx];
   };
-  this.next = function () {
+  this.next = function() {
     idx = (idx + 1) % array.length;
     return array[idx];
   };
+  this.isEmpty = function() {
+    return array.length === 0;
+  }
   return this;
 };
 
@@ -35,7 +38,7 @@ function init(router, modules) {
 
   function navigate(data) {
     if (data) {
-      console.log("autonav to: " + data.to);
+      console.log('[autonav ==> ' + data.to);
       messageBus.emit(msgId, data);
     }
   }
@@ -88,30 +91,32 @@ function init(router, modules) {
     }
     res.status(code).end();
   })
-  //
-  // Time-based auto-nav
-  //
-  setInterval(() => {
-    let data = null;
-    var dt = new Date();
-    if (dt.getHours() >= 10 && dt.getHours() < 11) {
-      if (currentAutoNav !== 'news') {
-        currentAutoNav = 'news';
+  if (!cursor.isEmpty()) {
+    //
+    // Time-based auto-nav
+    //
+    setInterval(() => {
+      let data = null;
+      var dt = new Date();
+      if (dt.getHours() >= 10 && dt.getHours() < 11) {
+        if (currentAutoNav !== 'news') {
+          currentAutoNav = 'news';
+          data = prepare(currentAutoNav);
+        }
+      }
+      else if (dt.getHours() >= 15 && dt.getHours() < 17) {
+        if (currentAutoNav !== 'photos') {
+          currentAutoNav = 'photos';
+          data = prepare(currentAutoNav);
+        }
+      }
+      else if (currentAutoNav !== 'hello') {
+        currentAutoNav = 'hello';
         data = prepare(currentAutoNav);
       }
-    }
-    else if (dt.getHours() >= 14 && dt.getHours() < 15) {
-      if (currentAutoNav !== 'photos') {
-        currentAutoNav = 'photos';
-        data = prepare(currentAutoNav);
-      }
-    }
-    else if (currentAutoNav !== 'hello') {
-      currentAutoNav = 'hello';
-      data = prepare(currentAutoNav);
-    }
-    navigate(data);
-  }, 1000 * 60);
+      navigate(data);
+    }, 1000 * 60);
+  }
 }
 
 module.exports = {

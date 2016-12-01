@@ -66,7 +66,7 @@ describe('timeOfDayInfo', function() {
       { arg: helper_TimeOfWeekDay(6, 11), expected: 'Weekend' },
       { arg: helper_TimeOfWeekDay(0, 16), expected: 'Weekend' },
       { arg: helper_SpecialTimeOfDay(1, 12, 17), expected: 'Advent' },
-      { arg: helper_SpecialTimeOfDay(23, 12, 22), expected: 'Advent' },
+      { arg: helper_SpecialTimeOfDay(23, 12, 19), expected: 'Advent' },
       { arg: helper_SpecialTimeOfDay(10, 12, 8), expected: 'XmasCalendar' },
     ];
 

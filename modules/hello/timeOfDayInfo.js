@@ -321,7 +321,7 @@ var candidates = [
     probability : Probability.likely,
     text : [ 
       'Was war im Adventkalender?',
-      'Hast du das ' + new Date().getDate() + '. Türchen aufgemacht?'
+      'Hast du die ' + new Date().getDate() + '. Tür aufgemacht?'
     ],
     tag : [ 'christmas+calendar' ],
     emoji : [ 
@@ -358,7 +358,8 @@ var candidates = [
   {
     id : 'Advent',
     match : is(function(dt) {
-      return dt.getMonth() === 11 && dt.getDate() < 24 && dt.getHours() >= 17;
+      return dt.getMonth() === 11 && dt.getDate() < 24 && 
+        dt.getHours() >= 17 && dt.getHours() < 20;
     }),
     probability : Probability.likely,
     text : [ 
