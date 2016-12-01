@@ -28,7 +28,7 @@ function updateDb(data, movies) {
           data.db.insert(doc);
           
           request({
-            url: getIftttUrl('new_movie', data.config.iftttkey),
+            url: getIftttUrl('new_movie', data.iftttkey),
             method: 'POST',
             json: {
               value1 : m.title,
@@ -47,6 +47,7 @@ function canonicalizeTitle(title) {
     newTitle = newTitle.replace('IMAX ', '');
     newTitle = newTitle.replace('ATMOS ', ''); 
     newTitle = newTitle.replace('3D', '');
+    newTitle = newTitle.trim();
   }
   return newTitle;
 }

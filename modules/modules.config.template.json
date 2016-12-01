@@ -25,7 +25,9 @@
   },
   "movies": {
     "icon" : "fa-film",
-    "fetcher" : "schedule"
+    "fetcher" : "schedule",
+    "useDb" : true,
+    "iftttkey" : ""
   },
   "photos": {
     "module" : "pics",

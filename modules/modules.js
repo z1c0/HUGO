@@ -2,6 +2,7 @@
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
+var db = require('../db/db');
 var routingHelper = require('./routingHelper');
 var autoNav = require('./autoNav');
 
@@ -29,9 +30,11 @@ function loadModules() {
       ensureProperty(m, 'route', name.toLowerCase());
       ensureProperty(m, 'updateInterval',  1000 * 60);
       ensureProperty(m, 'fetcher', m.module + 'Fetcher');
-  //     if (hugoModule.config['useDB']) {
-  //       viewModel.db = db.get(_name);
-  //     }
+      ensureProperty(m, 'useDb', false);
+
+      if (m.useDb) {
+        m.db = db.get(name);
+      }
       //console.log(m);
       modules.push(m);
     }
