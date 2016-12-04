@@ -1,59 +1,65 @@
 @import '../busmon/busmon';
 @import '../weather/weather';
 $main-background: #1E1E1E; // TODO: common include
+$gray-color: #313136; // TODO
 $color-calendar-main: #EF4D3C;
+
 
 .part {
   margin: 0.5rem 1rem;
-  padding: 1rem;
+  height: 32%;
+  overflow-y: hidden;
   //background: lightpink;
   //border: 1px solid red; 
 }
 
 #hello {
   font-size: 1rem;
-  .left {
-    height: 200px;
-    width: 60%;
-    display: inline-block;
-    vertical-align: top;
-    p {
-      font-size: 4.5em;
+  display: flex;
+  justify-content: space-between;
+  p {
+    span {
+      font-size: 4em;
     }
     i {
       font-size: 6em;
     } 
   }
 
-  .right
-  {
-    height: 200px;
-    width: 39%;
-    display: inline-block;
-    .gif {
-      border-radius: 2px;
-      margin-left: auto;
-      width: 200px;
-      height: 200px;
-      background-repeat: no-repeat;
-      position: relative;
-      &:after {
-        position: absolute;
-        content: "";
-        left: 0px;
-        bottom: 0px;
-        height: 15px;
-        width: 100%;
-        background: linear-gradient(transparent, $main-background);
-      }
-    }
+  .gif {
+    margin-left: 1em;
+    width: 160px;
+    height: 160px;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }
 
+#middle {
+  background: $gray-color;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+#bus {
+  margin: auto 1em;
+  p {
+    margin: 0;
+  }
+  span {
+    padding: 5px;
+    font-size: 1.5em;
+    @extend .lcd-text;
+  }
+}
+
+#weather {
+  margin: auto 1em auto auto;
+  font-size: 5px;
+}
+
 #calendar {
-  background: #313136;
-  height: 80px;
-  overflow: hidden;
   .icon {
     display: inline-block;
     vertical-align: top;
@@ -106,30 +112,4 @@ $color-calendar-main: #EF4D3C;
       list-style-type: none;
     }
   }
-}
-
-#bus {
-  display: inline-block;
-  margin: 0;
-  padding-top: 2rem; 
-  vertical-align: top;
-  //background: $signcolormain;
-  //border-radius: 3px;
-  p {
-    margin: 0;
-    background: $main-background;
-  }
-  span {
-    padding: 5px;
-    font-size: large;
-    @extend .lcd-text;
-  }
-}
-
-#weather {
-  display: inline-block;
-  vertical-align: top;
-  margin-left: auto;
-  font-size: 5px;
-  margin-left: 40px;
 }

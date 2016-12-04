@@ -47,7 +47,7 @@ describe('timeOfDayInfo', function() {
       { arg: helper_SpecialDay(23,  2), expected: 'Steffi' },
       { arg: helper_SpecialDay(10,  3), expected: 'Wolfgang' },
       { arg: helper_SpecialDay(16, 10), expected: 'Timo' },
-      { arg: helper_SpecialDay( 3, 12), expected: 'Nico' },
+      { arg: helper_SpecialDay( 2, 12), expected: 'Nico' },
 
       { arg: helper_TimeOfWeekDay(1,  6), expected: 'Workout' },
       { arg: helper_TimeOfWeekDay(3,  6), expected: 'Workout' },

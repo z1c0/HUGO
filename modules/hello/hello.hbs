@@ -5,14 +5,28 @@
 {{/section}}
 
 <div id="hello" class="part">
-  <div class="left">
-    <p data-bind="text: text"></p>
+  <p>
+    <span data-bind="text: text"></span>
     <i data-bind="css: emoji"></i>
+  </p>
+  <div class="gif" data-bind="style: { backgroundImage: 'url(\'' + gif.url() + '\')' };">
   </div>
-  <div class="right">
-    <div class="gif" data-bind="style: { backgroundImage: 'url(\'' + gif.url() + '\')' };">
-      <div class="gradientback"></div>
-    </div>
+</div>
+
+<div id="middle" class="part">
+  <div id="bus">
+    <!--<div id="logo">H</div>-->
+    <!-- ko foreach: departures -->
+    <p>
+      <span data-bind="text: formatBusDisplayLine($data)">
+    </p>
+    <!-- /ko -->
+  </div>
+
+  <div id="weather">
+    <p><span data-bind="text: name"></span>, <span data-bind="text: description"></span></p>
+    <i class="wi" data-bind="css: icon"></i>
+    <span class="temperature" data-bind="text: temp"></span><span class="temperature">°C</span>
   </div>
 </div>
 
@@ -36,20 +50,6 @@
   </ul>--}}
 </div>
 
-<div id="bus" class="part">
-  <!--<div id="logo">H</div>-->
-  <!-- ko foreach: departures -->
-  <p>
-    <span data-bind="text: formatBusDisplayLine($data)">
-  </p>
-  <!-- /ko -->
-</div>
-
-<div id="weather" class="part">
-  <p><span data-bind="text: name"></span>, <span data-bind="text: description"></span></p>
-  <i class="wi" data-bind="css: icon"></i>
-  <span class="temperature" data-bind="text: temp"></span><span class="temperature">°C</span>
-</div>
 
 
 {{#section 'scripts'}}
