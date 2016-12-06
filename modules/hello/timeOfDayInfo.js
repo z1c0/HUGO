@@ -234,7 +234,7 @@ var candidates = [
       "Nikolaustag!",
       "Waren alle brav?"
     ],
-    tag : [ 'santa', 'nikolaus' ],
+    tag : [ 'santa+claus', 'christmas-season' ],
     emoji : [ 'tangerine', 'santa_tone1', 'snowflake', 'peanuts' ]
   },
   {
