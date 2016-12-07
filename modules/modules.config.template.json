@@ -4,6 +4,10 @@
     "icon" : "fa-user-circle",
     "updateInterval" : 20000
   },
+  "blank" : {
+    "icon" : "fa-square",
+    "fetcher" : ""
+  },
   "abc" : {
     "enabled" : true,
     "fetcher" : "",
