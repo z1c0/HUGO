@@ -432,7 +432,7 @@ var candidates = [
     text : [
       'Schlafenszeit',
       'Schlaf gut, lieber Timo',
-      'Night night',
+      'Nighty night',
       'Zeit zum Bettgehen'
     ],
     tag : ['bed', 'sleepy' ],
