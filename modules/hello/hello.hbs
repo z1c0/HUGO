@@ -41,7 +41,7 @@
   <ul data-bind="foreach: appointments">
     <li>
       <strong data-bind="text: title"></strong><br>
-      <i><span data-bind="text: due"></span></i>
+      <i><span data-bind="text: due"></span>, <span data-bind="text: time"></span></i>
     </li>
   </ul>
   </div>
@@ -49,7 +49,7 @@
     <i class="e1a-birthday"></i>
     <ul data-bind="foreach: appointments">
       <li>
-        <strong><span data-bind="text: title"></span></strong> 
+        <strong data-bind="text: title"></strong>
         <i>(<span data-bind="text: due"></span>)</i>
       </li>
     </ul>

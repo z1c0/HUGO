@@ -23,6 +23,27 @@ function isFullDayEvent(event) {
   return false;
 };
 
+function formatDuration(startDate) {
+  const today = moment().startOf("day").toDate();
+  const days = moment(startDate).diff(today, 'days');
+  if (days === 0) {
+    return 'heute'; 
+  }
+  else if (days === 1) {
+    return 'morgen'; 
+  }
+  return moment.duration(moment(startDate).diff(today)).humanize(true);
+}
+
+function formatTime(a) {
+  if (a.fullDayEvent) {
+    return 'ganztägig';
+  }
+  const from = moment(a.startDate).format('HH:mm');
+  const to = moment(a.endDate).format('HH:mm');
+  return from + ' - ' + to;
+}
+
 function getAppointments(callback) {
   ical.fromURL(this.config.icalUrl, {}, function(err, data) {
     let appointments = [];
@@ -32,14 +53,15 @@ function getAppointments(callback) {
     const limitFunction = function(date, i) { return i < maximumEntries; };
 
     function add(title, startDate, endDate, fullDayEvent) {
-      appointments.push({
+      let a = {
         title: title,
-        //startDate : moment(startDate).humanize(),
-        startDate : startDate.format("x"),
-        endDate : endDate.format("x"),
+        startDate : startDate,
+        endDate : endDate,
         fullDayEvent : fullDayEvent,
-        due : moment.duration(moment(startDate).diff(today)).humanize(true)
-      });
+      };
+      a.due = formatDuration(startDate);
+      a.time = formatTime(a);
+      appointments.push(a);
     }
 
     for (var e in data) {

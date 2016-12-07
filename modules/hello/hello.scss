@@ -60,12 +60,14 @@ $color-calendar-main: #EF4D3C;
 }
 
 #calendar {
+  padding-top: 5px;
   display: flex;
   justify-content: space-between;
   div {
     flex-basis: 100%;
   }
   .icon {
+    padding-top: 5px;
     display: inline-block;
     vertical-align: top;
     time {
@@ -105,8 +107,19 @@ $color-calendar-main: #EF4D3C;
     display : inline-block;
     padding-left: 10px;
     li {
-      font-size: 1.3em;
+      font-size: 1.25em;
+      line-height: 1.2em;
       list-style-type: none;
+      i {
+        font-style: normal;
+        height: 0.8em;
+        font-size: 0.8em;
+      }
+    }
+  }
+  #appointments {
+    li {
+      padding-bottom: 8px;
     }
   }
   #birthdays {
@@ -114,6 +127,9 @@ $color-calendar-main: #EF4D3C;
       vertical-align: top;
       margin: 0;
       font-size: 5em;
+    }
+    li {
+      line-height: 1.5em;
     }
   }
 }
