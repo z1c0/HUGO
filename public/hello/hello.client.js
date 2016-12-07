@@ -16,8 +16,12 @@ function formatBusDisplayLine(viewModel) {
 
 (function() {
   hugo.setupDataBinding('bus', 'bus', { departures : [] }, 10 * 1000);
-  hugo.setupDataBinding('calendar',
+  hugo.setupDataBinding('appointments',
     'calendar', 
+    { today: { title: ''}, appointments: [], day : '', month : '' },
+    60 * 1000);
+  hugo.setupDataBinding('birthdays',
+    'birthday', 
     { today: { title: ''}, appointments: [], day : '', month : '' },
     60 * 1000);
   hugo.setupDataBinding('weather',

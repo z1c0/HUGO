@@ -2,8 +2,10 @@
 var ical = require('ical')
 var moment = require('moment');
 
-const maximumEntries = 100;
-const maximumNumberOfDays = 20;
+moment.locale('de');
+
+const maximumEntries = 10;
+const maximumNumberOfDays = 200;
 
 
 function isFullDayEvent(event) {
@@ -28,6 +30,17 @@ function getAppointments(callback) {
     const today = moment().startOf("day").toDate();
     const future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1, "seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
     const limitFunction = function(date, i) { return i < maximumEntries; };
+
+    function add(title, startDate, endDate, fullDayEvent) {
+      appointments.push({
+        title: title,
+        //startDate : moment(startDate).humanize(),
+        startDate : startDate.format("x"),
+        endDate : endDate.format("x"),
+        fullDayEvent : fullDayEvent,
+        due : moment.duration(moment(startDate).diff(today)).humanize(true)
+      });
+    }
 
     for (var e in data) {
       var event = data[e];
@@ -64,12 +77,7 @@ function getAppointments(callback) {
             startDate = moment(new Date(dates[d]));
             endDate = moment(parseInt(startDate.format("x")) + duration, 'x');
             if (endDate.format("x") > now) {
-              appointments.push({
-                title: title,
-                startDate : startDate.format("x"),
-                endDate : endDate.format("x"),
-                fullDayEvent : isFullDayEvent(event),
-              });
+              add(title, startDate, endDate, isFullDayEvent(event));
             }
           }
         }
@@ -94,20 +102,14 @@ function getAppointments(callback) {
           }
 
           // Every thing is good. Add it to the list.					
-          appointments.push({
-            title: title,
-            startDate : startDate.format("x"),
-            endDate : endDate.format("x"),
-            fullDayEvent : fullDayEvent
-          });
+          add(title, startDate, endDate, fullDayEvent);
         }
       }
     }
     appointments.sort(function(a, b) { return a.startDate - b.startDate; });
     appointments = appointments.slice(0, maximumEntries);
-    //console.log(appointments);
+    console.log(appointments);
     callback({ 
-      today : appointments[0],
       appointments : appointments,
       month : moment.months()[now.getMonth()],
       day : now.getDate(),

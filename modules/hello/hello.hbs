@@ -31,23 +31,29 @@
 </div>
 
 <div id="calendar" class="part">
+  <div id="appointments">
   <div class="icon">
     <time>
       <strong data-bind="text: month"></strong>
       <span data-bind="text: day"></span>
     </time>
   </div>
-  <p class="today" data-bind="with: today">
-    <strong data-bind="text:title"></strong><br>
-    {{!--<span data-bind="text:title"></span>--}}
-  </p>
-  {{!--<p>
-    <strong>SP Hopfen und Malz</strong><br>
-    <span>..</span>
-  </p>--}}
-  {{!--<ul data-bind="foreach: appointments">
-    <li data-bind="text: title">
-  </ul>--}}
+  <ul data-bind="foreach: appointments">
+    <li>
+      <strong data-bind="text: title"></strong><br>
+      <i><span data-bind="text: due"></span></i>
+    </li>
+  </ul>
+  </div>
+  <div id="birthdays">
+    <i class="e1a-birthday"></i>
+    <ul data-bind="foreach: appointments">
+      <li>
+        <strong><span data-bind="text: title"></span></strong> 
+        <i>(<span data-bind="text: due"></span>)</i>
+      </li>
+    </ul>
+  </div>
 </div>
 
 
