@@ -13,23 +13,6 @@
   </div>
 </div>
 
-<div id="middle" class="part">
-  <div id="bus">
-    <!--<div id="logo">H</div>-->
-    <!-- ko foreach: departures -->
-    <p>
-      <span data-bind="text: formatBusDisplayLine($data)">
-    </p>
-    <!-- /ko -->
-  </div>
-
-  <div id="weather">
-    <p><span data-bind="text: name"></span>, <span data-bind="text: description"></span></p>
-    <i class="wi" data-bind="css: icon"></i>
-    <span class="temperature" data-bind="text: temp"></span><span class="temperature">°C</span>
-  </div>
-</div>
-
 <div id="calendar" class="part">
   <div id="appointments">
   <div class="icon">
@@ -56,7 +39,22 @@
   </div>
 </div>
 
+<div id="bus-and-weather" class="part">
+  <div id="bus">
+    <!--<div id="logo">H</div>-->
+    <!-- ko foreach: departures -->
+    <p>
+      <span data-bind="text: formatBusDisplayLine($data)">
+    </p>
+    <!-- /ko -->
+  </div>
 
+  <div id="weather">
+    <p><span data-bind="text: name"></span>, <span data-bind="text: description"></span></p>
+    <i class="wi" data-bind="css: icon"></i>
+    <span class="temperature" data-bind="text: temp"></span><span class="temperature">°C</span>
+  </div>
+</div>
 
 {{#section 'scripts'}}
   <script src="/hello/hello.client.js"></script>

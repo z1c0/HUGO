@@ -35,15 +35,14 @@ $color-calendar-main: #EF4D3C;
   }
 }
 
-#middle {
-  background: $gray-color;
+#bus-and-weather {
   display: flex;
-  justify-content: space-between;
+  //justify-content: space-between;
+  padding-top: 8px;
 }
 
 
 #bus {
-  margin: auto 1em;
   p {
     margin: 0;
   }
@@ -55,19 +54,21 @@ $color-calendar-main: #EF4D3C;
 }
 
 #weather {
-  margin: auto 1em auto auto;
+  padding: 0;
   font-size: 5px;
+  margin-left: 12em;
 }
 
 #calendar {
-  padding-top: 5px;
+  background: $gray-color;
+  padding: 2px 15px 0;
   display: flex;
   justify-content: space-between;
   div {
     flex-basis: 100%;
   }
   .icon {
-    padding-top: 5px;
+    padding-top: 8px;
     display: inline-block;
     vertical-align: top;
     time {
@@ -128,7 +129,7 @@ $color-calendar-main: #EF4D3C;
   #birthdays {
     .e1a-birthday {
       vertical-align: top;
-      margin: 0;
+      margin: 5px 0 0 0.5em;
       font-size: 5em;
     }
     li {

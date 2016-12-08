@@ -130,7 +130,7 @@ function getAppointments(callback) {
     }
     appointments.sort(function(a, b) { return a.startDate - b.startDate; });
     appointments = appointments.slice(0, maximumEntries);
-    console.log(appointments);
+    //console.log(appointments);
     callback({ 
       appointments : appointments,
       month : moment.months()[now.getMonth()],
