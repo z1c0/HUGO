@@ -1,7 +1,8 @@
 @import '../busmon/busmon';
 @import '../weather/weather';
 $main-background: #1E1E1E; // TODO: common include
-$gray-color: #313136; // TODO
+$gray-color: #282828; // TODO
+$tile-border-radius: 3px; // TODO
 $color-calendar-main: #EF4D3C;
 
 
@@ -37,7 +38,6 @@ $color-calendar-main: #EF4D3C;
 
 #bus-and-weather {
   display: flex;
-  //justify-content: space-between;
   padding-top: 8px;
 }
 
@@ -61,6 +61,7 @@ $color-calendar-main: #EF4D3C;
 
 #calendar {
   background: $gray-color;
+  border-radius: $tile-border-radius;
   padding: 2px 15px 0;
   display: flex;
   justify-content: space-between;

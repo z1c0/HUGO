@@ -19,8 +19,8 @@ html {
 
 body {
   height: 100%;
+  overflow-y: hidden;
   color: $text-color;
-  //margin-bottom: $footer-height;
   background-color: $main-background;
   font-family: 'Quicksand', sans-serif;
   >.container {
@@ -53,7 +53,7 @@ a.plain-link:hover {
 }
 
 #main-main {
-  height: 99%;
+  height: 100%;
   width: 100%;
   display: inline-block;
 }
