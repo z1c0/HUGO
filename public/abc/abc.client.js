@@ -37,6 +37,6 @@ $(function() {
   setIntervalAndExecute(function() {
     abcViewModel.letter(letters[i][0]);
     abcViewModel.icon('e1a-' + letters[i][1]);
-    var i = (i + 1) % letters.length;
+    i = (i + 1) % letters.length;
   }, 1000 * 10);
 });
