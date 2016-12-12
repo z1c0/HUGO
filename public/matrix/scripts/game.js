@@ -1,4 +1,4 @@
-function initGame(dimemsion) {
+function initGame(dimension) {
   
   function createMatrix(dim) {
     var arr = [];
@@ -12,7 +12,7 @@ function initGame(dimemsion) {
   }    
   
   return {
-    world : createMatrix(dimemsion),
+    world : createMatrix(dimension),
     
     createMatrix : function(dim) {
       return createMatrix(dim);

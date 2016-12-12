@@ -1,13 +1,34 @@
+'use strict';
+
 $(function() {
-  var DIM = 32;
+  const DIM = 32;
   var canvas = document.getElementById("myCanvas");
-  var ctx = canvas.getContext("2d");  
-  
+  const step = canvas.width / DIM;
+  var ctx = canvas.getContext("2d");
+
+  function addClickHandler(game) {
+    function click(e) {
+      if (game.onClick) {
+        game.onClick(
+          Math.floor(e.pageX / step), 
+          Math.floor(e.pageY / step));
+      }
+    }
+    $(canvas).mousemove(function (e) {
+      if (e.which === 1) {
+        click(e);
+      }
+    });
+    $(canvas).click(function (e) {
+      click(e);
+    });
+  }
+
   function render(game) {
-    var step = canvas.width / DIM;
     for (var y = 0; y < DIM; y++){ 
       for (var x = 0; x < DIM; x++) {
         ctx.fillStyle = game.mapColor(x, y);
+        ctx.strokeStyle = "#AAA";
         ctx.strokeRect(x * step, y * step, step, step);
         ctx.fillRect(x * step, y * step, step, step);
       }    
@@ -16,8 +37,9 @@ $(function() {
 
   const viewModel = {
     allGames : [
-      snake(),
-      tictactoe(),
+      draw()
+      //snake(),
+      //tictactoe(),
     ],
     index : -1,
     title :  ko.observable("..."),
@@ -31,6 +53,7 @@ $(function() {
       this.title(game.title);
 
       game.init(initGame(DIM));
+      addClickHandler(game);
       render(game);
       
       this.timer = setInterval(function() {
@@ -41,10 +64,25 @@ $(function() {
           viewModel.nextGame();
         }
       }, game.getInterval());
+    },
+    save : function() {
+      let game = this.allGames[this.index];
+      if (game.save) {
+        game.save();
+      }
+    },
+    setColor : function(rgb) {
+      let game = this.allGames[this.index];
+      if (game.setColor) {
+        game.setColor(rgb);
+      }
     }
   }
 
-  $(document).ready(function() {
+  $(function() {
+    createColorChooser('color-chooser', function(rgb) {
+      viewModel.setColor(rgb);
+    });
     ko.applyBindings(viewModel, document.getElementById('main-main'));
     viewModel.nextGame(); 
   });

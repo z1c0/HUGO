@@ -1,15 +1,23 @@
+{{#section 'head'}}
+  <link rel='stylesheet' href='/css/matrix.css' />
+{{/section}}
+
 <div>
   <canvas id="myCanvas" width="640" height="640" style="border:1px solid #000000;">
   </canvas>
 </div>
 
 <p data-bind="text: title"></p>
-<button data-bind="click: nextGame">Next</button>
+<button class="btn btn-primary" data-bind="click: nextGame">Next</button>
+<button class="btn btn-primary" data-bind="click: save">Save</button>
+<canvas id="color-chooser" height="150"></canvas>
 
 {{#section 'scripts'}}
+  <script src="/colors.js"></script>
   <script src="/matrix/scripts/game.js"></script>
   <script src="/matrix/scripts/tictactoe.js"></script>
   <script src="/matrix/scripts/snake.js"></script>
+  <script src="/matrix/scripts/draw.js"></script>
   <script src="/matrix/scripts/main.js"></script>
 {{/section}}
 

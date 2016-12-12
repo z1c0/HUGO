@@ -4,7 +4,7 @@
     "db/store/*",
     ".git",
     "node_modules/**/node_modules",
-    "public/pics/*"
+    "public/*"
   ],
   "ext": "js json"
 }

@@ -23,7 +23,7 @@ const letters = [
   [ 'V', 'bird' ],
   [ 'W', 'whale' ],
   [ 'X', 'negative_squared_cross_mark' ],
-  [ 'Y', 'regional_indicator_y:' ],
+  [ 'Y', 'regional_indicator_y' ],
   [ 'Z', 'checkered_flag' ],
 ];
 
@@ -32,10 +32,11 @@ $(function() {
     letter : ko.observable(),
     icon : ko.observable()
   }
+  var i = 0;
   ko.applyBindings(abcViewModel, document.getElementById('abc'));
   setIntervalAndExecute(function() {
-    var i = Math.floor(Math.random() * letters.length) + 1
     abcViewModel.letter(letters[i][0]);
     abcViewModel.icon('e1a-' + letters[i][1]);
-  }, 1000 * 20);
+    var i = (i + 1) % letters.length;
+  }, 1000 * 10);
 });

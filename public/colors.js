@@ -1,3 +1,5 @@
+'use strict';
+
 const colors = [
   '#993366',
   '#CC6699',
@@ -216,3 +218,31 @@ const colors = [
   '#333333',
   '#000000'
 ];
+
+
+function createColorChooser(elementName, callback) {
+  var canvas = document.getElementById(elementName);
+  var ctx = canvas.getContext('2d');
+  /*
+  canvas.style.width='100%';
+  canvas.style.height='100%';
+  canvas.width  = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+  */
+  const columns = 18;
+  const rows = 12;
+  const w = canvas.width / columns;
+  const h = canvas.height / rows;
+
+  for (var y = 0; y < rows; y++) {
+    for (var x = 0; x < columns; x++) {
+      ctx.fillStyle = colors[x + y * columns];
+      ctx.fillRect(x * w, y * h, w, h);
+    }
+  }
+
+  $(canvas).click(function(e) {
+    var rgb = ctx.getImageData(e.offsetX, e.offsetY, 1, 1).data;
+    callback(rgb);
+  });
+}
