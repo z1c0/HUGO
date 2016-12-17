@@ -71,6 +71,12 @@ $(function() {
         game.save();
       }
     },
+    load : function() {
+      let game = this.allGames[this.index];
+      if (game.load) {
+        game.load();
+      }
+    },
     setColor : function(rgb) {
       let game = this.allGames[this.index];
       if (game.setColor) {
@@ -83,7 +89,7 @@ $(function() {
     createColorChooser('color-chooser', function(rgb) {
       viewModel.setColor(rgb);
     });
-    ko.applyBindings(viewModel, document.getElementById('main-main'));
+    ko.applyBindings(viewModel, document.getElementById('matrix-ui'));
     viewModel.nextGame(); 
   });
 });

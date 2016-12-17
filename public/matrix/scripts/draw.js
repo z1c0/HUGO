@@ -13,7 +13,7 @@ function draw() {
       this.world = game.world;
       for (var i = 0; i < this.world.length; i++) {
         for (var j = 0; j < this.world.length; j++) {
-          this.world[i][j] = 'black';
+          this.world[i][j] = 'rgb(0,0,0)';
         }
       }
     },
@@ -38,6 +38,15 @@ function draw() {
           alert(errMsg);
         }
       });
+    },
+
+    load : function() {
+      let world = $('ul li span').first().data('world');
+      for (var i = 0; i < this.world.length; i++) {
+        for (var j = 0; j < this.world.length; j++) {
+          this.world[i][j] = world[i][j];
+        }
+      }
     },
 
     simulate : function() {
