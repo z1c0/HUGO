@@ -27,6 +27,7 @@ function loadModules() {
     m.displayName = name;
     if (ensureProperty(m, 'enabled', true)) {
       ensureProperty(m, 'module', name);
+      ensureProperty(m, 'icon', 'fa-question-circle-o');
       ensureProperty(m, 'route', name.toLowerCase());
       ensureProperty(m, 'updateInterval',  1000 * 60);
       ensureProperty(m, 'fetcher', m.module + 'Fetcher');

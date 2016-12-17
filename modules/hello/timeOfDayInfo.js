@@ -356,10 +356,8 @@ var candidates = [
       'Sportschau!',
       'Fußball gucken!'
     ],
-    tag : [ 'soccer', 'goal', 'tv' ],
-    emoji : [ 
-      'bundesliga', 'bvb09'
-    ]
+    tag : [ 'bundesliga', 'bvb09' ],
+    emoji : [ 'soccer', 'goal', 'tv' ],
   },
   {
     id : 'Weekend',
