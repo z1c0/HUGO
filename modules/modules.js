@@ -31,6 +31,7 @@ function loadModules() {
       ensureProperty(m, 'updateInterval',  1000 * 60);
       ensureProperty(m, 'fetcher', m.module + 'Fetcher');
       ensureProperty(m, 'useDb', false);
+      ensureProperty(m, 'hide', false);
 
       if (m.useDb) {
         m.db = db.get(name);
@@ -66,7 +67,10 @@ module.exports = {
   routes: function() {
     return createRoutes();
   },
-  list: function() {
+  all : function() {
     return modules;
   },
+  main : function() {
+    return modules.filter(m => !m.hide);
+  }
 };
