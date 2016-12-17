@@ -68,6 +68,7 @@ describe('timeOfDayInfo', function() {
       { arg: helper_SpecialTimeOfDay(1, 12, 17), expected: 'Advent' },
       { arg: helper_SpecialTimeOfDay(23, 12, 19), expected: 'Advent' },
       { arg: helper_SpecialTimeOfDay(10, 12, 8), expected: 'XmasCalendar' },
+      { arg: helper_SpecialTimeOfDay(17, 9, 19), expected: 'Bundesliga' },
     ];
 
 

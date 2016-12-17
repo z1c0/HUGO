@@ -341,6 +341,27 @@ var candidates = [
     emoji : [ 'pancakes', 'bacon', 'croissant', 'honey_pot', 'cooking', 'tea', 'coffee' ]
   },
   {
+    id : 'Bundesliga',
+    match : is(function(dt) {
+      // TODO: isbetween datefrom dateto
+      let m = dt.getMonth();
+      let h = dt.getHours();
+      return dt.getDay() === Day.Sa &&
+        (m >= 7 && m <= 11 || m >= 1 && m <= 4) &&
+        h >= 18 && h < 20;
+    }),
+    probability : Probability.veryLikely,
+    text : [ 
+      'Bundesliga!',
+      'Sportschau!',
+      'Fußball gucken!'
+    ],
+    tag : [ 'soccer', 'goal', 'tv' ],
+    emoji : [ 
+      'bundesliga', 'bvb09'
+    ]
+  },
+  {
     id : 'Weekend',
     match : is(weekEnd).and(timeOfDay(10, 19)),
     probability : Probability.likely,
