@@ -3,7 +3,7 @@
 function draw() {
   return {
     title : "Draw",
-    rgb : 'white',
+    rgb : 'rgb(0,255,0)',
 
     getInterval : function() {
       return 200;
@@ -25,6 +25,7 @@ function draw() {
 
     setColor : function(rgb) {
       this.rgb = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')'; 
+      console.log(this.rgb);
     },
 
     save : function() {

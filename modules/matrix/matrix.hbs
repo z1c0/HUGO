@@ -6,10 +6,8 @@
   <canvas id="myCanvas" width="640" height="640" style="border:1px solid #000000;">
   </canvas>
 
-  <p data-bind="text: title"></p>
+  <p data-bind="text: color"></p>
   <button class="btn btn-primary" data-bind="click: nextGame">Next</button>
-  <button class="btn btn-primary" data-bind="click: save">Save</button>
-  <button class="btn btn-primary" data-bind="click: load">Load</button>
   <canvas id="color-chooser" height="150"></canvas>
 </div>
 
@@ -24,11 +22,9 @@
 </div>
 
 {{#section 'scripts'}}
-  <script src="/colors.js"></script>
   <script src="/matrix/scripts/game.js"></script>
   <script src="/matrix/scripts/tictactoe.js"></script>
   <script src="/matrix/scripts/snake.js"></script>
-  <script src="/matrix/scripts/draw.js"></script>
   <script src="/matrix/scripts/main.js"></script>
 {{/section}}
 
