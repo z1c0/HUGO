@@ -16,7 +16,7 @@ function snake() {
     title : "Snake",
     
     getInterval : function() {
-      return 200;
+      return 100;
     },
     
     init : function(game) {
@@ -71,7 +71,7 @@ function snake() {
           return "orangered";
 
         case WALL:
-          return "#222";
+          return "#233E96";
       }
       return "#444444";
     },

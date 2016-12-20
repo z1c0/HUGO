@@ -62,3 +62,13 @@ function draw() {
     }
   }  
 }
+
+
+
+  $(function() {
+    createColorChooser('color-chooser', function(rgb) {
+      viewModel.setColor(rgb);
+    });
+    ko.applyBindings(viewModel, document.getElementById('matrix-ui'));
+    viewModel.nextGame(); 
+  });
