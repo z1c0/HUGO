@@ -2,60 +2,73 @@
 
 module.exports = function Fetcher() {
   this.fetch = function(callback) {
-    if (this.config.db) {
-      this.config.db.find({}, function(err, docs) {
-        let ids = [];
-        docs.forEach(d => {
-          ids.push({ 
-            world : d.world,
-            id : d._id });
-        });
-        callback(ids);
+    this.config.db.find({}, function(err, docs) {
+      let drawings = [];
+      docs.forEach(d => {
+        drawings.push({
+          id : d._id,
+          name : d.name });
       });
-    }
+      callback({ drawings: drawings });
+    });
   },
 
   this.init = function() {
     let db = this.config.db;
-    this.router.get('/matrix/code', function(req, res) {
-      if (db) {
-        db.find({}, function(err, docs) {
-          let code = '';
-          if (docs.length > 0) {
-            let dim = docs[0].world.length;
-            for (var i = 0; i < dim; i++) {
-              for (var j = 0; j < dim; j++) {
-                let c = docs[0].world[i][dim - 1 - j];
-                if (c != 'rgb(0,0,0)') {
-                  code += 'world[' + i + '][' + j + '] = ';
-                  code += c; 
-                  code += ';\r\n';
-                }
+    this.router.get('/draw/code/:id', function(req, res) {
+      let id = req.params.id;
+      console.log(id);
+      db.findOne({ _id: id }, function (err, doc) {
+        let code = '';
+        if (err) {
+          console.log(err);
+        }
+        else {
+          let dim = doc.data.length;
+          for (var i = 0; i < dim; i++) {
+            for (var j = 0; j < dim; j++) {
+              let c = doc.data[i][dim - 1 - j];
+              if (c.r != 0 || c.g != 0 || c.b != 0) {
+                code += 'world[' + i + '][' + j + '] = ';
+                code += 'rgb(' + c.r + ', ' + c.g + ', ' + c.b + ')'; 
+                code += ';\r\n';
               }
             }
           }
-          res.send(code);
-        });
-      }
+        }
+        res.send(code);
+      });
     });
-    this.router.post('/matrix/api', function(req, res) {
-      if (db) {
-        // TODO: now, only one doc is stored.
-        // Removing all documents with the 'match-all' query
-        db.remove({}, { multi: true }, function (err, numRemoved) {
-          if (err) {
-            console.log(err);
-          }
-          else {
-            let doc = {
-              world : req.body,
-              at : new Date(),
-            };
-            db.insert(doc);
-            res.send('OK');
-          }
-        });
-      }
+    this.router.get('/draw/api/load',  function(req, res) {
+      const id = req.query['id'];
+      db.findOne({ _id: id }, function (err, doc) {
+        if (err) {
+          console.log(err);
+        }
+        res.json(doc);
+      });
+    });
+    this.router.post('/draw/api/save', function(req, res) {
+      let doc = {
+        data : req.body.data,
+        name : req.body.name
+      };
+      // Upserting a document
+      db.update({ _id: req.body.id }, doc, { upsert: true }, function (err, numReplaced, upsert) {
+        if (err) {
+          console.log(err);
+        }
+        res.send('OK');
+      });
+    });
+    this.router.get('/draw/api/delete',  function(req, res) {
+      const id = req.query['id'];
+      db.remove({ _id: id }, {}, function (err, numRemoved) {
+        if (err) {
+          console.log(err);
+        }
+        res.send('OK');
+      });
     });
   }
 }

@@ -70,7 +70,7 @@ var hugo = function() {
   subscribeNavigationLongPoll();
 
 
-  return {   
+  return {
     setupDataBinding : function(elementName, moduleName, json, updateInterval) {
       let binding = {
         update : function(callback) {
@@ -92,7 +92,11 @@ var hugo = function() {
 
       $(function() {
         binding.updateUrl =  '/' + moduleName + '/api';
-        binding.viewModel = ko.mapping.fromJS(json);
+        let initVM = null;
+        if (typeof initViewModel != 'undefined' && $.isFunction(initViewModel)) {
+          initVM = initViewModel();
+        }
+        binding.viewModel = ko.mapping.fromJS(json, {}, initVM);
         const el = document.getElementById(elementName);
         if (!el) {
           alert("element '" + elementName + "' not found");
