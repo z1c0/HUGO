@@ -3,16 +3,11 @@
 {{/section}}
 
 <div id="tvleds">
-  <canvas id="color-chooser" data-ledhost="{{{ledHost}}}"></canvas>
-
-  <div id="color-infos">
-    <p>RGB ...</p>
-    <p>{{{ledHost}}}</p>
-  </div>  
+  <canvas id="color-chooser"></canvas>
 </div>
 
 {{#section 'scripts'}}
-  <script src="/tvleds/colors.js"></script>
+  <script src="/colors.js"></script>
   <script src="/tvleds/tvleds.client.js"></script>
 {{/section}}
 

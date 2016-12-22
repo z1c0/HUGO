@@ -5,7 +5,7 @@ var request = require('request');
 function fetchTimeOfDayStuff(callback) {
   const data = info.get();
   //console.log(data);
-  const giphyUrl = 'http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=y&tag=' + data.tag;
+  const giphyUrl = 'http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=pg&tag=' + data.tag;
   request.get({
     url : giphyUrl,
     json : true

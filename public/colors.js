@@ -220,15 +220,18 @@ const colors = [
 ];
 
 
-function createColorChooser(elementName, callback) {
+function createColorChooser(elementName, callback, options) {
   var canvas = document.getElementById(elementName);
   var ctx = canvas.getContext('2d');
-  /*
-  canvas.style.width='100%';
-  canvas.style.height='100%';
-  canvas.width  = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
-  */
+
+  options = options || {};
+  if (options.maximize) {
+    canvas.style.width='100%';
+    canvas.style.height='100%';
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+
   const columns = 18;
   const rows = 12;
   const w = canvas.width / columns;
