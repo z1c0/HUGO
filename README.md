@@ -21,6 +21,6 @@ These modules are currently part of the default installation.
 - **bus monitor**
 - **abc**
 
-Some of these modules and their functionality (e.g *bus monitor*) is very specific 
+Some of these modules and their functionality (e.g *bus monitor*) are very specific 
 to my personal needs and use cases. Nonetheless, the open and modular architecture should
 allow for easy adaptions.
