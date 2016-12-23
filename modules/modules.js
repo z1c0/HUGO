@@ -33,7 +33,24 @@ function loadModules() {
       ensureProperty(m, 'fetcher', m.module + 'Fetcher');
       ensureProperty(m, 'useDb', false);
       ensureProperty(m, 'hide', false);
-
+      m.url = function(name) {
+        let url = '/' + m.route;
+        if (name) {
+          url += '/' + name;
+        }
+        return url;
+      }
+      m.api = function(name) {
+        let api = m.url() + '/api';
+        if (api) {
+          api += '/' + name;
+        }
+        return api;
+      }
+      m.view = function(name) {
+        name = name || m.module;
+        return '../modules/' + m.module + '/' + name;
+      }
       if (m.useDb) {
         m.db = db.get(name);
       }

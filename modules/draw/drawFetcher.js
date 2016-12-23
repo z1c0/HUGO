@@ -14,12 +14,12 @@ module.exports = function Fetcher() {
   },
 
   this.init = function() {
-    let db = this.config.db;
-    this.router.get('/draw/code/:id', function(req, res) {
+    let m = this.config;
+    let db = m.db;
+    this.router.get(m.url('code/:id'), function(req, res) {
       let id = req.params.id;
-      console.log(id);
       db.findOne({ _id: id }, function (err, doc) {
-        let code = '';
+        let lines = [];
         if (err) {
           console.log(err);
         }
@@ -29,18 +29,18 @@ module.exports = function Fetcher() {
             for (var j = 0; j < dim; j++) {
               let c = doc.data[i][dim - 1 - j];
               if (c.r != 0 || c.g != 0 || c.b != 0) {
-                code += 'world[' + i + '][' + j + '] = ';
-                code += 'rgb(' + c.r + ', ' + c.g + ', ' + c.b + ')'; 
-                code += ';\r\n';
+                let code = 'world[' + i + '][' + j + '] = ';
+                code += 'rgb(' + c.r + ', ' + c.g + ', ' + c.b + ');'; 
+                lines.push(code);
               }
             }
           }
         }
-        res.send(code);
+        res.render(m.view('code'), { layout : false, code : lines});
       });
     });
-    this.router.get('/draw/api/load',  function(req, res) {
-      const id = req.query['id'];
+    this.router.get(m.api('load/:id'),  function(req, res) {
+      let id = req.params.id;
       db.findOne({ _id: id }, function (err, doc) {
         if (err) {
           console.log(err);
@@ -48,7 +48,7 @@ module.exports = function Fetcher() {
         res.json(doc);
       });
     });
-    this.router.post('/draw/api/save', function(req, res) {
+    this.router.post(m.api('save'), function(req, res) {
       let doc = {
         data : req.body.data,
         name : req.body.name
@@ -61,8 +61,8 @@ module.exports = function Fetcher() {
         res.send('OK');
       });
     });
-    this.router.get('/draw/api/delete',  function(req, res) {
-      const id = req.query['id'];
+    this.router.get(m.api('delete/:id'),  function(req, res) {
+      let id = req.params.id;
       db.remove({ _id: id }, {}, function (err, numRemoved) {
         if (err) {
           console.log(err);

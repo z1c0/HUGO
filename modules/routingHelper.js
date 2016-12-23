@@ -1,10 +1,8 @@
 'use strict';
 
 function init(router, hugoModule) {
-  let url = '/' + hugoModule.route;
-  let view = '../modules/' + hugoModule.module + '/' + hugoModule.module;
   let fRender = function(req, res) {
-    res.render(view, hugoModule);
+    res.render(hugoModule.view(), hugoModule);
   }
   if (hugoModule.fetcher !== '') {
     let Fetcher = require('./' + hugoModule.module + '/' + hugoModule.fetcher);
@@ -20,18 +18,18 @@ function init(router, hugoModule) {
           res.json(data);
         });
       };
-      router.get(url + '/api', fRenderJson);
+      router.get(hugoModule.api(), fRenderJson);
 
       fRender = function(req, res) {
         fetcher.fetch(function(data) {
           hugoModule.fetched = data;
-          res.render(view, hugoModule);
+          res.render(hugoModule.view(), hugoModule);
         });
       };
     }
   }
 
-  router.get(url, fRender);
+  router.get(hugoModule.url(), fRender);
 };
 
 

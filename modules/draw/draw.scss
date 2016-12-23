@@ -1,3 +1,20 @@
+body {
+  margin : 0;
+  pre {
+    border: 0;
+    background-color: #1E1E1E;
+    padding: 0;
+    margin: 0;
+    code {
+      color: #8CDCDB;
+      font-family: "Consolas", "Courier New", monospace;
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
+
 #draw {
   margin: 1em;
 

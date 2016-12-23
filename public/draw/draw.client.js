@@ -73,11 +73,8 @@ function initViewModel() {
     },
     remove : function() {
       $.ajax({
-        type: "GET",
-        url: "/draw/api/delete",
-        data: {
-          id : this.id(),
-        },
+        type: 'GET',
+        url: '/draw/api/delete/' + this.id(),
         contentType: "application/json",
         dataType: "json",
         failure: function(errMsg) {
@@ -87,11 +84,8 @@ function initViewModel() {
     },
     load : function(model) {
       $.ajax({
-        type: "GET",
-        url: "/draw/api/load",
-        data: {
-          id : this.id(),
-        },
+        type: 'GET',
+        url: '/draw/api/load/' + this.id(),
         contentType: "application/json",
         dataType: "json",
         success: function(response) {
