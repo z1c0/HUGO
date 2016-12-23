@@ -42,7 +42,7 @@ function loadModules() {
       }
       m.api = function(name) {
         let api = m.url() + '/api';
-        if (api) {
+        if (name) {
           api += '/' + name;
         }
         return api;

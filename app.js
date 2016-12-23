@@ -14,6 +14,7 @@ hbs.registerHelper('section', function (name, options) {
   return null;
 });
 hbs.registerHelper('json', function(context) {
+  context = context || {};
   return JSON.stringify(context);
 });
 app.set('view engine', 'hbs');

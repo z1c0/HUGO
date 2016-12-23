@@ -86,14 +86,19 @@ function hsvToRgb(h, s, v) {
 function setXBoxStatus(onOff) {
   if (xboxOn != onOff) {
     xboxOn = onOff;
-    /*
-    var doc = {
-      at : new Date(),
-      XBoxOn: onOff
-    };
-    database.insert(doc);
-    */
   }
+}
+
+function sendColorRequest(col) {
+  var query = "/?r=" + col.r + "&g=" + col.g + "&b=" + col.b;
+  //console.log(query);
+  http.get({    
+    host: ledHost,
+    path: query }).
+      on('error', function () {
+        console.log('FAILED Arduino GET: ' + query);
+      }
+    );
 }
 
 function updateLeds(animate) {
@@ -123,12 +128,8 @@ function updateLeds(animate) {
     targetColor.g = t[1];
     targetColor.b = t[2];    
   }
-  var query = "/?r=" + currentColor.r + "&g=" + currentColor.g + "&b=" + currentColor.b;
-  //console.log(query);
-  http.get({    
-    host: ledHost,
-    path: query }).
-      on("error", function () { console.log("FAILED Arduino GET: "+ query); });
+
+  sendColorRequest(currentColor);
 }
 
 function onSsdpResponse(headers, statusCode, rinfo) {
@@ -188,29 +189,17 @@ function onSsdpResponse(headers, statusCode, rinfo) {
 
 module.exports = function Fetcher() {
   this.init = function() {
-    ledHost = this.config.ledHost;
+    let m = this.config;
+    ledHost = m.ledHost;
+    this.router.get(m.api('set/:r/:g/:b'), function(req, res) {
+      let color = {
+        r :req.params.r,
+        g : req.params.g,
+        b : req.params.b
+      }
+      sendColorRequest(color);
+      res.json(color);
+    });
     initStartCron();
   }
-  this.fetch = function(callback) {
-    callback({ ledHost : ledHost });
-  }
-  /*
-  getStatus: function() {
-    return xboxOn ? "ON" : "OFF";
-  },
-  getLastSeen: function() {
-    return moment(xboxLastSeen).fromNow();
-  },
-  getLocation: function() {
-    return location;    
-  },
-  getDeviceType: function() {
-    return deviceType;    
-  },
-  getCurrentColor: function() {
-    return currentColor;
-  },
-  getTargetColor: function() {
-    return targetColor;
-  }*/
 };

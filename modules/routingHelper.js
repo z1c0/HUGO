@@ -27,6 +27,11 @@ function init(router, hugoModule) {
         });
       };
     }
+    else {
+      // "init" was called on fetcher ... OK
+      // But we remove it from the module again, since there is no actual "fetch" function.
+      hugoModule.fetcher = null;
+    }
   }
 
   router.get(hugoModule.url(), fRender);
