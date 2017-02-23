@@ -104,9 +104,9 @@ function birthday(who, day, month) {
     match : is(specialDay(day, month, true)),
     probability : Probability.possible,
     text : [
-      'Hey ' + who.name + ", it's your birthday!",
-      'Alles Gute zum Geburtstag' + who.name + '!', 
-      'Happy Birthday ' + who.name + '!'
+      'Hey ' + who + ", it's your birthday!",
+      'Alles Gute zum Geburtstag ' + who + '!', 
+      'Happy Birthday ' + who + '!'
     ],
     tag : [ 'birthday' ],
     emoji : [ 
