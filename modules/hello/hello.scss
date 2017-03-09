@@ -106,6 +106,7 @@ $color-calendar-main: #EF4D3C;
     }
   }
   ul {
+    max-width: 80%;
     margin: 0;
     display : inline-block;
     padding-left: 10px;
@@ -115,6 +116,9 @@ $color-calendar-main: #EF4D3C;
       font-size: 1.25em;
       line-height: 1.2em;
       list-style-type: none;
+      strong {
+        white-space: nowrap;
+      }
       i {
         font-style: normal;
         height: 0.8em;
@@ -123,6 +127,7 @@ $color-calendar-main: #EF4D3C;
     }
   }
   #appointments {
+    width: 10%;
     li {
       padding-bottom: 8px;
     }
