@@ -1,22 +1,14 @@
 'use strict';
 var request = require('request');
-
-// TODO : Cursor + make "this."
-const sources = [
-  'spiegel-online',
-  'focus',
-  'bbc-sport',
-  'hacker-news',
-  'wired-de',
-  'ars-technica',
-]
-let sourceIndex = 0;
+var Cursor = require('../cursor.js').Cursor;
 
 
 function getHeadlines(callback) {
-  //console.log(sourceIndex);
+  let c = this.cursor;
+  //console.log(c.current());
+
   request.get({
-    url : 'https://newsapi.org/v1/articles?source=' + sources[sourceIndex] + '&sortBy=top&apiKey=' + this.config.apiKey,
+    url : 'https://newsapi.org/v1/articles?source=' + c.current() + '&sortBy=top&apiKey=' + this.config.apiKey,
     json : true
   },
   function(err, httpResponse, body) {
@@ -27,12 +19,15 @@ function getHeadlines(callback) {
     else {
       //console.log(body);
       callback(body);
-      sourceIndex = (sourceIndex + 1) % sources.length;
+      c.next();
     }
   });  
 }
 
 
 module.exports = function Fetcher() {
+  this.init = function() {
+    this.cursor = new Cursor(this.config.sources);
+  }
   this.fetch = getHeadlines;
 }

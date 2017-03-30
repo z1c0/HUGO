@@ -1,6 +1,5 @@
 {
   "hello": { 
-    "autoNav" : true,
     "icon" : "fa-user-circle",
     "updateInterval" : 20000
   },
@@ -36,7 +35,7 @@
   "photos": {
     "module" : "pics",
     "icon" : "fa-image",
-    "autoNav" : true,
+    "navHours" : [ 15, 16 ],
     "imageDir" : "",
     "albumId" : "",
     "clientId" : "",
@@ -53,16 +52,22 @@
     "module" : "weather",
     "icon" : "fa-thermometer-half",
     "updateInterval" : 30000, 
-    "autoNav" : true,
     "location" : "Linz,AT",
     "apiKey" : ""
   },
   "news" : {
-    "autoNav" : true,
+    "enabled" : true,
+    "navHours" : [ 10 ],
     "icon" : "fa-newspaper-o",
     "updateInterval" : 0, 
-    "apiKey" : ""
-  },
+    "apiKey" : "",
+    "sources" : [
+      "focus",
+      "die-zeit",
+      "der-tagesspiegel",
+      "spiegel-online"
+    ]
+  },  
   "work" : {
     "icon" : "fa-tasks",
     "updateInterval" : "30000"

@@ -1,27 +1,14 @@
 'use strict';
+var Cursor = require('./cursor.js').Cursor;
 var EventEmitter = require('events').EventEmitter  
 var messageBus = new EventEmitter();
 
 var currentAutoNav = '';
 
-var Cursor = function(array) {
-  var idx = 0;
-  this.previous = function () {
-    idx = (!!idx ? idx : array.length) - 1;
-    return array[idx];
-  };
-  this.current = function () {
-    return array[idx];
-  };
-  this.next = function() {
-    idx = (idx + 1) % array.length;
-    return array[idx];
-  };
-  this.isEmpty = function() {
-    return array.length === 0;
-  }
-  return this;
-};
+function setIntervalAndExecute(f, t) {
+  f();
+  return setInterval(f, t);
+}
 
 function prepare(route) {
   if (route[0] !== '/') {
@@ -45,11 +32,12 @@ function init(router, modules) {
 
   let navigatables = [];
   modules.forEach(m => {
-    if (m.autoNav) {
-      navigatables.push(m.route);
+    if (!m.disableNav) {
+      navigatables.push(m);
     }
   });
   //console.log(navigatables);
+
   var cursor = new Cursor(navigatables);
   //
   // Routes
@@ -91,29 +79,32 @@ function init(router, modules) {
     }
     res.status(code).end();
   })
+
   if (!cursor.isEmpty()) {
     //
     // Time-based auto-nav
     //
     setInterval(() => {
       let data = null;
-      var dt = new Date();
-      if (dt.getHours() >= 10 && dt.getHours() < 11) {
-        if (currentAutoNav !== 'news') {
-          currentAutoNav = 'news';
+      var hour = new Date().getHours();
+
+      navigatables.forEach(n => {
+        if (n.navHours.indexOf(hour) != -1) {
+          if (currentAutoNav !== n.displayName) {
+            currentAutoNav = n.displayName;
+            data = prepare(n.route);
+          }
+        }
+      });
+
+      if (!data) {
+         // "default"
+        if (currentAutoNav !== 'hello') {
+          currentAutoNav = 'hello';
           data = prepare(currentAutoNav);
         }
       }
-      else if (dt.getHours() >= 15 && dt.getHours() < 17) {
-        if (currentAutoNav !== 'photos') {
-          currentAutoNav = 'photos';
-          data = prepare(currentAutoNav);
-        }
-      }
-      else if (currentAutoNav !== 'hello') {
-        currentAutoNav = 'hello';
-        data = prepare(currentAutoNav);
-      }
+
       navigate(data);
     }, 1000 * 60);
   }

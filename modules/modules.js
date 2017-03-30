@@ -33,6 +33,7 @@ function loadModules() {
       ensureProperty(m, 'fetcher', m.module + 'Fetcher');
       ensureProperty(m, 'useDb', false);
       ensureProperty(m, 'hide', false);
+      ensureProperty(m, 'navHours', []);
       m.url = function(name) {
         let url = '/' + m.route;
         if (name) {
