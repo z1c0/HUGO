@@ -5,11 +5,6 @@ var messageBus = new EventEmitter();
 
 var currentAutoNav = '';
 
-function setIntervalAndExecute(f, t) {
-  f();
-  return setInterval(f, t);
-}
-
 function prepare(route) {
   if (route[0] !== '/') {
     route = '/' + route;

@@ -1,7 +1,7 @@
 'use strict';
 
-function formatBusDisplayLine(viewModel) {
-  var line = viewModel.line()+ ' ' + 
+function formatBusDisplayLineOld(viewModel) {
+  var line = viewModel.line() + ' ' + 
     viewModel.to().padRight(18) + 
     viewModel.min().toString().padLeft(2) + '  ';
   var min2 = viewModel.min2;
@@ -14,8 +14,16 @@ function formatBusDisplayLine(viewModel) {
   return line;
 }
 
+function formatBusDisplayLine(viewModel) {
+  var line = viewModel.line().substr(4).padRight(4) + ' ' + 
+    viewModel.departs() + ' (' +
+    viewModel.duration() + ')';
+  return line;
+}
+
 (function() {
-  hugo.setupDataBinding('bus', 'bus', { departures : [] }, 10 * 1000);
+  //hugo.setupDataBinding('bus', 'bus-old', { departures : [] }, 10 * 1000);
+  hugo.setupDataBinding('bus', 'bus', { times : [] }, 30 * 60 * 1000);
   hugo.setupDataBinding('appointments',
     'calendar', 
     { today: { title: ''}, appointments: [], day : '', month : '' },

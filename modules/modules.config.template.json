@@ -12,9 +12,15 @@
     "fetcher" : "",
     "icon" : "fa-graduation-cap"
   },
-  "bus" : {
+  "bus-linz" : {
+    "enabled" : false,
     "icon" : "fa-bus",
     "module" : "busmon"
+  },
+  "bus" : {
+    "enabled" : true,
+    "icon" : "fa-bus",
+    "module" : "timetable"
   },
   "calendar" : {
     "icon" : "fa-calendar-check-o",
