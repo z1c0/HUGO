@@ -33,7 +33,7 @@ function formatBusDisplayLine(viewModel) {
     { today: { title: ''}, appointments: [], day : '', month : '' },
     60 * 1000);
   hugo.setupDataBinding('weather',
-    'Gallneukirchen,AT',
+    'gallneukirchen',
     { icon : null, temp : null, name : null, description : null }, 
     10 * 1000);
 })();
