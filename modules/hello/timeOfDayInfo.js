@@ -1,5 +1,9 @@
 'use strict';
 
+// emoji:
+// https://emoji.codes/
+// https://www.emojicopy.com/
+
 const Day = {
   Mon : 1,
   Tue : 2,
@@ -11,6 +15,7 @@ const Day = {
 } 
 
 const Probability = {
+  impossible : 0,
   veryUnlikely : 0.15,
   unlikely : 0.25,
   possible : 0.5,
@@ -289,7 +294,7 @@ var candidates = [
     match : is(timeOfWeekDay(Day.Mon, 6, 7)).
       or(timeOfWeekDay(Day.Wed, 6, 7)).
       or(timeOfWeekDay(Day.Fr, 6, 7)),
-    probability : Probability.veryLikely,
+    probability : Probability.impossible,
     text : [ 
       "Go get 'em!",
       ['Good morning champion!', [ 'star', 'trophy', 'first_place', 'first_place' ]],
@@ -298,6 +303,17 @@ var candidates = [
     ],
     tag : ['workout', 'weightlifting', 'muscle', 'motivational'],
     emoji : ['thumbsup_tone1', 'lifter', 'muscle']
+  },
+  {
+    id : 'PocketMoney',
+    match : is(timeOfWeekDay(1, 7, 18)),
+    probability : Probability.possible,
+    text : [
+      "Taschengeld",
+      "Heute gibt's Taschengeld",
+    ],
+    tag : [ 'money', 'cash' ],
+    emoji : [ 'money_mouth', 'money_with_wings', 'dollar', 'euro', 'moneybag' ]
   },
   {
     id : 'BurritoFriday',
@@ -450,8 +466,10 @@ var candidates = [
     probability : Probability.veryLikely,
     text : [
       'Schlafenszeit',
-      'Schlaf gut, lieber Timo',
+      'Schlaf gut, liebe Kinder',
+      'Gute Nacht Timo',
       'Nighty night',
+      'Gute Nacht, Nico',
       'Zeit zum Bettgehen'
     ],
     tag : ['bed', 'sleepy' ],

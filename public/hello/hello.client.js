@@ -27,13 +27,13 @@ function formatBusDisplayLine(viewModel) {
   hugo.setupDataBinding('appointments',
     'calendar', 
     { today: { title: ''}, appointments: [], day : '', month : '' },
-    60 * 1000);
+    10 * 60 * 1000);
   hugo.setupDataBinding('birthdays',
     'birthday', 
     { today: { title: ''}, appointments: [], day : '', month : '' },
-    60 * 1000);
+    30 * 60 * 1000);
   hugo.setupDataBinding('weather',
     'gallneukirchen',
     { icon : null, temp : null, name : null, description : null }, 
-    10 * 1000);
+    15 * 60 * 1000);
 })();
